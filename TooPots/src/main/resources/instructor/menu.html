@@ -1,305 +1,42 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type">
-<style type="text/css">
-ol {
-	margin: 0;
-	padding: 0
-}
-
-table td, table th {
-	padding: 0
-}
-
-.c1 {
-	border-right-style: solid;
-	border-bottom-color: #000000;
-	border-top-width: 1pt;
-	border-right-width: 1pt;
-	border-left-color: #000000;
-	vertical-align: top;
-	border-right-color: #000000;
-	border-left-width: 1pt;
-	border-top-style: solid;
-	border-left-style: solid;
-	border-bottom-width: 1pt;
-	width: 52pt;
-	border-top-color: #000000;
-	border-bottom-style: solid
-}
-
-.c10 {
-	-webkit-text-decoration-skip: none;
-	color: #0000ee;
-	font-weight: 400;
-	text-decoration: underline;
-	vertical-align: baseline;
-	text-decoration-skip-ink: none;
-	font-size: 11pt;
-	font-family: "Arial";
-	font-style: normal
-}
-
-.c11 {
-	color: #000000;
-	font-weight: 700;
-	text-decoration: none;
-	vertical-align: baseline;
-	font-size: 14pt;
-	font-family: "Arial";
-	font-style: normal
-}
-
-.c0 {
-	color: #000000;
-	font-weight: 400;
-	text-decoration: none;
-	vertical-align: baseline;
-	font-size: 11pt;
-	font-family: "Arial";
-	font-style: normal
-}
-
-.c3 {
-	padding-top: 0pt;
-	padding-bottom: 0pt;
-	line-height: 1.15;
-	text-align: left;
-	height: 11pt
-}
-
-.c2 {
-	padding-top: 0pt;
-	padding-bottom: 12pt;
-	line-height: 1.0;
-	text-align: left
-}
-
-.c4 {
-	padding-top: 0pt;
-	padding-bottom: 0pt;
-	line-height: 1.0;
-	text-align: left
-}
-
-.c8 {
-	border-spacing: 0;
-	border-collapse: collapse;
-	margin-right: auto
-}
-
-.c13 {
-	padding-top: 12pt;
-	padding-bottom: 12pt;
-	line-height: 1.0;
-	text-align: left
-}
-
-.c12 {
-	text-decoration-skip-ink: none;
-	-webkit-text-decoration-skip: none;
-	color: #0000ee;
-	text-decoration: underline
-}
-
-.c9 {
-	background-color: #ffffff;
-	max-width: 468pt;
-	padding: 72pt 72pt 72pt 72pt
-}
-
-.c7 {
-	color: inherit;
-	text-decoration: inherit
-}
-
-.c5 {
-	height: 24pt
-}
-
-.c6 {
-	height: 0pt
-}
-
-.title {
-	padding-top: 24pt;
-	color: #000000;
-	font-weight: 700;
-	font-size: 36pt;
-	padding-bottom: 6pt;
-	font-family: "Arial";
-	line-height: 1.0;
-	page-break-after: avoid;
-	text-align: left
-}
-
-.subtitle {
-	padding-top: 18pt;
-	color: #666666;
-	font-size: 24pt;
-	padding-bottom: 4pt;
-	font-family: "Georgia";
-	line-height: 1.0;
-	page-break-after: avoid;
-	font-style: italic;
-	text-align: left
-}
-
-li {
-	color: #000000;
-	font-size: 11pt;
-	font-family: "Arial"
-}
-
-p {
-	margin: 0;
-	color: #000000;
-	font-size: 11pt;
-	font-family: "Arial"
-}
-
-h1 {
-	padding-top: 12pt;
-	color: #000000;
-	font-weight: 700;
-	font-size: 24pt;
-	padding-bottom: 12pt;
-	font-family: "Arial";
-	line-height: 1.0;
-	text-align: left
-}
-
-h2 {
-	padding-top: 11.2pt;
-	color: #000000;
-	font-weight: 700;
-	font-size: 18pt;
-	padding-bottom: 11.2pt;
-	font-family: "Arial";
-	line-height: 1.0;
-	text-align: left
-}
-
-h3 {
-	padding-top: 12pt;
-	color: #000000;
-	font-weight: 700;
-	font-size: 14pt;
-	padding-bottom: 12pt;
-	font-family: "Arial";
-	line-height: 1.0;
-	text-align: left
-}
-
-h4 {
-	padding-top: 12.8pt;
-	color: #000000;
-	font-weight: 700;
-	font-size: 12pt;
-	padding-bottom: 12.8pt;
-	font-family: "Arial";
-	line-height: 1.0;
-	text-align: left
-}
-
-h5 {
-	padding-top: 12.8pt;
-	color: #000000;
-	font-weight: 700;
-	font-size: 9pt;
-	padding-bottom: 12.8pt;
-	font-family: "Arial";
-	line-height: 1.0;
-	text-align: left
-}
-
-h6 {
-	padding-top: 18pt;
-	color: #000000;
-	font-weight: 700;
-	font-size: 8pt;
-	padding-bottom: 18pt;
-	font-family: "Arial";
-	line-height: 1.0;
-	text-align: left
-}
-</style>
+	<title>TooPots</title>
+	<meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
 </head>
-<body class="c9">
-	<h1 class="c4 c5">
-		<span class="c0"></span>
-	</h1>
-	<p class="c13">
-		<span class="c0">Instructor</span>
-	</p>
-	<h3 class="c2">
-		<span class="c11">My activities</span>
-	</h3>
-	<a id="t.6a1e731503997ddd6f9b45c1c697b7a7030fc19d"></a>
-	<a id="t.0"></a>
-	<table class="c8">
-		<tbody>
-			<tr class="c6">
-				<td class="c1" colspan="1" rowspan="1"><p class="c4">
-						<span class="c0">Name</span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c4">
-						<span class="c0">Location</span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c4">
-						<span class="c0">Date time</span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c4">
-						<span class="c0">Duration</span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c4">
-						<span class="c0">Vacancies</span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c4">
-						<span class="c0">Price</span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c4">
-						<span class="c0">Difficulty</span>
-					</p>
-					<p class="c4">
-						<span class="c0">&nbsp;</span>
-					</p></td>
-			</tr>
-			<tr class="c6">
-				<td class="c1" colspan="1" rowspan="1"><p class="c3">
-						<span class="c0"></span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c3">
-						<span class="c0"></span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c3">
-						<span class="c0"></span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c3">
-						<span class="c0"></span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c3">
-						<span class="c0"></span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c3">
-						<span class="c0"></span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c3">
-						<span class="c0"></span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c4">
-						<span class="c0">Edit</span>
-					</p></td>
-				<td class="c1" colspan="1" rowspan="1"><p class="c4">
-						<span class="c0">Delete</span>
-					</p></td>
-			</tr>
-		</tbody>
+<body>
+<div class="container">
+	<h1>Instructor</h1>
+	<h3>My activities</h3>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Location</th>
+			<th>Date time</th>
+			<th>Duration</th>
+			<th>Vacancies</th>
+			<th>Price</th>
+			<th>Difficulty</th>
+		</tr>
+        </thead>
+        <tbody>
+        	<tr th:each="activity:${activities}">
+        		<td th:text="${activity.name}"></td>
+        		<td th:text="${activity.location}"></td>
+        		<td th:text="${activity.dateTime}"></td>
+        		<td th:text="${activity.duration}"></td>
+        		<td th:text="${activity.vacancies}"></td>
+        		<td th:text="${activity.price}"></td>
+        		<td th:text="${activity.level}"></td>
+        		<td><a th:href="@{/instructor/update/{activity}(activity=${activity.activityId})}" class="btn btn-warning" role="button">Edit</a></td>
+            	<td><a th:href="@{/instructor/delete/{activity}(activity=${activity.activityId})}" class="btn btn-danger" role="button">Delete</a></td>
+        	</tr>
+        </tbody>
 	</table>
-	<p class="c4">
-		<span class="c12"><a class="c7"
-			href="https://www.google.com/url?q=http://docs.google.com/add&amp;sa=D&amp;ust=1554798042259000">Create
-				new activity</a></span>
-	</p>
+	<a href="add" class="btn btn-success" role="button">Create new activity</a>
+</div>
 </body>
 </html>
