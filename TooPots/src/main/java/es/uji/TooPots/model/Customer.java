@@ -1,16 +1,19 @@
 package es.uji.TooPots.model;
 
-public class Customer extends Person{
+public class Customer {
 
 	/**
 	 * Los customers se identificaran mediante un username unico.
 	 */
 	private String username;
 	private String pwd;
+	private String name;
+	private String surname;
+	private String dni;
+	private String mail;
+	private int age;
 	
-	public Customer() {
-		super();
-	}
+	public Customer() {}
 
 	public String getUsername() {
 		return username;

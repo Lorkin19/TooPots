@@ -28,9 +28,9 @@ public class ActivityDao {
 				activity.getPrice(), activity.getLevel());
 	}
 	
-	public void deleteActivity(Activity activity) {
-		jdbcTemplate.update("DELETE from Activity WHERE name=?",
-				activity.getName());
+	public void deleteActivity(int activityId) {
+		jdbcTemplate.update("DELETE from Activity WHERE activityCode=?",
+				activityId);
 	}
 	public void updateActivity(Activity activity) {
 		jdbcTemplate.update("UPDATE Activity SET activityCode=?, name=?,"

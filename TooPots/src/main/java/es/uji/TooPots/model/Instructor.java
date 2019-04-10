@@ -1,6 +1,6 @@
 package es.uji.TooPots.model;
 
-public class Instructor extends Person{
+public class Instructor {
 	/**
 	 * Aquí podríamos crear una clase abstracta para
 	 * que instructor e instructorRequest tengan en común
@@ -8,11 +8,14 @@ public class Instructor extends Person{
 	 * 
 	 * Los instructores se identificaran mediante un username unico.
 	 */
-	
+	private String mail;
+	private String name;
+	private String surname;
 	private String username;
-	private String[] routesCertificates; //Se guardará la ruta a cada certificado
 	private String pwd;
 	private String bankAccount;
+	private String[] routesCertificates; //Se guardará la ruta a cada certificado
+	
 	
 	public Instructor() {
 		super();
@@ -43,6 +46,31 @@ public class Instructor extends Person{
 	public void setBankAccount(String bankAccount) {
 		this.bankAccount = bankAccount;
 	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+	
 	
 	
 }

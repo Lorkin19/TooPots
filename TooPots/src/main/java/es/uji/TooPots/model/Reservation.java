@@ -6,6 +6,7 @@ public class Reservation {
 	private double price;
 	private String username;
 	private int activityCode;
+	private String status;
 	
 	public Reservation() {}
 
@@ -47,5 +48,14 @@ public class Reservation {
 	public void setActivityCode(int activityCode) {
 		this.activityCode = activityCode;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	
 }
