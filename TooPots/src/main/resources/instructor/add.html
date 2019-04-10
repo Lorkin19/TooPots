@@ -2,9 +2,24 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Add Activity</title>
 </head>
 <body>
-
+	<h2>New Activity</h2>
+	<form action="#" th:action="@{/instructor/add}" th:object="${activity}" method="post">
+	<table>
+		<tr>
+			<td><label>Type:</label></td>
+			<td><select th:field="*{type}">
+					<option value="default">Select a type</option>
+					<option th:each="${type}" th:value="${type}" th:text="${type}"></option>
+				</select></td>
+		</tr>
+		<tr>
+		</tr>
+	</table>
+	
+	
+	</form>
 </body>
 </html>
