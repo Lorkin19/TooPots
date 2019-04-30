@@ -18,18 +18,24 @@ import es.uji.TooPots.model.Activity;
 public class InstructorController {
 	
 	private InstructorDao instructorDao;
-	private ActivityDao activityDao;
 	
 	@Autowired
 	public void setInstructorDao(InstructorDao instructorDao) {
         this.instructorDao = instructorDao;
     }
 	
+	private ActivityDao activityDao;
+
+	@Autowired
+	public void setActivityDao(ActivityDao activityDao) {
+		this.activityDao=activityDao;
+	}
+	
 	
 	@RequestMapping("/menu")
 	public String listInstructor(Model model) {
 		model.addAttribute("activities", activityDao.getActivities());
-		return "/instructor/menu";
+		return "/instructor/menu.html";
 	}
 	
 	@RequestMapping(value = "/delete/{activity}")
