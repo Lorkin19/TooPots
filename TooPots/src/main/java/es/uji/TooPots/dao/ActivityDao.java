@@ -47,7 +47,7 @@ public class ActivityDao {
 					+ "from Activity WHERE activityCode=?",
 					new ActivityRowMapper(), activityCode);
 		}catch(EmptyResultDataAccessException e){
-			return null;
+			return new Activity();
 		}
 	}
 	

@@ -2,11 +2,12 @@ package es.uji.TooPots.model;
 
 public class Reservation {
 	private int reservationId;
+	private int vacancies;
 	private String place;
 	private double price;
 	private String username;
 	private int activityCode;
-	private String status;
+	private String status = Status.PENDING;
 	
 	public Reservation() {}
 
@@ -57,5 +58,11 @@ public class Reservation {
 		this.status = status;
 	}
 	
-	
+	public int getVacancies() {
+		return vacancies;
+	}
+
+	public void setVacancies(int vacancies) {
+		this.vacancies = vacancies;
+	}
 }
