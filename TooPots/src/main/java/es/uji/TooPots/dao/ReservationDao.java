@@ -27,9 +27,9 @@ public class ReservationDao {
 				reservation.getPrice(), reservation.getUsername(), reservation.getActivityCode());
 	}
 	
-	public void deleteReservation(Reservation reservation) {
+	public void deleteReservation(int reservationId) {
 		jdbcTemplate.update("DELETE FROM Reservation WHERE reservationId=?",
-				reservation.getReservationId());
+				reservationId);
 	}
 	
 	public void updateReservation(Reservation reservation) {

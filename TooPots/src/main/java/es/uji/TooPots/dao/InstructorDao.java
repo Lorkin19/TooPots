@@ -23,9 +23,10 @@ public class InstructorDao {
 	
 	public void addInstructor(Instructor instructor) {
 		//Falta añadir los certificados que no sé como hacerlo. Preguntar.
-		jdbcTemplate.update("INSERT INTO Instructor VALUES(?, ?, ?, ?)",
-				instructor.getUsername(), instructor.getPwd(),
-				instructor.getBankAccount(), instructor.getMail());
+		jdbcTemplate.update("INSERT INTO Instructor VALUES(?, ?, ?, ?, ?, ?)",
+				instructor.getMail(), instructor.getName(),
+				instructor.getSurname(),instructor.getUsername(),
+				instructor.getPwd(), instructor.getBankAccount());
 	}
 	
 	public void deleteInstructor(Instructor instructor) {

@@ -15,7 +15,9 @@ public class Activity {
 	private String duration;
 	private int vacancies;
 	private double price;
+	private String description;
 	private String level;
+	private ActivityType activityType;
 	
 	public Activity() {}
 
