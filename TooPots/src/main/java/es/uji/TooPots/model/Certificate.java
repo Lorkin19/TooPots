@@ -3,7 +3,7 @@ package es.uji.TooPots.model;
 public class Certificate {
 	private int certificateId;
 	private String ownerMail;
-	private String status;
+	private String status = Status.PENDING;
 	private String route;
 	private ActivityType activityType;
 	
