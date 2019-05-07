@@ -47,7 +47,7 @@ public class InstructorController {
 	
 	
 	@RequestMapping(value = "/add")
-    public String addClassificacio(Model model) {
+    public String addActivity(Model model) {
         model.addAttribute("activity", new Activity());
         return "instructor/add";
     }
@@ -64,7 +64,7 @@ public class InstructorController {
     
     
     @RequestMapping(value = "/update/{activityId}", method = RequestMethod.GET)
-    public String editClassificacio(Model model, @PathVariable int activityId) {
+    public String editActivity(Model model, @PathVariable int activityId) {
         model.addAttribute("activity", activityDao.getActivity(activityId));
         return "instructor/update";
     }

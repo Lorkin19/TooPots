@@ -18,6 +18,7 @@ public class Activity {
 	private String description;
 	private String level;
 	private ActivityType activityType;
+	private String mailInstructor;
 	
 	public Activity() {}
 
@@ -83,6 +84,30 @@ public class Activity {
 
 	public void setLevel(String level) {
 		this.level = level;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public ActivityType getActivityType() {
+		return activityType;
+	}
+
+	public void setActivityType(ActivityType activityType) {
+		this.activityType = activityType;
+	}
+
+	public String getEmail() {
+		return mailInstructor;
+	}
+
+	public void setEmail(String email) {
+		this.mailInstructor = email;
 	}
 	
 	

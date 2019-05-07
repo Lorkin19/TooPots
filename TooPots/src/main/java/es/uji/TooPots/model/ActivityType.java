@@ -2,16 +2,16 @@ package es.uji.TooPots.model;
 
 public class ActivityType {
 	
-	private TypeActivityName name;
+	private String name;
 	private String description;
 	
 	public ActivityType() {}
 
-	public TypeActivityName getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(TypeActivityName name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	public String getDescription() {
