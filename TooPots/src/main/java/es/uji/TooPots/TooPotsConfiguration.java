@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import es.uji.TooPots.dao.ActivityDao;
+import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.InstructorDao;
 
 import javax.sql.DataSource;
@@ -27,5 +28,10 @@ public class TooPotsConfiguration {
 	@Bean
 	public ActivityDao activityD() {
 		return new ActivityDao();
+	}
+	
+	@Bean
+	public ActivityTypeDao activityTypeD() {
+		return new ActivityTypeDao();
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.TooPots.dao.InstructorDao;
 import es.uji.TooPots.dao.ActivityDao;
+import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.model.Activity;
 
 @Controller
@@ -31,11 +32,18 @@ public class InstructorController {
 		this.activityDao=activityDao;
 	}
 	
+	private ActivityTypeDao activityTypeDao;
+	
+	@Autowired
+	public void setActivityTypeDao(ActivityTypeDao activityTypeDao) {
+		this.activityTypeDao = activityTypeDao;
+	}
+	
 	
 	@RequestMapping("/menu")
 	public String listInstructor(Model model) {
 		model.addAttribute("activities", activityDao.getActivities());
-		return "/instructor/menu.html";
+		return "/instructor/menu";
 	}
 	
 	@RequestMapping(value = "/delete/{activity}")
@@ -45,10 +53,10 @@ public class InstructorController {
     }
 	
 	
-	
 	@RequestMapping(value = "/add")
     public String addActivity(Model model) {
         model.addAttribute("activity", new Activity());
+        model.addAttribute("type", activityTypeDao.getActivityTypes());
         return "instructor/add";
     }
 
@@ -60,7 +68,6 @@ public class InstructorController {
         activityDao.addActivity(activity);
         return "redirect:menu";
     }
-    
     
     
     @RequestMapping(value = "/update/{activityId}", method = RequestMethod.GET)
