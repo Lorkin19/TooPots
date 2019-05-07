@@ -4,11 +4,7 @@
 	.btn-success:hover {
 		background-color:black;
 		text-color: white;
-		padding: 15px;
-		-webkit-transition-property: background-color, color, padding;
-  		-webkit-transition-duration: 1s;
-  		-o-transition-property: background-color, color, padding;
-  		-o-transition-duration: 1s;
+		padding: 5px;
 	}
 </style>
 <head>
@@ -42,12 +38,9 @@
         		<td th:text="${activity.vacancies}"></td>
         		<td th:text="${activity.price}"></td>
         		<td th:text="${activity.level}"></td>
-        		<td><a th:href="@{/instructor/update/{activity}(activity=${activity.activityId})}" class="btn btn-warning" role="button">Edit</a></td>
-            	<td><a th:href="@{/instructor/delete/{activity}(activity=${activity.activityId})}" class="btn btn-danger" role="button">Delete</a></td>
-        	</tr>
+        		<td><a th:href="@{/instructor/update/{activity}(activity=${activity.activityId})}" class="btn btn-warning" role="button">Enrol</a></td>
         </tbody>
 	</table>
-	<a href="add" class="btn btn-success" role="button">Create new activity</a>
 </div>
 </body>
 </html>
