@@ -2,6 +2,8 @@ package es.uji.TooPots.model;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Activity {
 	
 	/**
@@ -11,6 +13,7 @@ public class Activity {
 	private int activityCode;
 	private String name;
 	private String location;
+	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime dateTime;
 	private String duration;
 	private int vacancies;
