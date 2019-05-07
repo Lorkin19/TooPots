@@ -10,6 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import es.uji.TooPots.model.ActivityType;
 import es.uji.TooPots.model.Instructor;
 
 @Repository
@@ -53,6 +54,15 @@ public class InstructorDao {
 			return jdbcTemplate.query("SELECT * FROM Instructor", new InstructorRowMapper());
 		}catch(EmptyResultDataAccessException e) {
 			return new ArrayList<Instructor>();
+		}
+	}
+	
+	public List<ActivityType> getInstructorActivities(String mail){
+		try {
+			return jdbcTemplate.query("SELECT activityType FROM Activity "+
+					"WHERE mailInstructor=?", new ActivityTypeRowMapper(), mail);
+		}catch(EmptyResultDataAccessException e) {
+			return new ArrayList<ActivityType>();
 		}
 	}
 	
