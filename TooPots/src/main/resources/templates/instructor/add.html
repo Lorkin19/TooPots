@@ -25,18 +25,9 @@
 			<td><input type="text" th:field="*{location}"/></td>
 		</tr>
 		<tr>
-			<input data-provider="datepicker" th:field="*{dateTime}"/>
-<!--             <div class='input-group date' id='datetimepicker1'> -->
-<!--                 <input type='text' class="form-control" th:field="*{dateTime}"/> -->
-<!--                 <span class="input-group-addon"> -->
-<!--                     <span class="glyphicon glyphicon-calendar"></span> -->
-<!--                 </span> -->
-<!--             </div> -->
-<!-- 	        <script type="text/javascript"> -->
-<!--// 	            $(function () {
-<!--// 	                $('#datetimepicker1').datetimepicker();
-<!--// 	            });
-<!-- 	        </script> -->
+			
+			<td><label>Date: </label></td>
+			<td><input type="date" class="form-control" id="dateTime" th:field="*{dateTime}"/></td>
 		</tr>
 		<tr>
 			<td><label>Duration:</label></td>
