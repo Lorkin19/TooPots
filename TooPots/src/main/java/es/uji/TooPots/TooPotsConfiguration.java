@@ -5,6 +5,9 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import es.uji.TooPots.dao.ActivityDao;
+import es.uji.TooPots.dao.InstructorDao;
+
 import javax.sql.DataSource;
 
 @Configuration
@@ -15,4 +18,14 @@ public class TooPotsConfiguration {
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
+	
+	@Bean
+	public InstructorDao instructorD() {
+		return new InstructorDao();
+	}
+	
+	@Bean
+	public ActivityDao activityD() {
+		return new ActivityDao();
+	}
 }
