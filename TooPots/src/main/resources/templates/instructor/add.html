@@ -13,12 +13,63 @@
 			<td><select th:field="*{type}">
 					<option value="default">Select a type</option>
 					<option th:each="${type}" th:value="${type}" th:text="${type}"></option>
-				</select></td>
+				</select>
+			</td>
 		</tr>
 		<tr>
+			<td><label>Name:</label></td>
+			<td><input type="text" th:field="*{name}"/></td>
 		</tr>
+		<tr>
+			<td><label>Location:</label></td>
+			<td><input type="text" th:field="*{location}"/></td>
+		</tr>
+		<tr>
+			<div class="container">
+			    <div class="row">
+			        <div class='col-sm-6'>
+			            <div class="form-group">
+			                <div class='input-group date' id='datetimepicker1'>
+			                    <input type='text' class="form-control" th:field="{time}" />
+			                    <span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+			                </div>
+			            </div>
+			        </div>
+			        <script type="text/javascript">
+			            $(function () {
+			                $('#datetimepicker1').datetimepicker();
+			            });
+			        </script>
+			    </div>
+			</div>
+		</tr>
+		<tr>
+			<td><label>Duration:</label></td>
+			<td><input type="text" th:field="*{duration}"></td>
+		</tr>
+		<tr>
+			<td><label>Vacancies:</label></td>
+			<td><input type="text" th:field="*{vacancies}"></td>
+		</tr>
+		<tr>
+			<td><label>Price:</label></td>
+			<td><input type="number" th:field="*{price}"></td>
+		</tr>
+		<tr>
+			<td><label>Description:</label></td>
+			<td><input type="text" th:field="*{description}"></td>
+		</tr>
+		<tr>
+			<td><label>Level:</label></td>
+			<td><input type="text" th:field="*{level}"></td>
+		</tr>
+		
+		<tr>
+            <td colspan="2"><input type="submit" value="Add Activity" /></td>
+        </tr>
 	</table>
-	
 	
 	</form>
 </body>
