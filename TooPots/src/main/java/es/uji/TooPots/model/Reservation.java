@@ -5,9 +5,9 @@ public class Reservation {
 	private int vacancies;
 	private String place;
 	private double price;
-	private String username;
+	private String mail;
 	private int activityCode;
-	private String status = Status.PENDING;
+	private String status;
 	
 	public Reservation() {}
 
@@ -34,12 +34,12 @@ public class Reservation {
 		this.price = price;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getMail() {
+		return mail;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	public int getActivityCode() {

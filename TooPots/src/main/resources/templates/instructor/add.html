@@ -11,7 +11,7 @@
 		<tr>
 			<td><label>Type:</label></td>
 			<td><select id="tipoActividad" th:field="*{activityType}">
-					<option value="default">Select a type</option>
+					<option value="default" selected hidden>Select a type</option>
 					<option th:each="tipo:${type}" th:value="${tipo.name}" th:text="${tipo.name}"></option>
 				</select>
 			</td>
@@ -45,13 +45,24 @@
 			<td><label>Description:</label></td>
 			<td><input type="text" th:field="*{description}"></td>
 		</tr>
+	
 		<tr>
 			<td><label>Level:</label></td>
-			<td><input type="text" th:field="*{level}"></td>
+			<td><select id="nivel" th:field="*{level}">
+					<option value="default" selected hidden>Select a level</option>
+					<option value="Begginer">Begginer</option>
+					<option value="Intermediate">Intermediate</option>
+					<option value="Expert">Expert</option>
+				</select>
+			</td>
 		</tr>
 		
 		<tr>
             <td colspan="2"><input type="submit" value="Add Activity" /></td>
+        </tr>
+        
+        <tr>
+        	<td colspan="2"><a href="./menu" value="Return">Return</a></td>
         </tr>
 	</table>
 	

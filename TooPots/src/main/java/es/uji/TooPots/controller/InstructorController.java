@@ -39,10 +39,14 @@ public class InstructorController {
 		this.activityTypeDao = activityTypeDao;
 	}
 	
-	
-	@RequestMapping("/menu")
-	public String listInstructor(Model model) {
-		model.addAttribute("activities", activityDao.getActivities());
+	/* 
+	 * TODO Faltaria gestionar login para poder tener el mail del instructor
+	 * TODO Preguntar a Malo sobre poner el mailInstructor en requestMapping y obtener el propio
+	 * email para utilizarlo más adelante.
+	 */
+	@RequestMapping("/menu/{mailInstructor}")
+	public String listInstructor(Model model, @PathVariable String mailInstructor) {
+		model.addAttribute("activities", activityDao.getInstructorActivities(mailInstructor));
 		return "/instructor/menu";
 	}
 	
