@@ -24,7 +24,7 @@ public class ReservationDao {
 	public void addReservation(Reservation reservation) {
 		jdbcTemplate.update("INSERT INTO Reservation VALUES(?, ?, ?, ?, ?)",
 				reservation.getReservationId(), reservation.getPlace(),
-				reservation.getPrice(), reservation.getUsername(), reservation.getActivityCode());
+				reservation.getPrice(), reservation.getMail(), reservation.getActivityCode());
 	}
 	
 	public void deleteReservation(int reservationId) {
@@ -36,7 +36,7 @@ public class ReservationDao {
 		jdbcTemplate.update("UPDATE Reservation SET reservationId=?, "
 				+ "place=?, price=?, username=?, activityCode=?",
 				reservation.getReservationId(), reservation.getPlace(),
-				reservation.getPrice(), reservation.getUsername(),
+				reservation.getPrice(), reservation.getMail(),
 				reservation.getActivityCode());
 	}	
 	public Reservation getReservation(int reservationId) {

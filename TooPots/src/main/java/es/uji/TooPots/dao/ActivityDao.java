@@ -58,4 +58,12 @@ public class ActivityDao {
 			return new ArrayList<Activity>();
 		}
 	}
+	
+	public List<Activity> getInstructorActivities(String mailInstructor){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Activity WHERE mailInstructor=?", new ActivityRowMapper(), mailInstructor);
+		}catch(EmptyResultDataAccessException e) {
+			return new ArrayList<Activity>();
+		}
+	}
 }

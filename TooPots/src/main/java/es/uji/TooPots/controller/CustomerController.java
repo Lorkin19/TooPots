@@ -26,9 +26,17 @@ public class CustomerController {
 		this.activityDao=activityDao;
 	}
 	
+	/*
+	 * Una vez funcional incluir filtros:
+	 * 		por nivel
+	 * 		por tipo de actividad
+	 * 		...
+	 */
 	@RequestMapping("/activities")
 	public String listActivities(Model model) {
 		model.addAttribute("activities", activityDao.getActivities());
 		return "/customer/activities";
 	}
+	
+	
 }
