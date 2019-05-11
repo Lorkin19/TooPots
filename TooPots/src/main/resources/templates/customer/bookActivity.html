@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+	.btn-success:hover {
+		background-color:black;
+		text-color: white;
+		padding: 5px;
+	}
+</style>
+<head>
+	<title>TooPots</title>
+	<meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+	<h2>Enroll</h2>
+	<form th:action="@{/customer/bookActivity/{activity}{mail}(activity=${activity})(mail=${customer.mail})}">
+<!-- Faltan cosas por poner pero la idea es esta: que al darle al enroll de la actividad se pase toda la información
+	aquí y así poder rellenar el formulario para reservar la plaza-->
+	</form>

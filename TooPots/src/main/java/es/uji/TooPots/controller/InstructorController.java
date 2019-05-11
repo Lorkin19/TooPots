@@ -13,6 +13,7 @@ import es.uji.TooPots.dao.InstructorDao;
 import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.model.Activity;
+import es.uji.TooPots.model.Instructor;
 
 @Controller
 @RequestMapping("/instructor")
@@ -88,5 +89,21 @@ public class InstructorController {
             return "instructor/update";
         activityDao.updateActivity(activity);
         return "redirect:../../menu";
+    }
+    
+    @RequestMapping(value="signup")
+    public String addInstructor(Model model) {
+    	model.addAttribute("instructor", new Instructor());
+    	return "instructor/signup";
+    }
+    
+    @RequestMapping(value="/signup", method=RequestMethod.POST)
+    public String processAddSubmit(@ModelAttribute("instructor") Instructor instructor,
+    								BindingResult bindingResult) {
+    	if (bindingResult.hasErrors()) {
+    		return "instructor/signup";
+    	}
+    	instructorDao.addInstructor(instructor);
+    	return "redirect:menu"+"/{"+instructor.getMail()+"}";
     }
 }

@@ -5,13 +5,11 @@ public class Customer {
 	/**
 	 * Los customers se identificaran mediante un username unico.
 	 */
+	private String mail;
 	private String username;
 	private String pwd;
 	private String name;
 	private String surname;
-	private String dni;
-	private String mail;
-	private int age;
 	
 	public Customer() {}
 
@@ -47,13 +45,6 @@ public class Customer {
 		this.pwd = pwd;
 	}
 
-	public String getDni() {
-		return dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
 
 	public String getMail() {
 		return mail;
@@ -62,12 +53,5 @@ public class Customer {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	
-	public int getAge() {
-		return this.age;
-	}
-	
-	public void setAge(int age) {
-		this.age = age;
-	}	
+
 }

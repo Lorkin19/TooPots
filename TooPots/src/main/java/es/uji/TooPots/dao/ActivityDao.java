@@ -24,7 +24,7 @@ public class ActivityDao {
 	public void addActivity(Activity activity) {
 		jdbcTemplate.update("INSERT INTO Activity VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
 				activity.getActivityCode(), activity.getName(), activity.getLocation(),
-				activity.getDateTime(), activity.getDuration(), activity.getVacancies(),
+				activity.getDateTime().toString(), activity.getDuration(), activity.getVacancies(),
 				activity.getPrice(), activity.getLevel());
 	}
 	

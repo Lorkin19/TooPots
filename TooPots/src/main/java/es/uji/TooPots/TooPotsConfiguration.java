@@ -10,6 +10,7 @@ import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.CustomerDao;
 import es.uji.TooPots.dao.InstructorDao;
+import es.uji.TooPots.dao.ReservationDao;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -40,6 +41,11 @@ public class TooPotsConfiguration {
 	@Bean
 	public ActivityTypeDao activityTypeD() {
 		return new ActivityTypeDao();
+	}
+	
+	@Bean
+	public ReservationDao reservationD() {
+		return new ReservationDao();
 	}
 	
 	@Bean

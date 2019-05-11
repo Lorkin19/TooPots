@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TooPots</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+	<h2>SignUp</h2>
+	<form action="#" th:action="@{/instructor/signup}" th:object="${instructor}" method="post">
+		<table>
+			<tr>
+				<td><label>Mail:</label></td>
+				<td><input type="text" th:field="*{mail}"></td>
+			</tr>
+			<tr>
+				<td><label>Name:</label></td>
+				<td><input type="text" th:field="*{name}"></td>
+			</tr>
+			<tr>
+				<td><label>Surname:</label></td>
+				<td><input type="text" th:field="*{surname}"></td>
+			</tr>
+			<tr>
+				<td><label>Username:</label></td>
+				<td><input type="text" th:field="*{username}"></td>
+			</tr>
+			<tr>
+				<td><label>Password:</label></td>
+				<td><input type="password" th:field="*{pwd}"></td>
+			</tr>
+			<tr>
+				<td><label>Bank Account:</label></td>
+				<td><input type="text" th:field="*{bankAccount}"></td>
+			</tr>
+			<tr>
+	            <td colspan="2"><input type="submit" value="Add Instructor" /></td>
+	        </tr>
+	        
+	        <tr>
+	        	<td colspan="2"><a href="/" value="Return">Return</a></td>
+	        </tr>
+		</table>
+	</form>
+</body>
+</html>
+	

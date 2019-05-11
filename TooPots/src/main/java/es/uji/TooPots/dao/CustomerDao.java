@@ -21,8 +21,9 @@ public class CustomerDao {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	public void addCustomer(Customer customer) {
-		jdbcTemplate.update("INSERT INTO Customer VALUES(?, ?, ?)",
-				customer.getUsername(), customer.getPwd(), customer.getMail());
+		jdbcTemplate.update("INSERT INTO Customer VALUES(?, ?, ?, ?, ?)",
+				 customer.getMail(), customer.getUsername(), customer.getPwd(),
+				 customer.getName(), customer.getSurname());
 	}
 	
 	public void deleteCustomer(Customer customer) {
@@ -31,15 +32,16 @@ public class CustomerDao {
 	}
 	
 	public void updateCustomer(Customer customer) {
-		jdbcTemplate.update("UPDATE Customer SET username=?, pwd=?,"
-				+ " mail=?",
-				customer.getUsername(),	customer.getPwd(), customer.getMail());
+		jdbcTemplate.update("UPDATE Customer SET  mail=?, username=?, pwd=?,"
+				+ "name=?, surname=?",
+				 customer.getMail(), customer.getUsername(), customer.getPwd(),
+				 customer.getName(), customer.getSurname());
 	}
 	
-	public Customer getCustomer(String username) {
+	public Customer getCustomer(String mail) {
 		try {
 			return jdbcTemplate.queryForObject("SELECT * FROM Customer WHERE"
-					+ " username=?", new CustomerRowMapper(), username);
+					+ " mail=?", new CustomerRowMapper(), mail);
 		}catch(EmptyResultDataAccessException e) {
 			return null;
 		}

@@ -2,6 +2,7 @@ package es.uji.TooPots.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sql.DataSource;
 
@@ -15,15 +16,22 @@ import es.uji.TooPots.model.Reservation;
 @Repository
 public class ReservationDao {
 	private JdbcTemplate jdbcTemplate;
+	private static AtomicInteger reservationId;
 	
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
+		try {
+			reservationId = new AtomicInteger(jdbcTemplate.queryForObject("SELECT reservationId FROM Reservation ORDER BY "
+					+ "reservationId DESC LIMIT 1", Integer.class));	
+		}catch(EmptyResultDataAccessException e) {
+			reservationId = new AtomicInteger();
+		}
 	}
 	
 	public void addReservation(Reservation reservation) {
 		jdbcTemplate.update("INSERT INTO Reservation VALUES(?, ?, ?, ?, ?)",
-				reservation.getReservationId(), reservation.getPlace(),
+				reservationId.getAndIncrement(), reservation.getPlace(),
 				reservation.getPrice(), reservation.getMail(), reservation.getActivityCode());
 	}
 	
@@ -45,6 +53,15 @@ public class ReservationDao {
 					+ "WHERE reservationId=?", new ReservationRowMapper(), reservationId);
 		}catch (EmptyResultDataAccessException e) {
 			return null;
+		}
+	}
+	
+	public List<Reservation> getCustomerReservations(String customerMail){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Reservation WHERE mail=?",
+					new ReservationRowMapper(), customerMail);
+		}catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Reservation>();
 		}
 	}
 	
