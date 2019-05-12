@@ -36,7 +36,7 @@ public class CustomerController {
 	 * 		por tipo de actividad
 	 * 		...
 	 */
-	@RequestMapping("/activities/{mail}")
+	@RequestMapping("/activities")
 	public String listActivities(Model model) {
 		model.addAttribute("activities", activityDao.getActivities());
 		return "/customer/activities";

@@ -37,7 +37,7 @@ public class ActivityDao {
 				+ "location=?, dateTime=?, duration=?, vacancies=?,"
 				+ "price=?, level=?",
 				activity.getActivityCode(), activity.getName(), activity.getLocation(),
-				activity.getDateTime().toString(), activity.getDuration(), activity.getVacancies(),
+				activity.getDateTime(), activity.getDuration(), activity.getVacancies(),
 				activity.getPrice(), activity.getLevel().toString());
 	}
 	

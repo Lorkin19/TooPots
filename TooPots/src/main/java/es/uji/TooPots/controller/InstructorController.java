@@ -4,6 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +17,7 @@ import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.model.Activity;
 import es.uji.TooPots.model.Instructor;
+import es.uji.TooPots.model.UserDetails;
 
 @Controller
 @RequestMapping("/instructor")
@@ -45,9 +49,14 @@ public class InstructorController {
 	 * TODO Preguntar a Malo sobre poner el mailInstructor en requestMapping y obtener el propio
 	 * email para utilizarlo más adelante.
 	 */
-	@RequestMapping("/menu/{mailInstructor}")
-	public String listInstructor(Model model, @PathVariable String mailInstructor) {
-		model.addAttribute("activities", activityDao.getInstructorActivities(mailInstructor));
+	@RequestMapping("/menu")
+	public String listInstructor(Model model, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user == null) {
+			model.addAttribute("user", new UserDetails()); 
+	        return "login";
+		}
+		model.addAttribute("activities", activityDao.getInstructorActivities(user.getMail()));
 		return "/instructor/menu";
 	}
 	
@@ -59,8 +68,10 @@ public class InstructorController {
 	
 	
 	@RequestMapping(value = "/add")
-    public String addActivity(Model model) {
-        model.addAttribute("activity", new Activity());
+    public String addActivity(Model model, HttpSession session) {
+		Activity act = new Activity();
+		act.setEmail(((UserDetails) session.getAttribute("user")).getMail());
+        model.addAttribute("activity", act);
         model.addAttribute("type", activityTypeDao.getActivityTypes());
         return "instructor/add";
     }
@@ -68,8 +79,9 @@ public class InstructorController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String processAddSubmit(@ModelAttribute("activity") Activity activity,
                                    BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "instructor/add";
+        if (bindingResult.hasErrors()) {
+        	return "instructor/add";
+        }
         activityDao.addActivity(activity);
         return "redirect:menu";
     }
@@ -104,6 +116,6 @@ public class InstructorController {
     		return "instructor/signup";
     	}
     	instructorDao.addInstructor(instructor);
-    	return "redirect:menu"+"/{"+instructor.getMail()+"}";
+    	return "redirect:menu";
     }
 }
