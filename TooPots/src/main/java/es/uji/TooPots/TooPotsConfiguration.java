@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.format.Formatter;
 
 import es.uji.TooPots.dao.ActivityDao;
@@ -11,6 +12,8 @@ import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.CustomerDao;
 import es.uji.TooPots.dao.InstructorDao;
 import es.uji.TooPots.dao.ReservationDao;
+import es.uji.TooPots.dao.UserDao;
+import es.uji.TooPots.dao.FakeUserProvider;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -69,5 +72,11 @@ public class TooPotsConfiguration {
 	public CustomerDao customerD() {
 		return new CustomerDao();
 	}
+	
+    @Bean
+    @Primary
+    public UserDao userD() {
+    	return new FakeUserProvider();
+    }
 
 }

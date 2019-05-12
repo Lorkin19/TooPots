@@ -1,6 +1,6 @@
 package es.uji.TooPots.model;
 
-public class Customer {
+public class Customer implements User{
 
 	/**
 	 * Los customers se identificaran mediante un username unico.

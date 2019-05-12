@@ -15,6 +15,7 @@ import es.uji.TooPots.model.Customer;
 @Repository
 public class CustomerDao {
 	private JdbcTemplate jdbcTemplate;
+	//private FakeUserProvider fup = new FakeUserProvider();
 	
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
@@ -24,11 +25,13 @@ public class CustomerDao {
 		jdbcTemplate.update("INSERT INTO Customer VALUES(?, ?, ?, ?, ?)",
 				 customer.getMail(), customer.getUsername(), customer.getPwd(),
 				 customer.getName(), customer.getSurname());
+		FakeUserProvider.addNewUser(customer);
 	}
 	
 	public void deleteCustomer(Customer customer) {
-		jdbcTemplate.update("DELETE FROM Customer WHERE username=?",
-				customer.getUsername());
+		jdbcTemplate.update("DELETE FROM Customer WHERE mail=?",
+				customer.getMail());
+		FakeUserProvider.deleteUser(customer.getMail());
 	}
 	
 	public void updateCustomer(Customer customer) {
