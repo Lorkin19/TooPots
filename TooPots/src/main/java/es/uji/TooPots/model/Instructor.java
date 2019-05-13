@@ -1,6 +1,6 @@
 package es.uji.TooPots.model;
 
-public class Instructor {
+public class Instructor implements User{
 	/**
 	 * Aquí podríamos crear una clase abstracta para
 	 * que instructor e instructorRequest tengan en común

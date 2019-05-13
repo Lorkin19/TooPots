@@ -15,8 +15,8 @@
 </head>
 <body>
 <div class="container">
-	<h1>Instructor</h1>
-	<h3>My activities</h3>
+	<h1>Customer</h1>
+	<h3>Activities</h3>
 	<table class="table table-striped">
 		<thead>
 		<tr>
@@ -38,7 +38,7 @@
         		<td th:text="${activity.vacancies}"></td>
         		<td th:text="${activity.price}"></td>
         		<td th:text="${activity.level}"></td>
-        		<td><a th:href="@{/instructor/update/{activity}(activity=${activity.activityId})}" class="btn btn-warning" role="button">Enrol</a></td>
+<!-- 				<td><a th:href="@{/customer/bookActivity/{id}{mail}(activity=${activity.activityId})(mail=${user.mail})}" class="btn btn-warning" role="button">Enrol</a></td> -->
         </tbody>
 	</table>
 </div>

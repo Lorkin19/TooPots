@@ -1,5 +1,6 @@
 package es.uji.TooPots.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,27 +11,27 @@ public class Activity {
 	 * Las actividades se identificaran mediante su activityCode.
 	 * Queda decidir como se obtendra dicho codigo.
 	 */
-	private int activityCode;
+	private int activityId;
 	private String name;
 	private String location;
-	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
-	private LocalDateTime dateTime;
+	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
+	private LocalDate date;
 	private String duration;
 	private int vacancies;
 	private double price;
 	private String description;
 	private String level;
-	private ActivityType activityType;
+	private String activityType;
 	private String mailInstructor;
 	
 	public Activity() {}
 
 	public int getActivityCode() {
-		return activityCode;
+		return activityId;
 	}
 
 	public void setActivityCode(int activityCode) {
-		this.activityCode = activityCode;
+		this.activityId = activityCode;
 	}
 
 	public String getName() {
@@ -49,12 +50,12 @@ public class Activity {
 		this.location = location;
 	}
 
-	public LocalDateTime getDateTime() {
-		return dateTime;
+	public LocalDate getDateTime() {
+		return date;
 	}
 
-	public void setDateTime(LocalDateTime dateTime) {
-		this.dateTime = dateTime;
+	public void setDateTime(LocalDate dateTime) {
+		this.date = dateTime;
 	}
 
 	public String getDuration() {
@@ -97,11 +98,11 @@ public class Activity {
 		this.description = description;
 	}
 
-	public ActivityType getActivityType() {
+	public String getActivityType() {
 		return activityType;
 	}
 
-	public void setActivityType(ActivityType activityType) {
+	public void setActivityType(String activityType) {
 		this.activityType = activityType;
 	}
 
