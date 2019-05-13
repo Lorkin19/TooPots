@@ -39,7 +39,7 @@ public class CustomerController {
 	@RequestMapping("/activities")
 	public String listActivities(Model model) {
 		model.addAttribute("activities", activityDao.getActivities());
-		return "/customer/activities";
+		return "customer/activities";
 	}
 	
 	@RequestMapping(value = "/signup")

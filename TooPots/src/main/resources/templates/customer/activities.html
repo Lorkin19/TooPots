@@ -27,6 +27,7 @@
 			<th>Vacancies</th>
 			<th>Price</th>
 			<th>Difficulty</th>
+			<th></th>
 		</tr>
         </thead>
         <tbody>
@@ -38,7 +39,7 @@
         		<td th:text="${activity.vacancies}"></td>
         		<td th:text="${activity.price}"></td>
         		<td th:text="${activity.level}"></td>
-<!-- 				<td><a th:href="@{/customer/bookActivity/{id}{mail}(activity=${activity.activityId})(mail=${user.mail})}" class="btn btn-warning" role="button">Enrol</a></td> -->
+				<td><a th:href="@{/customer/bookActivity/{id}(id=${activity.activityId})}" class="btn btn-warning" role="button">Enrol</a></td>
         </tbody>
 	</table>
 </div>

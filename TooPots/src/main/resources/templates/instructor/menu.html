@@ -31,6 +31,8 @@
 			<th>Vacancies</th>
 			<th>Price</th>
 			<th>Difficulty</th>
+			<th></th>
+			<th></th>
 		</tr>
         </thead>
         <tbody>
@@ -42,8 +44,8 @@
         		<td th:text="${activity.vacancies}"></td>
         		<td th:text="${activity.price}"></td>
         		<td th:text="${activity.level}"></td>
-        		<td><a th:href="@{/instructor/update/{id}(id=${activity.activityId})}" class="btn btn-warning">Edit</a></td>
-            	<td><a th:href="@{/instructor/delete/{id}(id=${activity.activityId})}" class="btn btn-danger">Delete</a></td>
+        		<td><a th:href="@{/instructor/update/{id}(id=${activity.activityId})}" class="btn btn-warning" role="button">Edit</a></td>
+            	<td><a th:href="@{/instructor/delete/{id}(id=${activity.activityId})}" class="btn btn-danger" role="button">Delete</a></td>
         	</tr>
         </tbody>
 	</table>
