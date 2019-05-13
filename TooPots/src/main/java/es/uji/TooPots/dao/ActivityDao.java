@@ -30,10 +30,10 @@ public class ActivityDao {
 	}
 	
 	public void addActivity(Activity activity) {
-		jdbcTemplate.update("INSERT INTO Activity VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-				activity.getActivityCode(), activity.getName(), activity.getLocation(),
-				activity.getDateTime(), activity.getDuration(), activity.getVacancies(),
-				activity.getPrice(), activity.getLevel(), activity.getActivityType(), activity.getEmail());
+		jdbcTemplate.update("INSERT INTO Activity VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+				activityId.getAndIncrement(), activity.getName(), activity.getLocation(),
+				activity.getDateTime(), activity.getDuration(), activity.getVacancies(), activity.getDescription(),
+				activity.getLevel(), activity.getActivityType(), activity.getPrice(), activity.getEmail());
 	}
 	
 	public void deleteActivity(int activityId) {
@@ -43,8 +43,8 @@ public class ActivityDao {
 	public void updateActivity(Activity activity) {
 		jdbcTemplate.update("UPDATE Activity SET activityId=?, name=?,"
 				+ "location=?, dateTime=?, duration=?, vacancies=?,"
-				+ "price=?, level=?",
-				activityId.getAndIncrement(), activity.getName(), activity.getLocation(),
+				+ "level=?, price=?",
+				activity.getActivityCode(), activity.getName(), activity.getLocation(),
 				activity.getDateTime(), activity.getDuration(), activity.getVacancies(),
 				activity.getPrice(), activity.getLevel().toString());
 	}

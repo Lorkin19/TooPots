@@ -11,7 +11,7 @@ public class Activity {
 	 * Las actividades se identificaran mediante su activityCode.
 	 * Queda decidir como se obtendra dicho codigo.
 	 */
-	private int activityCode;
+	private int activityId;
 	private String name;
 	private String location;
 	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
@@ -27,11 +27,11 @@ public class Activity {
 	public Activity() {}
 
 	public int getActivityCode() {
-		return activityCode;
+		return activityId;
 	}
 
 	public void setActivityCode(int activityCode) {
-		this.activityCode = activityCode;
+		this.activityId = activityCode;
 	}
 
 	public String getName() {

@@ -63,7 +63,7 @@ public class InstructorController {
 		return "/instructor/menu";
 	}
 	
-	@RequestMapping(value = "/delete/{activity}")
+	@RequestMapping(value = "/delete/{id}")
     public String processDeleteActivity(@PathVariable int activityId) {
         activityDao.deleteActivity(activityId);
         return "redirect:../../";
@@ -93,13 +93,13 @@ public class InstructorController {
     }
     
     
-    @RequestMapping(value = "/update/{activityId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String editActivity(Model model, @PathVariable int activityId) {
         model.addAttribute("activity", activityDao.getActivity(activityId));
         return "instructor/update";
     }
 
-    @RequestMapping(value="/update/{activityId}", method = RequestMethod.POST)
+    @RequestMapping(value="/update/{id}", method = RequestMethod.POST)
     public String processUpdateSubmit(@PathVariable String activityId,
                                       @ModelAttribute("activity") Activity activity,
                                       BindingResult bindingResult) {
@@ -117,10 +117,16 @@ public class InstructorController {
     
     @RequestMapping(value="/signup", method=RequestMethod.POST)
     public String processAddSubmit(@ModelAttribute("instructor") Instructor instructor,
-    								BindingResult bindingResult) {
+    								BindingResult bindingResult, HttpSession session) {
     	if (bindingResult.hasErrors()) {
     		return "instructor/signup";
     	}
+    	UserDetails user = new UserDetails();
+    	user.setMail(instructor.getMail());
+    	user.setPassword(instructor.getPwd());
+    	user.setUsername(instructor.getUsername());
+    	user.setUserType(1);
+    	session.setAttribute("user", user);
     	instructorDao.addInstructor(instructor);
     	return "redirect:menu";
     }
