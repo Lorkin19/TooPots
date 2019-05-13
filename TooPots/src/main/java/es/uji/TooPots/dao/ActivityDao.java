@@ -24,6 +24,7 @@ public class ActivityDao {
 		try {
 			activityId = new AtomicInteger(jdbcTemplate.queryForObject("SELECT activityId FROM Activity ORDER BY "
 					+ "activityId DESC LIMIT 1", Integer.class));	
+			activityId.getAndIncrement();
 		}catch(EmptyResultDataAccessException e) {
 			activityId = new AtomicInteger();
 		}

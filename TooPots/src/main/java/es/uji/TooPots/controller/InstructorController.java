@@ -47,11 +47,7 @@ public class InstructorController {
 		this.activityTypeDao = activityTypeDao;
 	}
 	
-	/* 
-	 * TODO Faltaria gestionar login para poder tener el mail del instructor
-	 * TODO Preguntar a Malo sobre poner el mailInstructor en requestMapping y obtener el propio
-	 * email para utilizarlo más adelante.
-	 */
+
 	@RequestMapping("/menu")
 	public String listInstructor(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
@@ -60,12 +56,12 @@ public class InstructorController {
 	        return "login";
 		}
 		model.addAttribute("activities", activityDao.getInstructorActivities(user.getMail()));
-		return "/instructor/menu";
+		return "instructor/menu";
 	}
 	
 	@RequestMapping(value = "/delete/{id}")
-    public String processDeleteActivity(@PathVariable int activityId) {
-        activityDao.deleteActivity(activityId);
+    public String processDeleteActivity(@PathVariable int id) {
+        activityDao.deleteActivity(id);
         return "redirect:../../";
     }
 	
@@ -82,7 +78,6 @@ public class InstructorController {
     public String processAddSubmit(@ModelAttribute("activity") Activity activity, @ModelAttribute("type")  ActivityType type,
                                    BindingResult bindingResult, HttpSession session) {
 		activity.setEmail(((UserDetails) session.getAttribute("user")).getMail());
-		activity.setActivityType(type.getName());
     	ActivityValidator actValidator = new ActivityValidator();
     	actValidator.validate(activity, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -94,13 +89,13 @@ public class InstructorController {
     
     
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String editActivity(Model model, @PathVariable int activityId) {
-        model.addAttribute("activity", activityDao.getActivity(activityId));
+    public String editActivity(Model model, @PathVariable int id) {
+        model.addAttribute("activity", activityDao.getActivity(id));
         return "instructor/update";
     }
 
     @RequestMapping(value="/update/{id}", method = RequestMethod.POST)
-    public String processUpdateSubmit(@PathVariable String activityId,
+    public String processUpdateSubmit(@PathVariable int id,
                                       @ModelAttribute("activity") Activity activity,
                                       BindingResult bindingResult) {
         if (bindingResult.hasErrors())
