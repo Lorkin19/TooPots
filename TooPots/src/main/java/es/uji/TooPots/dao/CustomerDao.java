@@ -25,7 +25,7 @@ public class CustomerDao {
 		jdbcTemplate.update("INSERT INTO Customer VALUES(?, ?, ?, ?, ?)",
 				 customer.getMail(), customer.getUsername(), customer.getPwd(),
 				 customer.getName(), customer.getSurname());
-		FakeUserProvider.addNewUser(customer);
+		FakeUserProvider.addNewUser(customer, 0);
 	}
 	
 	public void deleteCustomer(Customer customer) {

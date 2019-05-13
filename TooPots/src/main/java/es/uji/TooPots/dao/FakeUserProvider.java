@@ -46,6 +46,7 @@ public class FakeUserProvider implements UserDao{
 				d.setUsername(c.getUsername());
 				d.setMail(c.getMail());
 				d.setPassword(bpe.encryptPassword(c.getPwd()));
+				d.setUserType(0);
 				knownUsers.put(d.getMail(), d);
 			}
 			
@@ -54,6 +55,7 @@ public class FakeUserProvider implements UserDao{
 				d.setUsername(i.getUsername());
 				d.setMail(i.getMail());
 				d.setPassword(bpe.encryptPassword(i.getPwd()));
+				d.setUserType(1);
 				knownUsers.put(d.getMail(), d);
 			}
 		}catch (EmptyResultDataAccessException e) {}
@@ -80,12 +82,13 @@ public class FakeUserProvider implements UserDao{
 		return knownUsers.values();
 	}
 	
-	public static void addNewUser(User c) {
+	public static void addNewUser(User c, int userType) {
 		BasicPasswordEncryptor bpe = new BasicPasswordEncryptor();
 		UserDetails d = new UserDetails();
 		d.setMail(c.getMail());
 		d.setUsername(c.getUsername());
 		d.setPassword(bpe.encryptPassword(c.getPwd()));
+		d.setUserType(userType);
 		knownUsers.put(d.getMail(), d);
 	}
 	

@@ -16,6 +16,7 @@ import es.uji.TooPots.dao.UserDao;
 import es.uji.TooPots.dao.FakeUserProvider;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -52,18 +53,18 @@ public class TooPotsConfiguration {
 	}
 	
 	@Bean
-	public Formatter<LocalDateTime> localDateFormatterISO() {
-	   return new Formatter<LocalDateTime>() {
+	public Formatter<LocalDate> localDateFormatterISO() {
+	   return new Formatter<LocalDate>() {
 		@Override
-		public String print(LocalDateTime object, Locale locale) {
+		public String print(LocalDate object, Locale locale) {
 			// TODO Auto-generated method stub
 	           return DateTimeFormatter.ofPattern("dd-MM-yyyy").format(object); 
 		}
 
 		@Override
-		public LocalDateTime parse(String text, Locale locale) throws ParseException {
+		public LocalDate parse(String text, Locale locale) throws ParseException {
 			// TODO Auto-generated method stub
-	           return LocalDateTime.parse(text, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+	           return LocalDate.parse(text, DateTimeFormatter.ISO_LOCAL_DATE);
 		}
 	   };
 	}

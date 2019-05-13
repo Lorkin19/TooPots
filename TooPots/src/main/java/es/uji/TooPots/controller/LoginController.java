@@ -63,7 +63,11 @@ public class LoginController {
 			return "login";
 		}
 		session.setAttribute("user", user);
-		return "redirect:/";
+		if(user.getUserType()==0) {
+			return "redirect:/customer/activities";
+		}else {
+			return "redirect:/instructor/menu";
+		}
 	}
 	
 	@RequestMapping("/logout")

@@ -2,6 +2,7 @@ package es.uji.TooPots.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -18,7 +19,7 @@ public class ActivityRowMapper implements RowMapper<Activity>{
 		
 		act.setActivityCode(Integer.parseInt(rs.getString("activityCode")));
 		act.setName(rs.getString("name"));
-		act.setDateTime(LocalDateTime.parse(rs.getString("dateTime")));
+		act.setDateTime(LocalDate.parse(rs.getString("dateTime")));
 		act.setLevel(rs.getString("level"));
 		act.setDuration(rs.getString("duration"));
 		act.setLocation(rs.getString("location"));

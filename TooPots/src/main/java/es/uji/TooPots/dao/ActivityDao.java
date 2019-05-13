@@ -2,6 +2,7 @@ package es.uji.TooPots.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sql.DataSource;
 
@@ -15,28 +16,35 @@ import es.uji.TooPots.model.Activity;
 @Repository
 public class ActivityDao {
 	private JdbcTemplate jdbcTemplate;
+	private static AtomicInteger activityId; 
 	
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
+		try {
+			activityId = new AtomicInteger(jdbcTemplate.queryForObject("SELECT activityId FROM Activity ORDER BY "
+					+ "activityId DESC LIMIT 1", Integer.class));	
+		}catch(EmptyResultDataAccessException e) {
+			activityId = new AtomicInteger();
+		}
 	}
 	
 	public void addActivity(Activity activity) {
-		jdbcTemplate.update("INSERT INTO Activity VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+		jdbcTemplate.update("INSERT INTO Activity VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				activity.getActivityCode(), activity.getName(), activity.getLocation(),
-				activity.getDateTime().toString(), activity.getDuration(), activity.getVacancies(),
-				activity.getPrice(), activity.getLevel());
+				activity.getDateTime(), activity.getDuration(), activity.getVacancies(),
+				activity.getPrice(), activity.getLevel(), activity.getActivityType(), activity.getEmail());
 	}
 	
 	public void deleteActivity(int activityId) {
-		jdbcTemplate.update("DELETE from Activity WHERE activityCode=?",
+		jdbcTemplate.update("DELETE from Activity WHERE activityId=?",
 				activityId);
 	}
 	public void updateActivity(Activity activity) {
-		jdbcTemplate.update("UPDATE Activity SET activityCode=?, name=?,"
+		jdbcTemplate.update("UPDATE Activity SET activityId=?, name=?,"
 				+ "location=?, dateTime=?, duration=?, vacancies=?,"
 				+ "price=?, level=?",
-				activity.getActivityCode(), activity.getName(), activity.getLocation(),
+				activityId.getAndIncrement(), activity.getName(), activity.getLocation(),
 				activity.getDateTime(), activity.getDuration(), activity.getVacancies(),
 				activity.getPrice(), activity.getLevel().toString());
 	}
@@ -44,7 +52,7 @@ public class ActivityDao {
 	public Activity getActivity(int activityCode) {
 		try {
 			return jdbcTemplate.queryForObject("SELECT *"
-					+ "from Activity WHERE activityCode=?",
+					+ "from Activity WHERE activityId=?",
 					new ActivityRowMapper(), activityCode);
 		}catch(EmptyResultDataAccessException e){
 			return new Activity();

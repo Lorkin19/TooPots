@@ -4,6 +4,7 @@ public class UserDetails {
 	private String mail;
 	private String username;
 	private String password;
+	private int userType;
 	
 	public String getMail(){
 		return this.mail;
@@ -27,6 +28,14 @@ public class UserDetails {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public int getUserType() {
+		return this.userType;
+	}
+	
+	public void setUserType(int userType) {
+		this.userType = userType;
 	}
 }
 

@@ -28,11 +28,13 @@ public class InstructorDao {
 				instructor.getMail(), instructor.getName(),
 				instructor.getSurname(),instructor.getUsername(),
 				instructor.getPwd(), instructor.getBankAccount());
+		FakeUserProvider.addNewUser(instructor, 1);
 	}
 	
 	public void deleteInstructor(Instructor instructor) {
 		jdbcTemplate.update("DELETE FROM Instructor WHERE username=?",
 				instructor.getUsername());
+		FakeUserProvider.deleteUser(instructor.getMail());
 	}
 	public void updateInstructor(Instructor instructor) {
 		jdbcTemplate.update("UPDATE Instructor SET username=?, mail=?, pwd=?, bankAccount=?",
