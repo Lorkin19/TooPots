@@ -23,7 +23,8 @@ public class ReservationDao {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 		try {
 			reservationId = new AtomicInteger(jdbcTemplate.queryForObject("SELECT reservationId FROM Reservation ORDER BY "
-					+ "reservationId DESC LIMIT 1", Integer.class));	
+					+ "reservationId DESC LIMIT 1", Integer.class));
+			reservationId.getAndIncrement();
 		}catch(EmptyResultDataAccessException e) {
 			reservationId = new AtomicInteger();
 		}
@@ -31,8 +32,8 @@ public class ReservationDao {
 	
 	public void addReservation(Reservation reservation) {
 		jdbcTemplate.update("INSERT INTO Reservation VALUES(?, ?, ?, ?, ?)",
-				reservationId.getAndIncrement(), reservation.getPlace(),
-				reservation.getPrice(), reservation.getMail(), reservation.getActivityCode());
+				reservationId.getAndIncrement(), reservation.getVacancies(),
+				reservation.getPrice(), reservation.getMail(), reservation.getActivityId());
 	}
 	
 	public void deleteReservation(int reservationId) {
@@ -45,7 +46,7 @@ public class ReservationDao {
 				+ "place=?, price=?, username=?, activityCode=?",
 				reservation.getReservationId(), reservation.getPlace(),
 				reservation.getPrice(), reservation.getMail(),
-				reservation.getActivityCode());
+				reservation.getActivityId());
 	}	
 	public Reservation getReservation(int reservationId) {
 		try {
