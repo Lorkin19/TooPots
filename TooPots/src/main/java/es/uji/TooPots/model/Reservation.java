@@ -6,7 +6,7 @@ public class Reservation {
 	private String place;
 	private double price;
 	private String mail;
-	private int activityCode;
+	private int activityId;
 	private String status;
 	
 	public Reservation() {}
@@ -42,12 +42,12 @@ public class Reservation {
 		this.mail = mail;
 	}
 
-	public int getActivityCode() {
-		return activityCode;
+	public int getActivityId() {
+		return activityId;
 	}
 
-	public void setActivityCode(int activityCode) {
-		this.activityCode = activityCode;
+	public void setActivityId(int activityCode) {
+		this.activityId = activityCode;
 	}
 
 	public String getStatus() {

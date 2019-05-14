@@ -93,8 +93,11 @@ public class FakeUserProvider implements UserDao{
 	}
 	
 	public static void deleteUser(String mail) {
-		knownUsers.remove(mail);
-		
+		knownUsers.remove(mail);		
+	}
+	
+	public static boolean checkMail(String mail) {
+		return knownUsers.containsKey(mail);
 	}
 
 }

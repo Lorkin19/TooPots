@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import es.uji.TooPots.dao.FakeUserProvider;
 import es.uji.TooPots.dao.UserDao;
 import es.uji.TooPots.model.UserDetails;
 
@@ -57,6 +58,12 @@ public class LoginController {
 		if (bindingResult.hasErrors()) {
 			return "login";
 		}		
+		
+		if(!FakeUserProvider.checkMail(user.getMail())) {
+			bindingResult.rejectValue("mail",  "badmail", "User Not Registered");
+			return "login";
+		}
+		
 		user = userDao.loadUserByMail(user.getMail(), user.getPassword());
 		if (user == null) {
 			bindingResult.rejectValue("password", "badpw", "Incorrect Password");

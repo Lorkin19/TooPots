@@ -77,7 +77,7 @@ public class InstructorController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String processAddSubmit(@ModelAttribute("activity") Activity activity, @ModelAttribute("type")  ActivityType type,
                                    BindingResult bindingResult, HttpSession session) {
-		activity.setEmail(((UserDetails) session.getAttribute("user")).getMail());
+		activity.setMailInstructor(((UserDetails) session.getAttribute("user")).getMail());
     	ActivityValidator actValidator = new ActivityValidator();
     	actValidator.validate(activity, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -141,11 +141,11 @@ class ActivityValidator implements Validator{
 		
 		Activity act = (Activity) target;
 		
-		System.out.println(act.getDateTime().toString());
-		System.out.println(act.getActivityCode());
+		System.out.println(act.getDate().toString());
+		System.out.println(act.getActivityId());
 		System.out.println(act.getDescription());
 		System.out.println(act.getDuration());
-		System.out.println(act.getEmail());
+		System.out.println(act.getMailInstructor());
 		System.out.println(act.getLevel());
 		System.out.println(act.getLocation());
 		System.out.println(act.getName());

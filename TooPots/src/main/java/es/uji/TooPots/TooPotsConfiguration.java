@@ -79,5 +79,4 @@ public class TooPotsConfiguration {
     public UserDao userD() {
     	return new FakeUserProvider();
     }
-
 }

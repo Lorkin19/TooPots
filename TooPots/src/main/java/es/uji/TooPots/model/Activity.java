@@ -26,11 +26,11 @@ public class Activity {
 	
 	public Activity() {}
 
-	public int getActivityCode() {
+	public int getActivityId() {
 		return activityId;
 	}
 
-	public void setActivityCode(int activityCode) {
+	public void setActivityId(int activityCode) {
 		this.activityId = activityCode;
 	}
 
@@ -50,11 +50,11 @@ public class Activity {
 		this.location = location;
 	}
 
-	public LocalDate getDateTime() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDateTime(LocalDate dateTime) {
+	public void setDate(LocalDate dateTime) {
 		this.date = dateTime;
 	}
 
@@ -106,11 +106,11 @@ public class Activity {
 		this.activityType = activityType;
 	}
 
-	public String getEmail() {
+	public String getMailInstructor() {
 		return mailInstructor;
 	}
 
-	public void setEmail(String email) {
+	public void setMailInstructor(String email) {
 		this.mailInstructor = email;
 	}
 	

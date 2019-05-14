@@ -17,14 +17,15 @@ public class ActivityRowMapper implements RowMapper<Activity>{
 		// TODO Auto-generated method stub
 		Activity act = new Activity();
 		
-		act.setActivityCode(Integer.parseInt(rs.getString("activityId")));
+		act.setActivityId(Integer.parseInt(rs.getString("activityId")));
 		act.setName(rs.getString("name"));
-		act.setDateTime(LocalDate.parse(rs.getString("dateTime")));
+		act.setDate(LocalDate.parse(rs.getString("dateTime")));
 		act.setLevel(rs.getString("level"));
 		act.setDuration(rs.getString("duration"));
 		act.setLocation(rs.getString("location"));
 		act.setVacancies(Integer.parseInt(rs.getString("vacancies")));
 		act.setPrice(Double.parseDouble(rs.getString("price")));	
+		act.setMailInstructor(rs.getString("mailInstructor"));
 		return act;
 	}
 }
