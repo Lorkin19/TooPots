@@ -62,7 +62,7 @@ public class ActivityDao {
 	
 	public List<Activity> getActivities(){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Activity", new ActivityRowMapper());
+			return jdbcTemplate.query("SELECT * FROM Activity WHERE vacancies >= 1", new ActivityRowMapper());
 		}catch(EmptyResultDataAccessException e) {
 			return new ArrayList<Activity>();
 		}
