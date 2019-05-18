@@ -93,9 +93,11 @@ public class CustomerController {
 		reservation.setPlace(activity.getLocation());
 		reservation.setActivityId(activity.getActivityId());
 		
+		
+		//REVISAR
 		if (reservation.getVacancies() > activity.getVacancies()) {
 			bindingResult.rejectValue("vacancies", "badVacancies", "Reservation vacancies are greater than available vacancies.");
-			return "bookActivity";
+			return "customer/bookActivity";
 		}
 		
 		//cambiar para que se haga directamente en la vista

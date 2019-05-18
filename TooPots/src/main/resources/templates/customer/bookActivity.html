@@ -47,7 +47,7 @@
 		<table>
 			<tr>
 				<td><label>Vacancies</label></td>
-				<td><input type="number" th:field="*{vacancies}"></td>
+				<td><input type="number" th:field="*{vacancies}" min="1" th:max="${activity.vacancies}"></td>
 			</tr>
 			
 			
@@ -56,7 +56,7 @@
 				<td colspab="2"><input type="submit" value="Enroll"></td>
 			</tr>
 			<tr>
-        		<td colspan="2"><a href="./activities" value="Return">Return</a></td>
+        		<td colspan="2"><a href="../activities" value="Return">Return</a></td>
         	</tr>
 		</table>
 	</form>
