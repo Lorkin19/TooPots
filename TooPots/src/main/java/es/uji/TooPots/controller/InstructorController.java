@@ -138,7 +138,7 @@ class ActivityValidator implements Validator{
 	@Override
 	public void validate(Object target, Errors errors) {
 		// TODO Auto-generated method stub
-		
+		/*
 		Activity act = (Activity) target;
 		
 		System.out.println(act.getDate().toString());
@@ -152,7 +152,7 @@ class ActivityValidator implements Validator{
 		System.out.println(act.getPrice());
 		System.out.println(act.getVacancies());
 		System.out.println(act.getActivityType());
-
+		*/
 	}
 	
 }

@@ -15,15 +15,42 @@
 </head>
 <body>
 	<h2>Enroll</h2>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Location</th>
+			<th>Date time</th>
+			<th>Duration</th>
+			<th>Vacancies</th>
+			<th>Price</th>
+			<th>Difficulty</th>
+			<th>Description</th>
+		</tr>
+        </thead>
+        <tbody>
+        	<tr>
+        		<td th:text="${activity.name}"></td>
+        		<td th:text="${activity.location}"></td>
+        		<td th:text="${activity.date}"></td>
+        		<td th:text="${activity.duration}"></td>
+        		<td th:text="${activity.vacancies}"></td>
+        		<td th:text="${activity.price}"></td>
+        		<td th:text="${activity.level}"></td>
+				<td th:text="${activity.description}"></td>
+			</tr>
+        </tbody>
+	</table>
+
 	<form action="#" th:action="@{/customer/bookActivity/{id}(id=${activity.activityId})}" th:object="${reservation}" method="post">
-<!-- Faltan cosas por poner pero la idea es esta: que al darle al enroll de la actividad se pase toda la información
-	aquí y así poder rellenar el formulario para reservar la plaza-->
 	
 		<table>
 			<tr>
 				<td><label>Vacancies</label></td>
 				<td><input type="number" th:field="*{vacancies}"></td>
 			</tr>
+			
+			
 			
 			<tr>
 				<td colspab="2"><input type="submit" value="Enroll"></td>
