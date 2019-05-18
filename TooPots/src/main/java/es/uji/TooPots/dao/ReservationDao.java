@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import es.uji.TooPots.model.Reservation;
+import es.uji.TooPots.model.Status;
 
 @Repository
 public class ReservationDao {
@@ -31,9 +32,10 @@ public class ReservationDao {
 	}
 	
 	public void addReservation(Reservation reservation) {
-		jdbcTemplate.update("INSERT INTO Reservation VALUES(?, ?, ?, ?, ?)",
+		jdbcTemplate.update("INSERT INTO Reservation VALUES(?, ?, ?, ?, ?, ?, ?)",
 				reservationId.getAndIncrement(), reservation.getVacancies(),
-				reservation.getPrice(), reservation.getMail(), reservation.getActivityId());
+				reservation.getPrice(), reservation.getMail(), reservation.getActivityId(),
+				Status.PENDING, reservation.getPlace());
 	}
 	
 	public void deleteReservation(int reservationId) {
@@ -42,11 +44,10 @@ public class ReservationDao {
 	}
 	
 	public void updateReservation(Reservation reservation) {
-		jdbcTemplate.update("UPDATE Reservation SET reservationId=?, "
-				+ "place=?, price=?, username=?, activityCode=?",
-				reservation.getReservationId(), reservation.getPlace(),
+		jdbcTemplate.update("UPDATE Reservation SET "
+				+ "price=?, mail=?, activityId=? WHERE reservationId=?",
 				reservation.getPrice(), reservation.getMail(),
-				reservation.getActivityId());
+				reservation.getActivityId(), reservation.getReservationId());
 	}	
 	public Reservation getReservation(int reservationId) {
 		try {

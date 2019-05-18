@@ -79,7 +79,8 @@ public class CustomerController {
 	}
 	
 	@RequestMapping(value="/bookActivity/{id}", method=RequestMethod.POST)
-	public String processEnrollSubmit(@PathVariable("id") int activityId, @ModelAttribute("reservation") Reservation reservation, HttpSession session) {
+	public String processEnrollSubmit(@PathVariable("id") int activityId, @ModelAttribute("reservation") Reservation reservation, HttpSession session,
+		BindingResult bindingResult) {
 		
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		if (user == null) {
@@ -92,6 +93,11 @@ public class CustomerController {
 		reservation.setPlace(activity.getLocation());
 		reservation.setActivityId(activity.getActivityId());
 		
+		if (reservation.getVacancies() > activity.getVacancies()) {
+			bindingResult.rejectValue("vacancies", "badVacancies", "Reservation vacancies are greater than available vacancies.");
+			return "bookActivity";
+		}
+		
 		//cambiar para que se haga directamente en la vista
 		reservation.setPrice(activity.getPrice()*reservation.getVacancies());
 		
@@ -99,7 +105,22 @@ public class CustomerController {
 		
 		reservationDao.addReservation(reservation);
 		activityDao.updateActivity(activity);
-		return "redirect:../activities";
+		return "redirect:../myReservations";
+	}
+
+	@RequestMapping("/myReservations")
+	public String listMyReservations(Model model, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user == null) {
+			return "/login";
+		}
+		model.addAttribute("reservations", reservationDao.getCustomerReservations(user.getMail()));
+		return "customer/myReservations";
 	}
 	
+	@RequestMapping("/activityInfo/{id}")
+	public String activityInformation(Model model, @PathVariable("id") int activityId) {
+		model.addAttribute("activity", activityDao.getActivity(activityId));
+		return "customer/activityInfo";
+	}
 }

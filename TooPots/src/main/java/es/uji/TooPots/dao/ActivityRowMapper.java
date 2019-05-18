@@ -26,6 +26,8 @@ public class ActivityRowMapper implements RowMapper<Activity>{
 		act.setVacancies(Integer.parseInt(rs.getString("vacancies")));
 		act.setPrice(Double.parseDouble(rs.getString("price")));	
 		act.setMailInstructor(rs.getString("mailInstructor"));
+		act.setDescription(rs.getString("description"));
+		act.setActivityType(rs.getString("activityType"));
 		return act;
 	}
 }
