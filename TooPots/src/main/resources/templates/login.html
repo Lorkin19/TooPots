@@ -7,19 +7,32 @@
 <title>Login</title>
 <meta charset="UTF-8"/>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
-
+        <style>
+    	body{
+    		color:white;
+    		    		text-align:center;
+    		
+    	}
+    	table{
+    		text-align:center;
+    	}
+    	form{
+			width: 50%;
+        	margin-left : 40%;
+		}
+    </style>
 </head>
-<body>
+<body background="images/banner.jpg">
     <h2>Login</h2>
     <form action="#" th:action="@{/login}" 
           th:object="${user}" method="post">
         <p>
-               <label>Mail:</label>
+            <label>Mail:</label>
             <input class="form_control" type="text" th:field="*{mail}"/>
             <div class="error" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
         </p>
         <p>
-               <label>Password:</label>
+            <label>Password:</label>
             <input class="form_control" type="password" th:field="*{password}"/>
 	        <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
         </p>        

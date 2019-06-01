@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+	.btn-success:hover {
+		background-color:black;
+		text-color: white;
+		padding: 5px;
+	}
+</style>
+<head>
+	<title>TooPots</title>
+	<meta th:charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <style>
+    	body{
+    		color:white;
+    	}
+    	table{
+    		text-align:center;
+    	}
+    	th, td{
+    		background-color:black;
+    		
+    	}
+    </style>
+</head>
+<body background="../images/banner.jpg">
+<div class="container">
+		<h1>Customer</h1>
+		<h3>My reservations</h3>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Reservation Id</th>
+					<th>Location</th>
+					<th>Status</th>
+					<th>Vacancies</th>
+					<th>Price</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="reservation:${reservations}">
+					<td th:text="${reservation.reservationId}"></td>
+					<td th:text="${reservation.place}"></td>
+					<td th:text="${reservation.status}"></td>
+					<td th:text="${reservation.vacancies}"></td>
+					<td th:text="${reservation.price}"></td>
+					<td><a th:href="@{/customer/activityInfo/{id}(id=${reservation.activityId})}"
+						class="btn btn-warning" role="button">More activity info</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<a href="activities" class="btn btn-success" role="button">Enroll
+			in a new Activity</a>
+	</div>
+</body>
+</html>

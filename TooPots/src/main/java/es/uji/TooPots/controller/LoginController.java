@@ -70,6 +70,11 @@ public class LoginController {
 			return "login";
 		}
 		session.setAttribute("user", user);
+		
+		if (session.getAttribute("pagAnt")!=null) {
+			return "redirect:"+session.getAttribute("pagAnt");
+		}
+		
 		if(user.getUserType()==0) {
 			return "redirect:/customer/activities";
 		}else {

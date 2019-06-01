@@ -4,32 +4,71 @@
 	.btn-success:hover {
 		background-color:black;
 		text-color: white;
-		padding: 5px;
-	}
+		padding: 15px;
+		-webkit-transition-property: background-color, color, padding;
+  		-webkit-transition-duration: 1s;
+  		-o-transition-property: background-color, color, padding;
+  		-o-transition-duration: 1s;	}
 </style>
 <head>
 	<title>TooPots</title>
-	<meta charset="UTF-8" />
+	<meta th:charset="UTF-8" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <style>
+    	body{
+    		color:white;
+    	}
+    	table{
+    		text-align:center;
+    	}
+    	form{
+			width: 50%;
+        	margin-left : 25%;
+		}
+    </style>
 </head>
-<body>
+<body background="../images/banner.jpg">
 	<h2>Enroll</h2>
-	<form action="#" th:action="@{/customer/bookActivity/{id}(id=${activity.activityId})}" th:object="${reservation}" method="post">
-<!-- Faltan cosas por poner pero la idea es esta: que al darle al enroll de la actividad se pase toda la información
-	aquí y así poder rellenar el formulario para reservar la plaza-->
-	
-		<table>
+		<form action="#" th:action="@{/customer/bookActivity/{id}(id=${activity.activityId})}" th:object="${reservation}" method="post">	
+
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>Name</th>
+				<th>Location</th>
+				<th>Date time</th>
+				<th>Duration</th>
+				<th>Vacancies</th>
+				<th>Price</th>
+				<th>Difficulty</th>
+				<th>Description</th>
+			</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	        		<td th:text="${activity.name}"></td>
+	        		<td th:text="${activity.location}"></td>
+	        		<td th:text="${activity.date}"></td>
+	        		<td th:text="${activity.duration}"></td>
+	        		<td th:text="${activity.vacancies}"></td>
+	        		<td th:text="${activity.price}"></td>
+	        		<td th:text="${activity.level}"></td>
+					<td th:text="${activity.description}"></td>
+				</tr>
+	</tbody>
 			<tr>
 				<td><label>Vacancies</label></td>
-				<td><input type="number" th:field="*{vacancies}"></td>
+				<td><input th:type="number" th:field="*{vacancies}" th:min="1" th:max="${activity.vacancies}"></td>
 			</tr>
 			
 			<tr>
-				<td colspab="2"><input type="submit" value="Enroll"></td>
+				<td colspan="2"><input type="submit" value="Enroll"></td>
 			</tr>
 			<tr>
-        		<td colspan="2"><a href="./activities" value="Return">Return</a></td>
+        		<td colspan="2"><a href="../activities">Return</a></td>
         	</tr>
-		</table>
+	</table>
 	</form>
+</body>
+</html>

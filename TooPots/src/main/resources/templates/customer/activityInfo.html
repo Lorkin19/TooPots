@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Activity Information</title>
+</head>
+<body>
+	<h2>Activity Info</h2>
+	<table>
+		<tr>
+			<td><label>Type:</label></td>
+			<td th:text="${activity.activityType}"></td>
+
+		</tr>
+		<tr>
+			<td><label>Name:</label></td>
+			<td th:text="${activity.name}"></td>
+		</tr>
+		<tr>
+			<td><label>Location:</label></td>
+			<td th:text="${activity.location}"></td>
+		</tr>
+		<tr>
+			
+			<td><label>Date: </label></td>
+			<td th:text="${activity.date}"></td>
+		</tr>
+		<tr>
+			<td><label>Duration:</label></td>
+			<td th:text="${activity.duration}"></td>
+		</tr>
+		<tr>
+			<td><label>Vacancies:</label></td>
+			<td th:text="${activity.vacancies}"></td>
+		</tr>
+		<tr>
+			<td><label>Price:</label></td>
+			<td th:text="${activity.price}"></td>
+		</tr>
+		<tr>
+			<td><label>Description:</label></td>
+			<td th:text="${activity.description}"></td>
+		</tr>
+	
+		<tr>
+			<td><label>Level:</label></td>
+			<td th:text="${activity.level}"></td>
+		</tr>
+        <tr>
+        	<td colspan="2"><a href="../myReservations" value="Return">Return</a></td>
+        </tr>
+	</table>
+	
+</body>
+</html>

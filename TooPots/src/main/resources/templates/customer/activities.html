@@ -9,11 +9,23 @@
 </style>
 <head>
 	<title>TooPots</title>
-	<meta charset="UTF-8" />
+	<meta th:charset="UTF-8" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <style>
+    	body{
+    		color:white;
+    	}
+    	table{
+    		text-align:center;
+    	}
+    	th, td{
+    		background-color:black;
+    		
+    	}
+    </style>
 </head>
-<body>
+<body background="../images/banner.jpg">
 <div class="container">
 	<h1>Customer</h1>
 	<h3>Activities</h3>
@@ -39,9 +51,14 @@
         		<td th:text="${activity.vacancies}"></td>
         		<td th:text="${activity.price}"></td>
         		<td th:text="${activity.level}"></td>
-				<td><a th:href="@{/customer/bookActivity/{id}(id=${activity.activityId})}" class="btn btn-warning" role="button">Enrol</a></td>
+				<td><a th:href="@{/customer/bookActivity/{id}(id=${activity.activityId})}" class="btn btn-warning" th:role="button">Enrol</a></td>
         </tbody>
-	</table>
+        
+        <!-- Jaime tiene que colocar esto de abajo bien. -->
+        <tr>
+        	<td><a th:href="@{/customer/myReservations}" class="btn btn-success" th:role="button">My Reservations</a></td>
+        </tr>
+</table>
 </div>
 </body>
 </html>

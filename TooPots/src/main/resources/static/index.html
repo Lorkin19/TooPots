@@ -5,33 +5,30 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <style>
+    	body{
+    		color:white;
+    	}
+    	table{
+    		text-align:center;
+    	}
+    </style>
 </head>
-<body>
+<body background="images/banner.jpg">
+
 <h1>TooPots</h1>
 <div class="list-group">
 	<table class="table">
 		<tr>
-			<td>
-				Customer
-			</td>
-			<td>
-				<a href="customer/signup">Signup</a>
-			</td>
-			<td>
-				<a href="login">Login</a>
-			</td>
+			<td><a href="login" class="btn btn-warning" role="button">Login</a></td>
 		</tr>
 		
 		<tr>
-			<td>
-				Instructor
-			</td>
-			<td>
-				<a href="instructor/signup">Signup</a>
-			</td>
-			<td>
-				<a href="login">Login</a>
-			</td>
+			<td><a href="customer/signup" class="btn btn-danger" role="button">Signup</a></td>
+		</tr>
+		
+		<tr>
+			<td><a href="customer/activities" class="btn btn-success" role="button">Activities</a></td>
 		</tr>
 		
 	</table>

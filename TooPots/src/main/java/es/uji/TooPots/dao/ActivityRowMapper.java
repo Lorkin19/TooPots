@@ -3,12 +3,10 @@ package es.uji.TooPots.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.springframework.jdbc.core.RowMapper;
 
 import es.uji.TooPots.model.Activity;
-import es.uji.TooPots.model.Level;
 
 public class ActivityRowMapper implements RowMapper<Activity>{
 
@@ -26,6 +24,8 @@ public class ActivityRowMapper implements RowMapper<Activity>{
 		act.setVacancies(Integer.parseInt(rs.getString("vacancies")));
 		act.setPrice(Double.parseDouble(rs.getString("price")));	
 		act.setMailInstructor(rs.getString("mailInstructor"));
+		act.setDescription(rs.getString("description"));
+		act.setActivityType(rs.getString("activityType"));
 		return act;
 	}
 }

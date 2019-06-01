@@ -5,11 +5,29 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+        <style>
+    	body{
+    		color:white;
+    		text-align:center;
+    		
+    	}
+    	table{
+    		text-align:center;
+    	}
+    	form{
+			width: 50%;
+        	margin-left : 40%;
+		}
+    </style>
 </head>
-<body>
+<body background="../images/banner.jpg">
 	<h2>SignUp</h2>
 	<form action="#" th:action="@{/customer/signup}" th:object="${customer}" method="post">
 		<table>
+			<tr>
+			   <td colspan="2"><a href="../instructor/signup" class="btn btn-danger" role="button">Signup as Instructor</a></td>
+			</tr>
+			
 			<tr>
 				<td><label>Mail:</label></td>
 				<td><input type="text" th:field="*{mail}"></td>
@@ -36,7 +54,7 @@
         </tr>
         
         <tr>
-        	<td colspan="2"><a href="/" value="Return">Return</a></td>
+        	<td colspan="2"><a href="/" class="btn btn-info" role="button">Return</a></td>
         </tr>
 		</table>
 	</form>
