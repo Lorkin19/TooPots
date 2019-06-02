@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+	.btn-success:hover {
+		background-color:black;
+		text-color: white;
+		padding: 5px;
+	}
+</style>
+<head>
+	<title>TooPots</title>
+	<meta th:charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <style>
+    	body{
+    		color:white;
+    		background-image:url(/../images/banner.jpg);  		    		
+    	}
+    	table{
+    		text-align:center;
+    	}
+    	th, td{
+    		background-color:black;
+    		
+    	}
+    </style>
+</head>
+<body>
+	<div class="container">
+		<h1>Instructor</h1>
+		<p>
+			Su solicitud de registro como instructor esta siendo evaluada.
+			Mientras puede consultar las actividades disponibles.
+		</p>
+		<a href="../../customer/activities" class="btn btn-info" th:role="button">Activities</a>
+	</div>
+</body>
+</html>

@@ -18,6 +18,7 @@ public class RequestRowMapper implements RowMapper<Request> {
 		req.setPwd(rs.getString("pwd"));
 		req.setUsername(rs.getString("username"));
 		req.setStatus(rs.getString("status"));
+		req.setRequestId(Integer.parseInt(rs.getString("requestId")));
 		return req;		
 	}
 

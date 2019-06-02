@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.TooPots.dao.InstructorDao;
+import es.uji.TooPots.dao.RequestDao;
 import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.model.Activity;
 import es.uji.TooPots.model.ActivityType;
 import es.uji.TooPots.model.Instructor;
+import es.uji.TooPots.model.Request;
 import es.uji.TooPots.model.UserDetails;
 
 @Controller
@@ -45,6 +47,13 @@ public class InstructorController {
 	@Autowired
 	public void setActivityTypeDao(ActivityTypeDao activityTypeDao) {
 		this.activityTypeDao = activityTypeDao;
+	}
+	
+	private RequestDao requestDao;
+	
+	@Autowired
+	public void setRequestDao(RequestDao requestDao) {
+		this.requestDao = requestDao;
 	}
 	
 
@@ -106,24 +115,24 @@ public class InstructorController {
     
     @RequestMapping(value="signup")
     public String addInstructor(Model model) {
-    	model.addAttribute("instructor", new Instructor());
+    	model.addAttribute("instructor", new Request());
     	return "instructor/signup";
     }
     
     @RequestMapping(value="/signup", method=RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("instructor") Instructor instructor,
+    public String processAddSubmit(@ModelAttribute("instructor") Request request,
     								BindingResult bindingResult, HttpSession session) {
     	if (bindingResult.hasErrors()) {
     		return "instructor/signup";
     	}
-    	UserDetails user = new UserDetails();
-    	user.setMail(instructor.getMail());
-    	user.setPassword(instructor.getPwd());
-    	user.setUsername(instructor.getUsername());
-    	user.setUserType(1);
-    	session.setAttribute("user", user);
-    	instructorDao.addInstructor(instructor);
-    	return "redirect:menu";
+    	
+    	requestDao.addRequest(request);
+    	return "redirect:/instructor/wait";
+    }
+    
+    @RequestMapping("/wait")
+    public String waitForAccept(Model model) {
+    	return "instructor/wait";
     }
 }
 

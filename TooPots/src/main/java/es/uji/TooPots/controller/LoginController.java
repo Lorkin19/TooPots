@@ -77,7 +77,11 @@ public class LoginController {
 			}
 			return "redirect:/customer/activities";
 		}else {
-			return "redirect:/instructor/menu";
+			if (user.getUserType()==1) {
+				return "redirect:/instructor/menu";
+			}else {
+				return "redirect:/administrator/myRequests";
+			}
 		}
 	}
 	
