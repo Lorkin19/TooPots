@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import es.uji.TooPots.model.UserDetails;
+import es.uji.TooPots.model.Administrator;
 import es.uji.TooPots.model.Customer;
 import es.uji.TooPots.model.Instructor;
 import es.uji.TooPots.model.User;
@@ -39,6 +40,7 @@ public class FakeUserProvider implements UserDao{
 		try {
 			List<Customer> cL = this.jdbcTemplate.query("SELECT * FROM Customer", new CustomerRowMapper());
 			List<Instructor> iL = this.jdbcTemplate.query("SELECT * FROM Instructor", new InstructorRowMapper());
+			List<Administrator> aL = this.jdbcTemplate.query("SELECT * FROM Admin", new AdministratorRowMapper());
 			BasicPasswordEncryptor bpe = new BasicPasswordEncryptor();
 
 			for (Customer c : cL) {
@@ -56,6 +58,15 @@ public class FakeUserProvider implements UserDao{
 				d.setMail(i.getMail());
 				d.setPassword(bpe.encryptPassword(i.getPwd()));
 				d.setUserType(1);
+				knownUsers.put(d.getMail(), d);
+			}
+			
+			for (Administrator a : aL) {
+				UserDetails d = new UserDetails();
+				d.setUsername(a.getUsername());
+				d.setMail(a.getMail());
+				d.setPassword(bpe.encryptPassword(a.getPwd()));
+				d.setUserType(2);
 				knownUsers.put(d.getMail(), d);
 			}
 		}catch (EmptyResultDataAccessException e) {}

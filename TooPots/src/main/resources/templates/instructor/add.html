@@ -3,8 +3,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Add Activity</title>
+    <style>
+    	body{
+    		color:white;
+    		text-align:center;
+    		
+    	}
+    	table{
+    		text-align:left;
+    		background-color:black;
+    	}
+    	form{
+			width: 50%;
+        	margin-left : 40%;
+		}
+    </style>
 </head>
-<body>
+<body background="../images/banner.jpg">
 	<h2>New Activity</h2>
 	<form action="#" th:action="@{/instructor/add}" th:object="${activity}" method="post">
 	<table>

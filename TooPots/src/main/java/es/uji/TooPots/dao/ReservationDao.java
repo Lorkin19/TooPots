@@ -74,5 +74,5 @@ public class ReservationDao {
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Reservation>();
 		}
-	}
+}
 }

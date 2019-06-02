@@ -11,6 +11,7 @@ import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.CustomerDao;
 import es.uji.TooPots.dao.InstructorDao;
+import es.uji.TooPots.dao.RequestDao;
 import es.uji.TooPots.dao.ReservationDao;
 import es.uji.TooPots.dao.UserDao;
 import es.uji.TooPots.dao.FakeUserProvider;
@@ -72,6 +73,11 @@ public class TooPotsConfiguration {
 	@Bean
 	public CustomerDao customerD() {
 		return new CustomerDao();
+	}
+	
+	@Bean
+	public RequestDao requestD() {
+		return new RequestDao();
 	}
 	
     @Bean

@@ -1,5 +1,6 @@
 package es.uji.TooPots.dao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -33,7 +34,7 @@ public class ActivityDao {
 	public void addActivity(Activity activity) {
 		jdbcTemplate.update("INSERT INTO Activity VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				activityId.getAndIncrement(), activity.getName(), activity.getLocation(),
-				activity.getDate(), activity.getDuration(), activity.getVacancies(), activity.getDescription(),
+				activity.getDateTime(), activity.getDuration(), activity.getVacancies(), activity.getDescription(),
 				activity.getLevel(), activity.getActivityType(), activity.getPrice(), activity.getMailInstructor());
 	}
 	
@@ -46,7 +47,7 @@ public class ActivityDao {
 				+ "location=?, dateTime=?, duration=?, vacancies=?,"
 				+ "level=?, price=? WHERE activityId=? ",
 				activity.getName(), activity.getLocation(),
-				activity.getDate(), activity.getDuration(), activity.getVacancies(),
+				activity.getDateTime(), activity.getDuration(), activity.getVacancies(),
 				activity.getLevel().toString(), activity.getPrice(), activity.getActivityId());
 	}
 	
@@ -62,7 +63,7 @@ public class ActivityDao {
 	
 	public List<Activity> getActivities(){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Activity WHERE vacancies >= 1", new ActivityRowMapper());
+			return jdbcTemplate.query("SELECT * FROM Activity WHERE vacancies >= 1 and datetime>=?", new ActivityRowMapper(), LocalDate.now());
 		}catch(EmptyResultDataAccessException e) {
 			return new ArrayList<Activity>();
 		}

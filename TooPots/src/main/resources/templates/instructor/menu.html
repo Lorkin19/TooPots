@@ -16,8 +16,26 @@
 	<meta charset="UTF-8" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <style>
+    	body{
+    		color:white;
+    		    		text-align:center;
+    		
+    	}
+    	table{
+    		text-align:left;
+    		background-color:black;
+    	}
+    	td, tr{
+    		background-color:black;
+    	}
+    	form{
+			width: 50%;
+        	margin-left : 40%;
+		}
+    </style>
 </head>
-<body>
+<body background="../images/banner.jpg">
 <div class="container">
 	<h1>Instructor</h1>
 	<h3>My activities</h3>
@@ -39,7 +57,7 @@
         	<tr th:each="activity:${activities}">
         		<td th:text="${activity.name}"></td>
         		<td th:text="${activity.location}"></td>
-        		<td th:text="${activity.date}"></td>
+        		<td th:text="${activity.dateTime}"></td>
         		<td th:text="${activity.duration}"></td>
         		<td th:text="${activity.vacancies}"></td>
         		<td th:text="${activity.price}"></td>
