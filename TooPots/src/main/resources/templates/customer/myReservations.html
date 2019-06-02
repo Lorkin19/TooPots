@@ -15,6 +15,8 @@
     <style>
     	body{
     		color:white;
+    		background-image:url(/../images/banner.jpg);  		
+    		
     	}
     	table{
     		text-align:center;
@@ -25,7 +27,7 @@
     	}
     </style>
 </head>
-<body background="../images/banner.jpg">
+<body>
 <div class="container">
 		<h1>Customer</h1>
 		<h3>My reservations</h3>
@@ -48,11 +50,11 @@
 					<td th:text="${reservation.vacancies}"></td>
 					<td th:text="${reservation.price}"></td>
 					<td><a th:href="@{/customer/activityInfo/{id}(id=${reservation.activityId})}"
-						class="btn btn-warning" role="button">More activity info</a></td>
+						class="btn btn-warning" th:role="button">More activity info</a></td>
 				</tr>
 			</tbody>
 		</table>
-		<a href="activities" class="btn btn-success" role="button">Enroll
+		<a href="activities" class="btn btn-success" th:role="button">Enroll
 			in a new Activity</a>
 	</div>
 </body>

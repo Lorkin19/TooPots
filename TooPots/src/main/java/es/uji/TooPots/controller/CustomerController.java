@@ -113,8 +113,9 @@ public class CustomerController {
 	@RequestMapping("/myReservations")
 	public String listMyReservations(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
+		session.setAttribute("pagAnt", "/customer/myReservations");
 		if (user == null) {
-			return "/login";
+			return "redirect:../login";
 		}
 		model.addAttribute("reservations", reservationDao.getCustomerReservations(user.getMail()));
 		return "customer/myReservations";

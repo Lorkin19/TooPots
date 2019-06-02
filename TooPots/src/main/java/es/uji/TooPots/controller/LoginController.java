@@ -71,11 +71,10 @@ public class LoginController {
 		}
 		session.setAttribute("user", user);
 		
-		if (session.getAttribute("pagAnt")!=null) {
-			return "redirect:"+session.getAttribute("pagAnt");
-		}
-		
 		if(user.getUserType()==0) {
+			if (session.getAttribute("pagAnt")!=null) {
+				return "redirect:"+session.getAttribute("pagAnt");
+			}
 			return "redirect:/customer/activities";
 		}else {
 			return "redirect:/instructor/menu";

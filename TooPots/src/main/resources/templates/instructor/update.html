@@ -16,9 +16,11 @@
     	body{
     		color:white;
     		text-align:center;
+    		background-image:url(/../images/banner.jpg);  
     	}
     	table{
-    		text-align:center;
+    		text-align:left;
+    		background-color:black;
     	}
     	form{
 			width: 50%;
@@ -26,4 +28,53 @@
 		}
     </style>
 </head>
-<body background="../images/banner.jpg">
+<body>
+<h2>Update Activity</h2>
+	<form action="#" th:action="@{/instructor/update/{id}(id=${activity.activityId})}" th:object="${activity}" method="post">
+		<table>
+			<tr>
+			<td><label>Location:</label></td>
+			<td><input type="text" th:field="*{location}"/></td>
+		</tr>
+		<tr>		
+			<td><label>Date: </label></td>
+			<td><input th:type="date" th:field="*{dateTime}"/></td>
+		</tr>
+			<tr>
+			<td><label>Duration:</label></td>
+			<td><input type="text" th:field="*{duration}"></td>
+		</tr>
+		<tr>
+			<td><label>Vacancies:</label></td>
+			<td><input type="text" th:field="*{vacancies}"></td>
+		</tr>
+		<tr>
+			<td><label>Price:</label></td>
+			<td><input th:type="number" th:field="*{price}"></td>
+		</tr>
+		<tr>
+			<td><label>Description:</label></td>
+			<td><input type="text" th:field="*{description}"></td>
+		</tr>
+	
+		<tr>
+			<td><label>Level:</label></td>
+			<td><select id="nivel" th:field="*{level}">
+					<option value="default" selected hidden>Select a level</option>
+					<option value="Begginer">Begginer</option>
+					<option value="Intermediate">Intermediate</option>
+					<option value="Expert">Expert</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+            <td colspan="2"><input type="submit" value="Update Activity" /></td>
+        </tr>
+        <tr>
+        	<td colspan="2"><a th:href="@{/instructor/menu}" class="btn btn-success" th:role="button">Return</a></td>
+        </tr>
+		</table>
+	</form>
+</body>
+</html>
+	

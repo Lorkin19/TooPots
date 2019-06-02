@@ -62,7 +62,7 @@ public class InstructorController {
 	@RequestMapping(value = "/delete/{id}")
     public String processDeleteActivity(@PathVariable int id) {
         activityDao.deleteActivity(id);
-        return "redirect:../../";
+        return "redirect:../menu";
     }
 	
 	

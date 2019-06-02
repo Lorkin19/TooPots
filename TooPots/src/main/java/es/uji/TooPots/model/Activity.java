@@ -15,7 +15,7 @@ public class Activity {
 	private String name;
 	private String location;
 	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
-	private LocalDate date;
+	private LocalDate dateTime;
 	private String duration;
 	private int vacancies;
 	private double price;
@@ -50,12 +50,12 @@ public class Activity {
 		this.location = location;
 	}
 
-	public LocalDate getDate() {
-		return date;
+	public LocalDate getDateTime() {
+		return dateTime;
 	}
 
-	public void setDate(LocalDate dateTime) {
-		this.date = dateTime;
+	public void setDateTime(LocalDate dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public String getDuration() {

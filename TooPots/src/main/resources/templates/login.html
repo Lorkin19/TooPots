@@ -9,20 +9,20 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
         <style>
     	body{
-    		color:white;
-    		    		text-align:center;
-    		
+    		color:white;    	
+    		text-align:center;	
+    		background-image:url(/images/banner.jpg);  
     	}
     	table{
     		text-align:center;
     	}
     	form{
 			width: 50%;
-        	margin-left : 40%;
+        	margin-left : 25%;
 		}
     </style>
 </head>
-<body background="images/banner.jpg">
+<body>
     <h2>Login</h2>
     <form action="#" th:action="@{/login}" 
           th:object="${user}" method="post">

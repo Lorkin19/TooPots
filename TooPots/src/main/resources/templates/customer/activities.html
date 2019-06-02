@@ -15,6 +15,8 @@
     <style>
     	body{
     		color:white;
+    		background-image:url(/../images/banner.jpg);  		
+    		
     	}
     	table{
     		text-align:center;
@@ -25,7 +27,7 @@
     	}
     </style>
 </head>
-<body background="../images/banner.jpg">
+<body>
 <div class="container">
 	<h1>Customer</h1>
 	<h3>Activities</h3>
@@ -46,7 +48,7 @@
         	<tr th:each="activity:${activities}">
         		<td th:text="${activity.name}"></td>
         		<td th:text="${activity.location}"></td>
-        		<td th:text="${activity.date}"></td>
+        		<td th:text="${activity.dateTime}"></td>
         		<td th:text="${activity.duration}"></td>
         		<td th:text="${activity.vacancies}"></td>
         		<td th:text="${activity.price}"></td>
