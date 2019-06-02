@@ -4,7 +4,11 @@
 	.btn-success:hover {
 		background-color:black;
 		text-color: white;
-		padding: 5px;
+		padding: 15px;
+		-webkit-transition-property: background-color, color, padding;
+  		-webkit-transition-duration: 1s;
+  		-o-transition-property: background-color, color, padding;
+  		-o-transition-duration: 1s;
 	}
 </style>
 <head>
@@ -54,13 +58,13 @@
         		<td th:text="${activity.price}"></td>
         		<td th:text="${activity.level}"></td>
 				<td><a th:href="@{/customer/bookActivity/{id}(id=${activity.activityId})}" class="btn btn-warning" th:role="button">Enrol</a></td>
-        </tbody>
-        
+        </tbody>        
         <!-- Jaime tiene que colocar esto de abajo bien. -->
         <tr>
         	<td><a th:href="@{/customer/myReservations}" class="btn btn-success" th:role="button">My Reservations</a></td>
         </tr>
 </table>
+
 </div>
 </body>
 </html>
