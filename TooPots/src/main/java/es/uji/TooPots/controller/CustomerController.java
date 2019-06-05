@@ -72,7 +72,14 @@ public class CustomerController {
 	}
 	
 	@RequestMapping(value="/bookActivity/{id}")
-	public String enroll(Model model, @PathVariable("id") int activityId) {
+	public String enroll(Model model, @PathVariable("id") int activityId, HttpSession session) {
+
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user == null || user.getUserType()!=0) {
+			session.setAttribute("pagAnt", "/customer/bookActivity/"+activityId);
+			return "redirect:/login";
+		}
+		
 		model.addAttribute("activity", activityDao.getActivity(activityId));
 		model.addAttribute("reservation", new Reservation());
 		return "customer/bookActivity";
@@ -82,13 +89,9 @@ public class CustomerController {
 	public String processEnrollSubmit(@PathVariable("id") int activityId, @ModelAttribute("reservation") Reservation reservation, HttpSession session,
 		BindingResult bindingResult) {
 		
-		UserDetails user = (UserDetails) session.getAttribute("user");
-		if (user == null || user.getUserType()!=0) {
-			return "redirect:../login";
-		}
-		
 		Activity activity = activityDao.getActivity(activityId);
 		
+		UserDetails user = (UserDetails) session.getAttribute("user");
 		reservation.setMail(user.getMail());
 		reservation.setPlace(activity.getLocation());
 		reservation.setActivityId(activity.getActivityId());

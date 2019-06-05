@@ -50,11 +50,11 @@ public class Activity {
 		this.location = location;
 	}
 
-	public LocalDate getDateTime() {
+	public LocalDate getDate() {
 		return dateTime;
 	}
 
-	public void setDateTime(LocalDate dateTime) {
+	public void setDate(LocalDate dateTime) {
 		this.dateTime = dateTime;
 	}
 

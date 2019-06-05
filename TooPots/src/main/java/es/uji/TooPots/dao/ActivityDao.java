@@ -34,7 +34,7 @@ public class ActivityDao {
 	public void addActivity(Activity activity) {
 		jdbcTemplate.update("INSERT INTO Activity VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				activityId.getAndIncrement(), activity.getName(), activity.getLocation(),
-				activity.getDateTime(), activity.getDuration(), activity.getVacancies(), activity.getDescription(),
+				activity.getDate(), activity.getDuration(), activity.getVacancies(), activity.getDescription(),
 				activity.getLevel(), activity.getActivityType(), activity.getPrice(), activity.getMailInstructor());
 	}
 	
@@ -47,7 +47,7 @@ public class ActivityDao {
 				+ "location=?, dateTime=?, duration=?, vacancies=?,"
 				+ "level=?, price=? WHERE activityId=? ",
 				activity.getName(), activity.getLocation(),
-				activity.getDateTime(), activity.getDuration(), activity.getVacancies(),
+				activity.getDate(), activity.getDuration(), activity.getVacancies(),
 				activity.getLevel().toString(), activity.getPrice(), activity.getActivityId());
 	}
 	
