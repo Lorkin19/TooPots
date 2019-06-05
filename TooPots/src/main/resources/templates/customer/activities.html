@@ -58,10 +58,12 @@
         		<td th:text="${activity.price}"></td>
         		<td th:text="${activity.level}"></td>
 				<td><a th:href="@{/customer/bookActivity/{id}(id=${activity.activityId})}" class="btn btn-warning" th:role="button">Enrol</a></td>
-        </tbody>        
-        <!-- Jaime tiene que colocar esto de abajo bien. -->
+        </tbody>
         <tr>
         	<td><a th:href="@{/customer/myReservations}" class="btn btn-success" th:role="button">My Reservations</a></td>
+        </tr>
+        <tr>
+        	<td><a href="/" class="btn btn-info" role="button">Inicio</a></td>
         </tr>
 </table>
 
