@@ -60,7 +60,7 @@ public class InstructorController {
 	@RequestMapping("/menu")
 	public String listInstructor(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
-		if (user == null) {
+		if (user == null || user.getUserType()!=1) {
 			model.addAttribute("user", new UserDetails()); 
 	        return "login";
 		}

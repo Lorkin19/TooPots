@@ -83,7 +83,7 @@ public class CustomerController {
 		BindingResult bindingResult) {
 		
 		UserDetails user = (UserDetails) session.getAttribute("user");
-		if (user == null) {
+		if (user == null || user.getUserType()!=0) {
 			return "redirect:../login";
 		}
 		
@@ -114,7 +114,7 @@ public class CustomerController {
 	public String listMyReservations(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		session.setAttribute("pagAnt", "/customer/myReservations");
-		if (user == null) {
+		if (user == null || user.getUserType()!=0) {
 			return "redirect:../login";
 		}
 		model.addAttribute("reservations", reservationDao.getCustomerReservations(user.getMail()));
