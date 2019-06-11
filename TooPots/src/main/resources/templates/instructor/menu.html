@@ -57,7 +57,7 @@
         	<tr th:each="activity:${activities}">
         		<td th:text="${activity.name}"></td>
         		<td th:text="${activity.location}"></td>
-        		<td th:text="${activity.dateTime}"></td>
+        		<td th:text="${activity.date}"></td>
         		<td th:text="${activity.duration}"></td>
         		<td th:text="${activity.vacancies}"></td>
         		<td th:text="${activity.price}"></td>
@@ -68,7 +68,7 @@
         </tbody>
 	</table>
 	<a href="add" class="btn btn-success" role="button">Create new activity</a>
-
+	<a href="/logout" class="btn btn-danger" role="button">logout</a>
     <a href="/" class="btn btn-info" role="button">Inicio</a>
 </div>
 </body>
