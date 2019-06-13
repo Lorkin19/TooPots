@@ -69,6 +69,23 @@ public class RequestDao {
 		}
 	}
 	
+	public List<Request> getAcceptedRequests(){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Request WHERE status='Accepted'", new RequestRowMapper());
+		}catch(EmptyResultDataAccessException e) {
+			return new ArrayList<Request>();
+		}
+	}
+	
+	public List<Request> getRejectedRequests(){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Request WHERE status='Rejected'", new RequestRowMapper());
+		}catch(EmptyResultDataAccessException e) {
+			return new ArrayList<Request>();
+		}
+	}
+
+	
 	public Instructor convertToInstructor(Request request) {
 		Instructor ins = new Instructor();
 		ins.setBankAccount(request.getBankAccount());
