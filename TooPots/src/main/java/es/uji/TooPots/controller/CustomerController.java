@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.CustomerDao;
+import es.uji.TooPots.dao.MessageDao;
 import es.uji.TooPots.dao.ReservationDao;
 import es.uji.TooPots.model.Activity;
 import es.uji.TooPots.model.Customer;
+import es.uji.TooPots.model.Message;
 import es.uji.TooPots.model.Reservation;
 import es.uji.TooPots.model.UserDetails;
 
@@ -38,9 +40,17 @@ public class CustomerController {
 	}
 	
 	private ReservationDao reservationDao;
+	
 	@Autowired
 	public void setReservationDao(ReservationDao reservationDao) {
 		this.reservationDao = reservationDao;
+	}
+	
+	private MessageDao messageDao;
+	
+	@Autowired
+	public void setMessageDao(MessageDao messageDao) {
+		this.messageDao = messageDao;
 	}
 	
 	/*
@@ -95,20 +105,28 @@ public class CustomerController {
 		reservation.setMail(user.getMail());
 		reservation.setPlace(activity.getLocation());
 		reservation.setActivityId(activity.getActivityId());
-		
-		
+				
 		//REVISAR
 		if (reservation.getVacancies() > activity.getVacancies()) {
 			bindingResult.rejectValue("vacancies", "badVacancies", "Reservation vacancies are greater than available vacancies.");
 			return "customer/bookActivity";
 		}
 		
+		Message message = new Message();
+		message.setMailReceiver(user.getMail());
+		message.setIssue("Activity Vacancies Reservation");
+		message.setText("You have successfully enrolled in the activity with code " + activityId + " and name "+activity.getName()+".\n You have booked " + reservation.getVacancies()
+		+ ". Hope you enjoy.");
+		message.setStatus("Not archived");
+		
 		//cambiar para que se haga directamente en la vista
 		reservation.setPrice(activity.getPrice()*reservation.getVacancies());
 		
 		activity.setVacancies(activity.getVacancies()-reservation.getVacancies());
 		
+		
 		reservationDao.addReservation(reservation);
+		messageDao.addMessage(message);
 		activityDao.updateActivity(activity);
 		return "redirect:../myReservations";
 	}
@@ -129,4 +147,6 @@ public class CustomerController {
 		model.addAttribute("activity", activityDao.getActivity(activityId));
 		return "customer/activityInfo";
 	}
+	
+
 }
