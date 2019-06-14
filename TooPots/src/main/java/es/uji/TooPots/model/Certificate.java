@@ -5,7 +5,7 @@ public class Certificate {
 	private String ownerMail;
 	private String status = Status.PENDING;
 	private String route;
-	private ActivityType activityType;
+	private String activityType;
 	
 	public Certificate() {}
 
@@ -41,11 +41,11 @@ public class Certificate {
 		this.route = route;
 	}
 	
-	public void setActivityType(ActivityType activityType) {
+	public void setActivityType(String activityType) {
 		this.activityType = activityType;
 	}
 	
-	public ActivityType getActivityType() {
+	public String getActivityType() {
 		return this.activityType;
 	}
 	
