@@ -9,6 +9,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import es.uji.TooPots.model.Certificate;
+
 @Repository
 public class CertificateDao {
 	private JdbcTemplate jdbcTemplate;
@@ -24,5 +26,16 @@ public class CertificateDao {
 		}catch(EmptyResultDataAccessException e) {
 			certificateId = new AtomicInteger();
 		}
+	}
+	
+	public void addCertificate(Certificate certificate) {
+		jdbcTemplate.update("INSERT INTO certificate VALUES(?, ?, ?, ?, ?)", 
+				certificateId.getAndIncrement(), certificate.getOwnerMail(),
+				certificate.getStatus(), certificate.getRoute(), certificate.getActivityType());
+	}
+	
+	public void deleteCertificate(Certificate certificate) {
+		jdbcTemplate.update("DELETE FROM Certificate WHERE certificateId=?",
+				certificate.getCertificateId());
 	}
 }
