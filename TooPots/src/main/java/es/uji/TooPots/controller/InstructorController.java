@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +17,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.TooPots.dao.InstructorDao;
+import es.uji.TooPots.dao.MessageDao;
+import es.uji.TooPots.dao.ReceiveInformationDao;
 import es.uji.TooPots.dao.RequestDao;
 import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.ActivityTypeDao;
+import es.uji.TooPots.dao.CanOrganizeDao;
 import es.uji.TooPots.model.Activity;
 import es.uji.TooPots.model.ActivityType;
 import es.uji.TooPots.model.Instructor;
+import es.uji.TooPots.model.Message;
 import es.uji.TooPots.model.Request;
+import es.uji.TooPots.model.Status;
 import es.uji.TooPots.model.UserDetails;
 
 @Controller
@@ -34,6 +41,13 @@ public class InstructorController {
 	public void setInstructorDao(InstructorDao instructorDao) {
         this.instructorDao = instructorDao;
     }
+	
+	private CanOrganizeDao canOrganizeDao;
+	
+	@Autowired
+	public void setCanOrganizeDao(CanOrganizeDao canOrganizeDao) {
+		this.canOrganizeDao = canOrganizeDao;
+	}
 	
 	private ActivityDao activityDao;
 
@@ -56,7 +70,20 @@ public class InstructorController {
 		this.requestDao = requestDao;
 	}
 	
-
+	private ReceiveInformationDao receiveInformationDao;
+	
+	@Autowired
+	public void setReceiveInformationDao(ReceiveInformationDao receiveInformationDao) {
+		this.receiveInformationDao = receiveInformationDao;
+	}
+	
+	private MessageDao messageDao;
+	
+	@Autowired
+	public void setMessageDao(MessageDao messageDao) {
+		this.messageDao = messageDao;
+	}
+	
 	@RequestMapping("/menu")
 	public String listInstructor(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
@@ -77,9 +104,16 @@ public class InstructorController {
 	
 	@RequestMapping(value = "/add")
     public String addActivity(Model model, HttpSession session) {
+		
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		
+		if (user == null || user.getUserType() != 1) {
+			return "/login";
+		}
+		
 		Activity act = new Activity();
         model.addAttribute("activity", act);
-        model.addAttribute("type", activityTypeDao.getActivityTypes());
+        model.addAttribute("type", canOrganizeDao.getInstructorCanOrganize(user.getMail()));
         return "instructor/add";
     }
 
@@ -92,7 +126,24 @@ public class InstructorController {
         if (bindingResult.hasErrors()) {
         	return "instructor/add";
         }
+        
         activityDao.addActivity(activity);
+        
+        String activityType = activity.getActivityType();
+        
+        List<String> customers = receiveInformationDao.getCustomersForActivityType(activityType);
+        
+        Message message = new Message();
+        
+        for (String mail:customers) {
+        	message.setMailReceiver(mail);
+        	message.setIssue("New Activity.");
+        	message.setText("A new activity of type " + activityType + " has been created. Check it out!");
+        	message.setStatus(Status.NOTARCHIVED);
+        	
+        	messageDao.addMessage(message);        	
+        }
+        
         return "redirect:menu";
     }
     
