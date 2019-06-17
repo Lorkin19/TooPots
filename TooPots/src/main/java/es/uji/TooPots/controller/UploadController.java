@@ -36,8 +36,8 @@ public class UploadController {
 	private String uploadDirectory;
 
 	@RequestMapping(value="/upload", method=RequestMethod.GET)
-	public String uploadFile() {
-		return "";
+	public String uploadFile(Model model) {
+		return "upload";
 	}
 	
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
@@ -47,6 +47,10 @@ public class UploadController {
 			byte[] bytes = file.getBytes();
 			Path path = Paths.get(uploadDirectory + "/pdfs" + file.getOriginalFilename());
 			Files.write(path, bytes);
+			
+			if (file.isEmpty()) {
+				
+			}
 			
 			Certificate certificate = new Certificate();
 			

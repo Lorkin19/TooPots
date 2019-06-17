@@ -24,7 +24,7 @@ public class MessageDao {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 		try {
 			messageId = new AtomicInteger(jdbcTemplate.queryForObject("SELECT messageId FROM Message ORDER BY "
-					+ "requestId DESC LIMIT 1", Integer.class));	
+					+ "messageId DESC LIMIT 1", Integer.class));	
 			messageId.getAndIncrement();
 		}catch(EmptyResultDataAccessException e) {
 			messageId = new AtomicInteger();
