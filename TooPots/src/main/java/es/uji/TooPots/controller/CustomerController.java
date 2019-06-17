@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.CustomerDao;
 import es.uji.TooPots.dao.MessageDao;
+import es.uji.TooPots.dao.ReceiveInformationDao;
 import es.uji.TooPots.dao.ReservationDao;
 import es.uji.TooPots.model.Activity;
 import es.uji.TooPots.model.Customer;
 import es.uji.TooPots.model.Message;
+import es.uji.TooPots.model.ReceiveInformation;
 import es.uji.TooPots.model.Reservation;
+import es.uji.TooPots.model.Status;
 import es.uji.TooPots.model.UserDetails;
 
 @Controller
@@ -51,6 +54,13 @@ public class CustomerController {
 	@Autowired
 	public void setMessageDao(MessageDao messageDao) {
 		this.messageDao = messageDao;
+	}
+	
+	private ReceiveInformationDao receiveInformationDao;
+	
+	@Autowired
+	public void setReceiveInformationDao(ReceiveInformationDao receiveInformationDao) {
+		this.receiveInformationDao = receiveInformationDao;
 	}
 	
 	/*
@@ -117,7 +127,7 @@ public class CustomerController {
 		message.setIssue("Activity Vacancies Reservation");
 		message.setText("You have successfully enrolled in the activity with code " + activityId + " and name "+activity.getName()+".\n You have booked " + reservation.getVacancies()
 		+ ". Hope you enjoy.");
-		message.setStatus("Not archived");
+		message.setStatus(Status.NOTARCHIVED);
 		
 		//cambiar para que se haga directamente en la vista
 		reservation.setPrice(activity.getPrice()*reservation.getVacancies());
@@ -148,5 +158,17 @@ public class CustomerController {
 		return "customer/activityInfo";
 	}
 	
+	@RequestMapping("/subscribe/{id}")
+	public String subscribe(@PathVariable("id") int activityId, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		String activityType = (activityDao.getActivity(activityId).getActivityType());
+		
+		ReceiveInformation receiveInformation = new ReceiveInformation();
+		receiveInformation.setActivityTypeName(activityType);
+		receiveInformation.setMail(user.getMail());
+		
+		receiveInformationDao.addReceiveInformation(receiveInformation);
+		return "redirect:/customer/activities";
+	}
 
 }

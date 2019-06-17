@@ -1,5 +1,6 @@
 package es.uji.TooPots.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.TooPots.dao.CertificateDao;
 import es.uji.TooPots.model.ActivityType;
@@ -37,21 +39,24 @@ public class UploadController {
 
 	@RequestMapping(value="/upload", method=RequestMethod.GET)
 	public String uploadFile(Model model) {
+		model.addAttribute("activityType", new ActivityType());
 		return "upload";
 	}
 	
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
-	public String processUploadFile(@RequestParam("file") MultipartFile file, HttpSession session, @ModelAttribute("activityType") String activityType) {
+	public String processUploadFile(@RequestParam("file") MultipartFile file, HttpSession session, @ModelAttribute("activityType") String activityType,
+			RedirectAttributes redirectAttributes) {
 		try {
+			if (file.isEmpty()) {
+				redirectAttributes.addFlashAttribute("message", 
+                        "Please select a file to upload");
+				return "redirect:/uploadStatus";
+			}
 			
 			byte[] bytes = file.getBytes();
 			Path path = Paths.get(uploadDirectory + "/pdfs" + file.getOriginalFilename());
 			Files.write(path, bytes);
-			
-			if (file.isEmpty()) {
-				
-			}
-			
+
 			Certificate certificate = new Certificate();
 			
 			certificate.setOwnerMail(((UserDetails) session.getAttribute("user")).getMail());
@@ -60,11 +65,22 @@ public class UploadController {
 			
 			certificateDao.addCertificate(certificate);
 			
-			return "";
+			redirectAttributes.addFlashAttribute("message", "You successfully uploaded '"+path+"'");
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "";
 		}
+		return "redirect:/uploadStatus";
+	}
+	
+	@RequestMapping(value="/instructor/certificates")
+	public String listCertificates(Model model, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user == null || user.getUserType()!=1) {
+			return "/login";
+		}
+		model.addAttribute("certificates", certificateDao.getInstructorCertificates(user.getMail()));
+		return "/instructor/certificates";
 	}
 }
