@@ -1,0 +1,19 @@
+<div class="barranav" th:object="${session}">
+	<div class="containernav">
+		<h1>TooPots</h1>
+		<p id="activity" class="navp">
+			<a href="customer/activities" class="btn btn-success" role="button">Activities</a>
+		</p>
+		<div class="navright">
+			<p class="navp" th:if="*{user == null}">
+				<a href="/login" class="btn btn-warning" role="button" th:href="@{/login}">Login</a>
+				<span class="navp"></span>
+				<a href="/customer/signup" class="btn btn-info" role="button" th:href="@{/customer/signup}">Signup</a>
+			</p>
+			<p class="navp" th:unless="*{user == null}">
+				Logged as <span th:text="*{user.username}"></span><span class="navp"></span> <a
+		            	href="/logout" class="btn btn-danger" th:href="@{/logout}">Logout</a>
+		    </p>
+	    </div>
+    </div>
+</div>

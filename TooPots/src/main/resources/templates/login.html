@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<link rel="stylesheet" type="text/css"  
-      href="/css/natacio.css" 
-      th:href="@{/css/natacio.css}"/>
 <title>Login</title>
 <meta charset="UTF-8"/>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <style>
     	body{
     		color:white;    	
@@ -17,13 +15,14 @@
     	table{
     		text-align:center;
     	}
-    	form{
+    	form {
 			width: 50%;
         	margin-left : 25%;
 		}
     </style>
 </head>
 <body>
+	<div th:replace="fragments/navegation" >...</div>
     <h2>Login</h2>
     <form action="#" th:action="@{/login}" 
           th:object="${user}" method="post">

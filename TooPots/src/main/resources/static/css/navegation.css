@@ -1,0 +1,35 @@
+.barranav {
+	left: 0;
+	right: 0;
+	background-color: white;
+	color: black;
+}
+
+.containernav {
+	max-width: 100%;
+	padding-left: 35px;
+	padding-right: 35px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.navright{
+	margin-left: auto;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.navp {
+	display: flex;
+	justify-content: center;
+	line-height: 2;
+	margin-bottom: 0;
+	padding-right: 1em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+#activity {
+	margin-right: auto;
+	margin-left: auto;
+}
