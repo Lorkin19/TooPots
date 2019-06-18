@@ -18,6 +18,7 @@ import es.uji.TooPots.dao.ReceiveInformationDao;
 import es.uji.TooPots.dao.RequestDao;
 import es.uji.TooPots.dao.ReservationDao;
 import es.uji.TooPots.dao.UserDao;
+import es.uji.TooPots.model.ActivityType;
 import es.uji.TooPots.dao.FakeUserProvider;
 
 import java.text.ParseException;
@@ -108,5 +109,10 @@ public class TooPotsConfiguration {
     @Bean
     public CanOrganizeDao canOrganizeD() {
     	return new CanOrganizeDao();
+    }
+    
+    @Bean
+    public ActivityType activityType() {
+    	return new ActivityType();
     }
 }
