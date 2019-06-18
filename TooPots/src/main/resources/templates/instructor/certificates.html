@@ -12,7 +12,11 @@
     		
     	}
     	table{
-    		text-align:center;
+    		text-align:left;
+    		background-color:black;
+    	}
+    	td, tr{
+    		background-color:black;
     	}
     	form{
 			width: 50%;
@@ -21,3 +25,11 @@
     </style>
 </head>
 <body background="../images/banner.jpg">
+	<h2>My certificates:</h2>
+	<table class="table table-striped">
+		<tr th:each="certificate:${certificates}">
+        	<td th:text="${activity.name}"></td>
+    	</tr>
+    </table>
+</body>
+</html>
