@@ -5,22 +5,13 @@
 	<meta th:charset="UTF-8" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
-    <style>
-    	body{
-    		color:white;
-    		background-image:url(/../images/banner.jpg);  		
-    		
-    	}
-    	table{
-    		text-align:center;
-    	}
-    	th, td{
-    		background-color:black;
-    		
-    	}
-    </style>
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/navegation.css" th:href="/css/navegation.css">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/basicpage.css" th:href="/css/basicpage.css">
 </head>
 <body>
+<div th:replace="fragments/navegation" ></div>
 <div class="container">
 	<h1>Customer</h1>
 	<h3>Activities</h3>

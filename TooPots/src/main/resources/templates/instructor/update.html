@@ -5,26 +5,16 @@
 	<meta charset="UTF-8" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
-    <style>
-    	body{
-    		color:white;
-    		text-align:center;
-    		background-image:url(/../images/banner.jpg);  
-    	}
-    	table{
-    		text-align:left;
-    		background-color:black;
-    	}
-    	form{
-			width: 50%;
-        	margin-left : 40%;
-		}
-    </style>
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/navegation.css" th:href="/css/navegation.css">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/basicpage.css" th:href="/css/basicpage.css">
 </head>
 <body>
+<div th:replace="fragments/navegation" ></div>
 <h2>Update Activity</h2>
 	<form action="#" th:action="@{/instructor/update/{id}(id=${activity.activityId})}" th:object="${activity}" method="post">
-		<table>
+		<table id="left">
 			<tr>
 			<td><label>Location:</label></td>
 			<td><input type="text" th:field="*{location}"/></td>
