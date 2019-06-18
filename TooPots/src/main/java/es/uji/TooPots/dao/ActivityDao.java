@@ -32,10 +32,11 @@ public class ActivityDao {
 	}
 	
 	public void addActivity(Activity activity) {
-		jdbcTemplate.update("INSERT INTO Activity VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		jdbcTemplate.update("INSERT INTO Activity VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				activityId.getAndIncrement(), activity.getName(), activity.getLocation(),
-				activity.getDate(), activity.getDuration(), activity.getVacancies(), activity.getDescription(),
-				activity.getLevel(), activity.getActivityType(), activity.getPrice(), activity.getMailInstructor());
+				activity.getDuration(), activity.getVacancies(), activity.getDescription(),
+				activity.getLevel(), activity.getActivityType(), activity.getPrice(), activity.getMailInstructor(),
+				activity.getDate(), activity.getTime());
 	}
 	
 	public void deleteActivity(int activityId) {
@@ -44,11 +45,11 @@ public class ActivityDao {
 	}
 	public void updateActivity(Activity activity) {
 		jdbcTemplate.update("UPDATE Activity SET name=?,"
-				+ "location=?, dateTime=?, duration=?, vacancies=?,"
-				+ "level=?, price=? WHERE activityId=? ",
+				+ "location=?, date=?, duration=?, vacancies=?,"
+				+ "level=?, price=?, time=? WHERE activityId=? ",
 				activity.getName(), activity.getLocation(),
 				activity.getDate(), activity.getDuration(), activity.getVacancies(),
-				activity.getLevel().toString(), activity.getPrice(), activity.getActivityId());
+				activity.getLevel().toString(), activity.getPrice(), activity.getTime(), activity.getActivityId());
 	}
 	
 	public Activity getActivity(int activityCode) {
@@ -63,7 +64,7 @@ public class ActivityDao {
 	
 	public List<Activity> getActivities(){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Activity WHERE vacancies >= 1 and datetime>=?", new ActivityRowMapper(), LocalDate.now());
+			return jdbcTemplate.query("SELECT * FROM Activity WHERE vacancies >= 1 and date>=?", new ActivityRowMapper(), LocalDate.now());
 		}catch(EmptyResultDataAccessException e) {
 			return new ArrayList<Activity>();
 		}

@@ -15,7 +15,7 @@ public class Activity {
 	private String name;
 	private String location;
 	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
-	private LocalDate dateTime;
+	private LocalDate date;
 	private String duration;
 	private int vacancies;
 	private double price;
@@ -23,6 +23,7 @@ public class Activity {
 	private String level;
 	private String activityType;
 	private String mailInstructor;
+	private String time;
 	
 	public Activity() {}
 
@@ -51,11 +52,11 @@ public class Activity {
 	}
 
 	public LocalDate getDate() {
-		return dateTime;
+		return date;
 	}
 
-	public void setDate(LocalDate dateTime) {
-		this.dateTime = dateTime;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 	public String getDuration() {
@@ -114,5 +115,12 @@ public class Activity {
 		this.mailInstructor = email;
 	}
 	
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
+	public String getTime() {
+		return this.time;
+	}
 	
 }

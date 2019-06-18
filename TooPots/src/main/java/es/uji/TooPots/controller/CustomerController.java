@@ -122,12 +122,10 @@ public class CustomerController {
 			return "customer/bookActivity";
 		}
 		
-		Message message = new Message();
-		message.setMailReceiver(user.getMail());
-		message.setIssue("Activity Vacancies Reservation");
-		message.setText("You have successfully enrolled in the activity with code " + activityId + " and name "+activity.getName()+".\n You have booked " + reservation.getVacancies()
-		+ ". Hope you enjoy.");
-		message.setStatus(Status.NOTARCHIVED);
+		String mail = user.getMail();
+		String issue="Activity Vacancies Reservation";
+		String text="You have successfully enrolled in the activity with code " + activityId + " and name "+activity.getName()+".\n You have booked " + reservation.getVacancies()
+		+ ". Hope you enjoy.";
 		
 		//cambiar para que se haga directamente en la vista
 		reservation.setPrice(activity.getPrice()*reservation.getVacancies());
@@ -136,7 +134,7 @@ public class CustomerController {
 		
 		
 		reservationDao.addReservation(reservation);
-		messageDao.addMessage(message);
+		messageDao.sendMessage(issue, text, mail);
 		activityDao.updateActivity(activity);
 		return "redirect:../myReservations";
 	}
@@ -146,7 +144,8 @@ public class CustomerController {
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		session.setAttribute("pagAnt", "/customer/myReservations");
 		if (user == null || user.getUserType()!=0) {
-			return "redirect:../login";
+			session.setAttribute("pagAnt", "/customer/myReservations");
+			return "redirect:/login";
 		}
 		model.addAttribute("reservations", reservationDao.getCustomerReservations(user.getMail()));
 		return "customer/myReservations";
@@ -168,7 +167,33 @@ public class CustomerController {
 		receiveInformation.setMail(user.getMail());
 		
 		receiveInformationDao.addReceiveInformation(receiveInformation);
+		
+		String issue="Subscription Success";
+		String text ="You have just get subscripted to a new type of activity.\n Activity type: " + activityType;
+		String mail = user.getMail();
+		
+		messageDao.sendMessage(issue, text, mail);
+		
 		return "redirect:/customer/activities";
+	}
+	
+	@RequestMapping("/unsubscribe/{activityTypeName}")
+	public String unsubscribe(@PathVariable("activityTypeName") String activityTypeName, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user == null || user.getUserType()!=0) {
+			session.setAttribute("pagAnt", "/customer/mySubscriptions");
+			return "redirect:/login";
+		}
+		
+		receiveInformationDao.deleteReceiveInformation(user.getMail(), activityTypeName);
+		
+		String issue="Unsubscription Success";
+		String text ="You have just get unsubscripted of a type of activity.\n Activity type: " + activityTypeName;
+		String mail = user.getMail();
+		
+		messageDao.sendMessage(issue, text, mail);
+		
+		return "redirect:/customer/mySubscriptions";
 	}
 
 }

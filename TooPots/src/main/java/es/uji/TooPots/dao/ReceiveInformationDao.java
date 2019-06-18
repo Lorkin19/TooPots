@@ -28,9 +28,9 @@ public class ReceiveInformationDao {
 				receiveInformation.getMail(), receiveInformation.getActivityTypeName());
 	}
 	
-	public void deleteReceiveInformation(ReceiveInformation receiveInformation) {
+	public void deleteReceiveInformation(String mail, String activityTypeName) {
 		jdbcTemplate.update("DELETE FROM ReceiveInformation WHERE mail=? and acitivityTypeName=?",
-				receiveInformation.getMail(), receiveInformation.getActivityTypeName());
+				mail, activityTypeName);
 	}
 	
 	public List<String> getCustomersForActivityType(String activityType){

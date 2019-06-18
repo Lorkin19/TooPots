@@ -1,16 +1,9 @@
 package es.uji.TooPots.model;
 
 public class CanOrganize {
-	private int canOrganizeId;
 	private String mail;
 	private String activityTypeName;
 	
-	public int getCanOrganizeId() {
-		return canOrganizeId;
-	}
-	public void setCanOrganizeId(int canOrganizeId) {
-		this.canOrganizeId = canOrganizeId;
-	}
 	public String getMail() {
 		return mail;
 	}
