@@ -4,15 +4,17 @@ body{
     background-image:url(/images/banner.jpg);  		
 }
 table{
+	border-collapse: collapse;
     text-align:center;
+    margin: auto;
+    border-radius: 25px;
+    background-color: rgba(0,0,0,40);
+    border-radius: 5px;
 }
-th, td{
-    background-color:black;
-    		
-}
-form{
-	width: 50%;
-    margin-left : 40%;
+
+td{
+	margin: 15px;
+	padding: 15px;
 }
 
 #left{

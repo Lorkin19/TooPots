@@ -29,6 +29,16 @@
 	padding-bottom: 0.5em;
 }
 
+.logo {
+	text-color: black;
+	justify-content: center;
+}
+
+.logo:hover {
+	text-color: white;
+	background-color: black;
+}
+
 #activity {
 	margin-right: auto;
 	margin-left: auto;

@@ -1,6 +1,10 @@
 <div class="barranav" th:object="${session}">
 	<div class="containernav">
-		<h1>TooPots</h1>
+		<span>
+			<a class="logo" href="/" th:href="@{/}">
+				<img alt="TooPots" th:src="@{/images/logo.jpg}">
+			</a>
+		</span>
 		<p id="activity" class="navp">
 			<a href="customer/activities" class="btn btn-success" role="button">Activities</a>
 		</p>

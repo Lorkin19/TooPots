@@ -5,28 +5,35 @@
 <meta charset="UTF-8"/>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
-	<link rel="stylesheet" type="text/css" href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <link rel="stylesheet" type="text/css"
-    	  href="/css/basicpage.css" th:href="/css/basicpage.css">
+    	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
 </head>
 <body>
 	<div th:replace="fragments/navegation" ></div>
     <h2>Login</h2>
     <form action="#" th:action="@{/login}" 
           th:object="${user}" method="post">
-        <p>
-            <label>Mail:</label>
-            <input class="form_control" type="text" th:field="*{mail}"/>
-            <div class="error" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
-        </p>
-        <p>
-            <label>Password:</label>
-            <input class="form_control" type="password" th:field="*{password}"/>
-	        <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-        </p>        
+		<table>
+			<tr>
+            	<td><label>Mail:</label></td>
+            	<td><input class="form_control" type="text" th:field="*{mail}"/></td>
+            </tr>
+            <tr>
+            	
+            	<td>
+            		<div class="error" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
+            		<label>Password:</label>
+            	</td>
+            	<td>
+            		<input class="form_control" type="password" th:field="*{password}"/>
+            		<div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            	</td>
+	        </tr>
+		</table>
         <input class="btn btn-success" type="submit" value="Login" />
     </form>
-     			
     <a href="/" class="btn btn-info" role="button">Inicio</a>
 </body>
 </html>
