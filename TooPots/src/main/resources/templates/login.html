@@ -6,23 +6,11 @@
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="/css/navegation.css" th:href="@{/css/navegation.css}">
-    <style>
-    	body{
-    		color:white;    	
-    		text-align:center;	
-    		background-image:url(/images/banner.jpg);  
-    	}
-    	table{
-    		text-align:center;
-    	}
-    	form {
-			width: 50%;
-        	margin-left : 25%;
-		}
-    </style>
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/basicpage.css" th:href="/css/basicpage.css">
 </head>
 <body>
-	<div th:replace="fragments/navegation" >...</div>
+	<div th:replace="fragments/navegation" ></div>
     <h2>Login</h2>
     <form action="#" th:action="@{/login}" 
           th:object="${user}" method="post">
@@ -36,7 +24,7 @@
             <input class="form_control" type="password" th:field="*{password}"/>
 	        <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
         </p>        
-        <input type="submit" value="Login" />
+        <input class="btn btn-success" type="submit" value="Login" />
     </form>
      			
     <a href="/" class="btn btn-info" role="button">Inicio</a>

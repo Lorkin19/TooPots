@@ -1,0 +1,20 @@
+body{
+	color:white;
+	text-align: center;
+    background-image:url(/images/banner.jpg);  		
+}
+table{
+    text-align:center;
+}
+th, td{
+    background-color:black;
+    		
+}
+form{
+	width: 50%;
+    margin-left : 40%;
+}
+
+#left{
+	text-align: left;
+}

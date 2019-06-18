@@ -3,23 +3,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Add Activity</title>
-    <style>
-    	body{
-    		color:white;
-    		text-align:center;
-    		
-    	}
-    	table{
-    		text-align:left;
-    		background-color:black;
-    	}
-    	form{
-			width: 50%;
-        	margin-left : 40%;
-		}
-    </style>
+	<link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css"
+    	  href="/css/navegation.css" th:href="/css/navegation.css">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/basicpage.css" th:href="/css/basicpage.css">
 </head>
 <body background="../images/banner.jpg">
+<div th:replace="fragments/navegation" ></div>
 	<h2>New Activity</h2>
 	<form action="#" th:action="@{/instructor/add}" th:object="${activity}" method="post">
 	<table>
