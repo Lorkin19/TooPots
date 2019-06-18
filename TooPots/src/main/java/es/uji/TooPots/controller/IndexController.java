@@ -16,8 +16,8 @@ import es.uji.TooPots.model.UserDetails;
 @Controller
 public class IndexController {
 	@RequestMapping("/")
-    public String IndexInit(Model model) {
+    public String indexInit(Model model) {
 		model.addAttribute("user", new UserDetails());
-        return "home.html"; 
+        return "index"; 
     }
 }

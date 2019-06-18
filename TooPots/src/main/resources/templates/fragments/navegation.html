@@ -6,7 +6,7 @@
 			</a>
 		</span>
 		<p id="activity" class="navp">
-			<a href="customer/activities" class="btn btn-success" role="button">Activities</a>
+			<a href="/customer/activities" class="btn btn-success" role="button" th:href="@{/customer/activities}">Activities</a>
 		</p>
 		<div class="navright">
 			<p class="navp" th:if="*{user == null}">
