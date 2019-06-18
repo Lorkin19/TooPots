@@ -6,15 +6,16 @@
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css"
-    	  href="/css/navegation.css" th:href="/css/navegation.css">
+    	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <link rel="stylesheet" type="text/css"
-    	  href="/css/basicpage.css" th:href="/css/basicpage.css">
+    	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
 </head>
 <body background="../images/banner.jpg">
 	<div th:replace="fragments/navegation" ></div>
 	<h2>My certificates:</h2>
 	<table id="left" class="table table-striped">
 		<tr th:each="certificate:${certificates}">
+			<embed src="/pdfs/mi.pdf" width="100%" height="600px" type="application/pdf">
         	<td th:text="${activity.name}"></td>
     	</tr>
     </table>
