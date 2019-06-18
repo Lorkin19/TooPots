@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.CertificateDao;
 import es.uji.TooPots.dao.ImageDao;
 import es.uji.TooPots.model.ActivityType;
 import es.uji.TooPots.model.Certificate;
 import es.uji.TooPots.model.Image;
+import es.uji.TooPots.model.Status;
 import es.uji.TooPots.model.UserDetails;
 
 @Controller
@@ -43,6 +46,13 @@ public class UploadController {
 		this.certificateDao = certificateDao;
 	}
 	
+	private ActivityTypeDao activityTypeDao;
+	
+	@Autowired
+	public void setActivityTypeDao(ActivityTypeDao activityTypeDao) {
+		this.activityTypeDao = activityTypeDao;
+	}
+	
 	@Value("${upload.file.directory}")
 	private String uploadDirectory;
 
@@ -55,13 +65,14 @@ public class UploadController {
 			return "redirect:/login";
 		}
 		model.addAttribute("session", session);
-		model.addAttribute("activityType", new ActivityType());
 		return "upload";
 	}
 	
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
-	public String processUploadFile(@RequestParam("file") MultipartFile[] files, HttpSession session, @ModelAttribute("activityType") String activityType,
+	public String processUploadFile(@RequestParam("file") MultipartFile[] files, HttpSession session,
 			RedirectAttributes redirectAttributes) {
+
+		
 		try {
 			UserDetails user = (UserDetails) session.getAttribute("user");
 			StringBuilder paths = new StringBuilder(); 
@@ -73,15 +84,20 @@ public class UploadController {
 				}
 				
 				byte[] bytes = file.getBytes();
-				Path path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail()+"/"+ file.getOriginalFilename());
+				Path path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail());
+				if (!Files.isDirectory(path)) {
+					Files.createDirectories(path);
+				}
+				path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail()+"/"+ file.getOriginalFilename());
 				Files.write(path, bytes);
 	
 				Certificate certificate = new Certificate();
 				
 				certificate.setOwnerMail(((UserDetails) session.getAttribute("user")).getMail());
 				certificate.setRoute("/pdfs/"+user.getMail()+"/" + file.getOriginalFilename());
-				certificate.setActivityType(activityType);
-				
+				certificate.setActivityType("");
+				certificate.setStatus(Status.PENDING);
+			
 				paths.append(uploadDirectory+"/pdfs/"+user.getMail()+"/" + file.getOriginalFilename()+"\n");
 				
 				certificateDao.addCertificate(certificate);

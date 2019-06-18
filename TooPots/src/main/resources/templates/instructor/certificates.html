@@ -19,10 +19,17 @@
     	</tr>
     </table>
     <h2>New Certificates</h2>
-    <form method="POST" action="/upload" 
+    <form method="POST" action="#" 
                  th:action="@{/upload}" enctype="multipart/form-data">
-   <input type="file" name="file" id="file" /> <br/>
-   <input type="submit" value="upload" name="upload" id="upload" />
-</form>
+    	<input type="file" name="file" id="file" /> <br/>
+   
+ <!--   		<select id="tipoActividad" th:field="*{name}">
+			<option value="default" selected hidden>Select a type</option>
+			<option th:each="tipo:${activityTypes}" th:value="${tipo.name}" th:text="${tipo.name}"></option>
+			<option value="newType">New Type</option>
+		</select> -->
+	
+   		<input type="submit" value="upload" name="upload" id="upload" />
+	</form>
 </body>
 </html>
