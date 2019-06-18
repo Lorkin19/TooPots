@@ -87,6 +87,7 @@ public class InstructorController {
 			return "redirect:/login";
 		}
 		model.addAttribute("activities", activityDao.getInstructorActivities(user.getMail()));
+		model.addAttribute("session", session);
 		return "instructor/menu";
 	}
 	
@@ -110,8 +111,8 @@ public class InstructorController {
 		Activity act = new Activity();
         model.addAttribute("activity", act);
         model.addAttribute("type", canOrganizeDao.getInstructorCanOrganize(user.getMail()));
-
-		
+        model.addAttribute("session", session);
+        
         return "instructor/add";
     }
 
@@ -154,8 +155,16 @@ public class InstructorController {
     
     
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String editActivity(Model model, @PathVariable int id) {
-        model.addAttribute("activity", activityDao.getActivity(id));
+    public String editActivity(Model model, @PathVariable int id, HttpSession session) {
+        UserDetails user = (UserDetails) session.getAttribute("user");
+    	
+        if (user == null || user.getUserType()!=1) {
+        	session.setAttribute("pagAnt", "/instructor/update/"+id);
+			return "redirect:/login";
+        }
+    	
+        model.addAttribute("session", session);
+    	model.addAttribute("activity", activityDao.getActivity(id));
         return "instructor/update";
     }
 
@@ -185,9 +194,15 @@ public class InstructorController {
     	requestDao.addRequest(request);
     	return "redirect:/instructor/wait";
     }
-    
+    /**
+     * TODO - Jaime: mira esto, simplemente redirige a una página para que haga algo mientras se está
+     * procesando la petición del instructor
+     * @param model
+     * @return to the wait page.
+     */ 
     @RequestMapping("/wait")
     public String waitForAccept(Model model) {
+    	
     	return "instructor/wait";
     }
 }
