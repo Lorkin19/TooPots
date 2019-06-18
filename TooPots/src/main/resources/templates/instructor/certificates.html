@@ -19,5 +19,11 @@
         	<td th:text="${activity.name}"></td>
     	</tr>
     </table>
+    <h2>New Certificates</h2>
+    <form method="POST" action="/upload" 
+                 th:action="@{/upload}" enctype="multipart/form-data">
+   <input type="file" name="file" id="file" /> <br/>
+   <input type="submit" value="upload" name="upload" id="upload" />
+</form>
 </body>
 </html>
