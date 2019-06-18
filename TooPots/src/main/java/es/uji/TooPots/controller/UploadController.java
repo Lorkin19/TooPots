@@ -20,12 +20,21 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.TooPots.dao.CertificateDao;
+import es.uji.TooPots.dao.ImageDao;
 import es.uji.TooPots.model.ActivityType;
 import es.uji.TooPots.model.Certificate;
+import es.uji.TooPots.model.Image;
 import es.uji.TooPots.model.UserDetails;
 
 @Controller
 public class UploadController {
+	
+	private ImageDao imageDao;
+	
+	@Autowired
+	public void setImageDao(ImageDao imageDao) {
+		this.imageDao = imageDao;
+	}
 	
 	private CertificateDao certificateDao;
 	
@@ -38,34 +47,46 @@ public class UploadController {
 	private String uploadDirectory;
 
 	@RequestMapping(value="/upload", method=RequestMethod.GET)
-	public String uploadFile(Model model) {
+	public String uploadFile(Model model, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		
+		if (user == null || user.getUserType()!=1) {
+			session.setAttribute("pagAnt", "/upload");
+			return "redirect:/login";
+		}
+		model.addAttribute("session", session);
 		model.addAttribute("activityType", new ActivityType());
 		return "upload";
 	}
 	
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
-	public String processUploadFile(@RequestParam("file") MultipartFile file, HttpSession session, @ModelAttribute("activityType") String activityType,
+	public String processUploadFile(@RequestParam("file") MultipartFile[] files, HttpSession session, @ModelAttribute("activityType") String activityType,
 			RedirectAttributes redirectAttributes) {
 		try {
-			if (file.isEmpty()) {
-				redirectAttributes.addFlashAttribute("message", 
-                        "Please select a file to upload");
-				return "redirect:/uploadStatus";
-			}
-			
-			byte[] bytes = file.getBytes();
-			Path path = Paths.get(uploadDirectory + "/pdfs" + file.getOriginalFilename());
-			Files.write(path, bytes);
-
-			Certificate certificate = new Certificate();
-			
-			certificate.setOwnerMail(((UserDetails) session.getAttribute("user")).getMail());
-			certificate.setRoute(uploadDirectory + "/pdfs" + file.getOriginalFilename());
-			certificate.setActivityType(activityType);
-			
-			certificateDao.addCertificate(certificate);
-			
-			redirectAttributes.addFlashAttribute("message", "You successfully uploaded '"+path+"'");
+			UserDetails user = (UserDetails) session.getAttribute("user");
+			StringBuilder paths = new StringBuilder(); 
+			for (MultipartFile file : files) {
+				if (file.isEmpty()) {
+					redirectAttributes.addFlashAttribute("message", 
+	                        "Please select a file to upload");
+					return "redirect:/uploadStatus";
+				}
+				
+				byte[] bytes = file.getBytes();
+				Path path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail()+"/"+ file.getOriginalFilename());
+				Files.write(path, bytes);
+	
+				Certificate certificate = new Certificate();
+				
+				certificate.setOwnerMail(((UserDetails) session.getAttribute("user")).getMail());
+				certificate.setRoute("/pdfs/"+user.getMail()+"/" + file.getOriginalFilename());
+				certificate.setActivityType(activityType);
+				
+				paths.append(uploadDirectory+"/pdfs/"+user.getMail()+"/" + file.getOriginalFilename()+"\n");
+				
+				certificateDao.addCertificate(certificate);
+			}			
+			redirectAttributes.addFlashAttribute("message", "You successfully uploaded:\n"+paths.toString());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -78,9 +99,57 @@ public class UploadController {
 	public String listCertificates(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		if (user == null || user.getUserType()!=1) {
-			return "/login";
+			session.setAttribute("pagAnt", "/instructor/certificates");
+			return "redirect:/login";
 		}
 		model.addAttribute("certificates", certificateDao.getInstructorCertificates(user.getMail()));
+		model.addAttribute("session", session);
 		return "/instructor/certificates";
+	}
+	
+	@RequestMapping("/uploadImages")
+	public String uploadImage(Model model, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		
+		if (user == null || user.getUserType()!=1) {
+			session.setAttribute("pagAnt", "/uploadImages");
+			return "redirect:/login";
+		}
+		model.addAttribute("session", session);
+		//model.addAttribute(attributeValue);
+		
+		return "/uploadImages";
+	}
+	
+	@RequestMapping(value="/uploadImages", method=RequestMethod.POST)
+	public String processUploadImage(HttpSession session, @RequestParam("file") MultipartFile[] files, RedirectAttributes redirectAttributes) {
+		byte[] bytes;
+		try {
+			Image image = new Image();
+			UserDetails user = (UserDetails) session.getAttribute("user");
+			StringBuilder paths = new StringBuilder(); 
+			for (MultipartFile file : files) {
+				if (file.isEmpty()) {
+					redirectAttributes.addFlashAttribute("message", 
+	                        "Please select a image to upload");
+					return "redirect:/uploadStatus";
+				}
+				bytes = file.getBytes();
+				Path path = Paths.get(uploadDirectory + "/images/activities/"+user.getMail()+"/" + file.getOriginalFilename());
+				Files.write(path, bytes);
+				paths.append(uploadDirectory+"/images/activities/"+user.getMail()+"/" + file.getOriginalFilename()+"\n");
+				
+				image.setOwnerMail(user.getMail());
+				image.setRoute("/images/activities/"+user.getMail()+"/" + file.getOriginalFilename());
+				
+				imageDao.addImage(image);
+			}
+			redirectAttributes.addFlashAttribute("message", "You successfully uploaded:\n"+paths.toString());
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "redirect:/uploadStatus";
 	}
 }

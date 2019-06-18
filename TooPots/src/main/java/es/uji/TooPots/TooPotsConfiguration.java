@@ -9,8 +9,12 @@ import org.springframework.format.Formatter;
 
 import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.ActivityTypeDao;
+import es.uji.TooPots.dao.CanOrganizeDao;
+import es.uji.TooPots.dao.CertificateDao;
 import es.uji.TooPots.dao.CustomerDao;
 import es.uji.TooPots.dao.InstructorDao;
+import es.uji.TooPots.dao.MessageDao;
+import es.uji.TooPots.dao.ReceiveInformationDao;
 import es.uji.TooPots.dao.RequestDao;
 import es.uji.TooPots.dao.ReservationDao;
 import es.uji.TooPots.dao.UserDao;
@@ -84,5 +88,25 @@ public class TooPotsConfiguration {
     @Primary
     public UserDao userD() {
     	return new FakeUserProvider();
+    }
+    
+    @Bean
+    public MessageDao messageD() {
+    	return new MessageDao();
+    }
+    
+    @Bean
+    public CertificateDao certificateD() {
+    	return new CertificateDao();
+    }
+    
+    @Bean
+    public ReceiveInformationDao receiveInformationD() {
+    	return new ReceiveInformationDao();
+    }
+    
+    @Bean
+    public CanOrganizeDao canOrganizeD() {
+    	return new CanOrganizeDao();
     }
 }
