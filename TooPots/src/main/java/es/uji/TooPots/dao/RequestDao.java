@@ -71,7 +71,7 @@ public class RequestDao {
 	
 	public List<Request> getApprovedRequests(){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Request WHERE status='Accepted'", new RequestRowMapper());
+			return jdbcTemplate.query("SELECT * FROM Request WHERE status='Approved'", new RequestRowMapper());
 		}catch(EmptyResultDataAccessException e) {
 			return new ArrayList<Request>();
 		}

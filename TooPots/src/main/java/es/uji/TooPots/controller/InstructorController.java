@@ -11,8 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -25,10 +23,7 @@ import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.CanOrganizeDao;
 import es.uji.TooPots.model.Activity;
 import es.uji.TooPots.model.ActivityType;
-import es.uji.TooPots.model.Instructor;
-import es.uji.TooPots.model.Message;
 import es.uji.TooPots.model.Request;
-import es.uji.TooPots.model.Status;
 import es.uji.TooPots.model.UserDetails;
 
 @Controller
@@ -88,8 +83,8 @@ public class InstructorController {
 	public String listInstructor(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		if (user == null || user.getUserType()!=1) {
-			model.addAttribute("user", new UserDetails()); 
-	        return "login";
+			session.setAttribute("pagAnt", "/instructor/menu");
+			return "redirect:/login";
 		}
 		model.addAttribute("activities", activityDao.getInstructorActivities(user.getMail()));
 		return "instructor/menu";
@@ -108,22 +103,26 @@ public class InstructorController {
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		
 		if (user == null || user.getUserType() != 1) {
-			return "/login";
+			session.setAttribute("pagAnt", "/instructor/add");
+			return "redirect:/login";
 		}
 		
 		Activity act = new Activity();
         model.addAttribute("activity", act);
         model.addAttribute("type", canOrganizeDao.getInstructorCanOrganize(user.getMail()));
+
+		
         return "instructor/add";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String processAddSubmit(@ModelAttribute("activity") Activity activity, @ModelAttribute("type")  ActivityType type,
                                    BindingResult bindingResult, HttpSession session) {
-		activity.setMailInstructor(((UserDetails) session.getAttribute("user")).getMail());
-    	ActivityValidator actValidator = new ActivityValidator();
-    	actValidator.validate(activity, bindingResult);
-        if (bindingResult.hasErrors()) {
+    	
+    	UserDetails user = (UserDetails) session.getAttribute("user");
+		activity.setMailInstructor(user.getMail());
+
+		if (bindingResult.hasErrors()) {
         	return "instructor/add";
         }
         
@@ -133,16 +132,22 @@ public class InstructorController {
         
         List<String> customers = receiveInformationDao.getCustomersForActivityType(activityType);
         
-        Message message = new Message();
-        
+        String issue;
+        String text;
+                
         for (String mail:customers) {
-        	message.setMailReceiver(mail);
-        	message.setIssue("New Activity.");
-        	message.setText("A new activity of type " + activityType + " has been created. Check it out!");
-        	message.setStatus(Status.NOTARCHIVED);
+        	issue = "New Activity.";
+        	text="A new activity of type " + activityType + " has been created. Check it out!";
         	
-        	messageDao.addMessage(message);        	
+        	messageDao.sendMessage(issue, text, mail);        	
         }
+        
+        issue="Activity Created";
+		text ="A new activity has been created.\n"
+				+ "Activity Name: ";
+		String mail = user.getMail();
+		
+		messageDao.sendMessage(issue, text, mail);
         
         return "redirect:menu";
     }
@@ -185,34 +190,4 @@ public class InstructorController {
     public String waitForAccept(Model model) {
     	return "instructor/wait";
     }
-}
-
-class ActivityValidator implements Validator{
-
-	@Override
-	public boolean supports(Class<?> clazz) {
-		// TODO Auto-generated method stub
-		return Activity.class.isAssignableFrom(clazz);
-	}
-
-	@Override
-	public void validate(Object target, Errors errors) {
-		// TODO Auto-generated method stub
-		/*
-		Activity act = (Activity) target;
-		
-		System.out.println(act.getDate().toString());
-		System.out.println(act.getActivityId());
-		System.out.println(act.getDescription());
-		System.out.println(act.getDuration());
-		System.out.println(act.getMailInstructor());
-		System.out.println(act.getLevel());
-		System.out.println(act.getLocation());
-		System.out.println(act.getName());
-		System.out.println(act.getPrice());
-		System.out.println(act.getVacancies());
-		System.out.println(act.getActivityType());
-		*/
-	}
-	
 }

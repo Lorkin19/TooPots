@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import es.uji.TooPots.model.Message;
+import es.uji.TooPots.model.Status;
 
 @Repository
 public class MessageDao {
@@ -64,5 +65,15 @@ public class MessageDao {
 		}catch(EmptyResultDataAccessException e) {
 			return new ArrayList<>();
 		}
+	}
+	
+	public void sendMessage(String issue, String text, String mail) {
+		Message message = new Message();
+		message.setMailReceiver(mail);
+		message.setIssue(issue);
+		message.setText(text);
+		message.setStatus(Status.NOTARCHIVED);
+		
+		addMessage(message);
 	}
 }

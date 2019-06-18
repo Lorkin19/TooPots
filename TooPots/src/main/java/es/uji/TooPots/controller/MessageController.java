@@ -26,6 +26,10 @@ public class MessageController {
 	@RequestMapping("/list")
 	public String listMyMessages(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user == null) {
+			session.setAttribute("pagAnt", "/message/list");
+			return "redirect:/login";
+		}
 		model.addAttribute("messages", messageDao.getMessagesByMail(user.getMail()));
 		return "customer/messages";
 	}

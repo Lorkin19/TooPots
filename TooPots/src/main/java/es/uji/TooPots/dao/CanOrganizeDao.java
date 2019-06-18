@@ -18,29 +18,21 @@ import es.uji.TooPots.model.CanOrganize;
 @Repository
 public class CanOrganizeDao {
 	
-	private static AtomicInteger canOrganizeId;
 	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
-		try {
-			canOrganizeId = new AtomicInteger(jdbcTemplate.queryForObject("SELECT canOrganizeId FROM CanOrganize ORDER BY "
-					+ "canOrganizedId DESC LIMIT 1", Integer.class));	
-			canOrganizeId.getAndIncrement();
-		}catch(EmptyResultDataAccessException e) {
-			canOrganizeId = new AtomicInteger();
-		}
+
 	}
 	
 	public void addCanOrganize(CanOrganize canOrganize) {
-		jdbcTemplate.update("INSERT INTO CanOrganize VALUES(?, ?, ?)",
-				this.canOrganizeId.getAndIncrement(), canOrganize.getMail(),
-				canOrganize.getActivityTypeName());
+		jdbcTemplate.update("INSERT INTO CanOrganize VALUES(?, ?)",
+				canOrganize.getMail(), canOrganize.getActivityTypeName());
 	}
 	
-	public void deleteCanOrganize(int canOrganizeId) {
-		jdbcTemplate.update("DELETE FROM CanOrganize WHERE canOrganizeId=?", canOrganizeId);
+	public void deleteCanOrganize(CanOrganize canOrganize) {
+		jdbcTemplate.update("DELETE FROM CanOrganize WHERE mail=? and activityTypeName=?", canOrganize.getMail(), canOrganize.getActivityTypeName());
 	}
 	
 	public List<ActivityType> getInstructorCanOrganize(String mail){

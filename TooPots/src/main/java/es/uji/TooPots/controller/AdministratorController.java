@@ -77,6 +77,12 @@ public class AdministratorController {
 		return "administrator/myRejectedRequests";
 	}
 	
+	@RequestMapping("/viewCertificate/{mail}")
+	public String viewCertificate(Model model, @PathVariable("mail") String mail) {
+		model.addAttribute("certificates", certificateDao.getInstructorCertificates(mail));
+		return "administrator/viewCertificate";
+	}
+	
 	@RequestMapping("/acceptRequest/{id}")
 	public String acceptRequest(@PathVariable("id") int requestId) {
 		Request request = requestDao.getRequest(requestId);
@@ -86,14 +92,12 @@ public class AdministratorController {
 		Instructor instructor = requestDao.convertToInstructor(request);
 		instructorDao.addInstructor(instructor);
 		
-		Message message = new Message();
-		message.setMailReceiver(request.getMail());
-		message.setIssue("Request Approved");
-		message.setText("Your request has been approved. You are now part from our family. Welcome!!");
-		message.setStatus(Status.NOTARCHIVED);
+		String issue = "Request Approved";
+		String text = "Your request has been approved. You are now part from our family. Welcome!!";
+		String mail = request.getMail();
 		
+		messageDao.sendMessage(issue, text, mail);
 		
-		messageDao.addMessage(message);
 		System.out.println(request.getMail()+": Your request has been approved.");
 		return "redirect:/administrator/myRequests";
 	}
@@ -141,14 +145,12 @@ public class AdministratorController {
 		certificate.setStatus(Status.APPROVED);
 		certificateDao.updateCertificate(certificate);
 		
-		Message message = new Message();
-		message.setMailReceiver(certificate.getOwnerMail());
-		message.setIssue("Certificate Approved");
-		message.setText("Your certificate has been approved. You can now create new activites.");
-		message.setStatus(Status.NOTARCHIVED);
+		String mail =certificate.getOwnerMail();
+		String issue ="Certificate Approved";
+		String text="Your certificate has been approved. You can now create new activites.";
 		
 		
-		messageDao.addMessage(message);
+		messageDao.sendMessage(issue, text, mail);
 		return "redirect:/administrator/certificateRequests";
 	}
 	
@@ -183,17 +185,15 @@ public class AdministratorController {
 		
 		certificate.setStatus(Status.APPROVED);
 		certificate.setActivityType(activityType.getName());
-
 		
-		Message message = new Message();
-		message.setMailReceiver(certificate.getOwnerMail());
-		message.setIssue("Certificate Approved");
-		message.setText("Your certificate has been approved. You can now create new activites.");
-		message.setStatus(Status.NOTARCHIVED);
+		String mail =certificate.getOwnerMail();
+		String issue ="Certificate Approved";
+		String text="Your certificate has been approved. You can now create new activites.";
 		
 		activityTypeDao.addActivityType(activityType);
 		certificateDao.updateCertificate(certificate);
-		messageDao.addMessage(message);
+		messageDao.sendMessage(issue, text, mail);
+		
 		return "redirect:/administrator/certificateRequests";
 	}
 	
