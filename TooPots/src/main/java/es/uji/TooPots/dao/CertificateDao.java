@@ -32,10 +32,10 @@ public class CertificateDao {
 	}
 	
 	public void addCertificate(Certificate certificate) {
-		jdbcTemplate.update("INSERT INTO certificate VALUES(?, ?, ?, ?, ?)", 
+		jdbcTemplate.update("INSERT INTO certificate VALUES(?, ?, ?, ?, ?, ?)", 
 				certificateId.getAndIncrement(),
 				certificate.getStatus(), certificate.getActivityType(), certificate.getRoute(), 
-				certificate.getOwnerMail());
+				certificate.getOwnerMail(), certificate.getFileName());
 	}
 	
 	public void deleteCertificate(Certificate certificate) {

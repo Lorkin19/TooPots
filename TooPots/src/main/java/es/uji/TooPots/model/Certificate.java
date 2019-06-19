@@ -6,8 +6,17 @@ public class Certificate {
 	private String status;
 	private String route;
 	private String activityType;
+	private String fileName;
 	
 	public Certificate() {}
+	
+	public String getFileName() {
+		return this.fileName;
+	}
+	
+	public void setFileName(String fileName) {
+		this.fileName=fileName;
+	}
 
 	public int getCertificateId() {
 		return certificateId;

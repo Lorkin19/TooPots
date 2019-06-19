@@ -97,6 +97,7 @@ public class UploadController {
 				certificate.setRoute("/pdfs/"+user.getMail()+"/" + file.getOriginalFilename());
 				certificate.setActivityType("");
 				certificate.setStatus(Status.PENDING);
+				certificate.setFileName(file.getOriginalFilename());
 			
 				paths.append(uploadDirectory+"/pdfs/"+user.getMail()+"/" + file.getOriginalFilename()+"\n");
 				
@@ -167,5 +168,10 @@ public class UploadController {
 			e.printStackTrace();
 		}
 		return "redirect:/uploadStatus";
+	}
+	
+	@RequestMapping("/uploadStatus")
+	public String uploadStatus(Model model) {
+		return "/uploadStatus";
 	}
 }

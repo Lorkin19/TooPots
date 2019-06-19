@@ -14,9 +14,19 @@
 	<div th:replace="fragments/navegation" ></div>
 	<h2>My certificates:</h2>
 	<table id="left" class="table table-striped">
-		<tr th:each="certificate:${certificates}">
-        	<td><embed th:src="${certificate.route}" width="100%" height="600px" type="application/pdf"></td>
-    	</tr>
+		
+		<thead>
+			<tr>
+				<th>File Name</th>
+        		<!-- <td><embed th:src="${certificate.route}" width="100%" height="600px" type="application/pdf"></td> -->
+        	</tr>
+        </thead>
+        <tbody>
+        	<tr th:each="certificate:${certificates}">
+        		<td th:text="${certificate.fileName}"></td>
+        	</tr>
+        </tbody>
+    	
     </table>
     <h2>New Certificates</h2>
     <form method="POST" action="#" 
