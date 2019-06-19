@@ -83,6 +83,9 @@ public class UploadController {
 					return "redirect:/uploadStatus";
 				}
 				
+				System.out.println("Patata");
+				
+				
 				byte[] bytes = file.getBytes();
 				Path path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail());
 				if (!Files.isDirectory(path)) {
