@@ -19,6 +19,7 @@ public class CertificateRowMapper implements RowMapper<Certificate> {
 		c.setOwnerMail(rs.getString("ownerMail"));
 		c.setRoute(rs.getString("route"));
 		c.setStatus(rs.getString("status"));
+		c.setFileName(rs.getString("fileName"));
 		
 		return c;
 	}
