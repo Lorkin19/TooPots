@@ -117,7 +117,7 @@ public class AdministratorController {
 	public String listCertificates(Model model) {
 		model.addAttribute("certificates", certificateDao.getCertificates());
 		model.addAttribute("message", new Message());
-		return "administrator/certificateRequests";
+		return "administrator/pendingCertificates";
 	}
 	
 	@RequestMapping("/approvedCertificateRequests")
@@ -143,13 +143,12 @@ public class AdministratorController {
 		Certificate certificate = certificateDao.getCertificate(certificateId);
 		
 		certificate.setStatus(Status.APPROVED);
-		certificateDao.updateCertificate(certificate);
 		
 		String mail =certificate.getOwnerMail();
 		String issue ="Certificate Approved";
 		String text="Your certificate has been approved. You can now create new activites.";
 		
-		
+		certificateDao.updateCertificate(certificate);
 		messageDao.sendMessage(issue, text, mail);
 		return "redirect:/administrator/certificateRequests";
 	}

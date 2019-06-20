@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>TooPots</title>
+	<meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
+</head>
+<body background="../images/banner.jpg">
+	<div th:replace="fragments/navegation" ></div>
+	<h2>Upload Images:</h2>
+	<form method="POST" action="#" 
+                 th:action="@{/uploadImages}" enctype="multipart/form-data">
+    	<input type="file" name="file" id="file" multiple/> <br/>
+   
+ <!--   		<select id="tipoActividad" th:field="*{name}">
+			<option value="default" selected hidden>Select a type</option>
+			<option th:each="tipo:${activityTypes}" th:value="${tipo.name}" th:text="${tipo.name}"></option>
+			<option value="newType">New Type</option>
+		</select> -->
+	
+   		<input type="submit" value="upload" name="upload" id="upload" />
+	</form>	
+</body>
+</html>	

@@ -13,7 +13,7 @@ import es.uji.TooPots.model.Message;
 import es.uji.TooPots.model.UserDetails;
 
 @Controller
-@RequestMapping("/message")
+@RequestMapping("/messages")
 public class MessageController {
 	
 	private MessageDao messageDao;
@@ -30,8 +30,13 @@ public class MessageController {
 			session.setAttribute("pagAnt", "/message/list");
 			return "redirect:/login";
 		}
+		System.out.println(user.getMail());
 		model.addAttribute("messages", messageDao.getMessagesByMail(user.getMail()));
-		return "customer/messages";
+		for (Message message:messageDao.getMessagesByMail(user.getMail())) {
+			System.out.println(message.getIssue());
+
+		}
+		return "myMessages";
 	}
 	
 	@RequestMapping("/delete/{id}")
@@ -45,6 +50,12 @@ public class MessageController {
 		Message message = messageDao.getMessage(id);
 		message.setStatus("Archived");
 		messageDao.updateMessage(message);
-		return "customer/messages";
+		return "myMessages";
+	}
+	
+	@RequestMapping("/viewMessage/{id}")
+	public String viewMessage(Model model, @PathVariable("id") int messageId) {
+		model.addAttribute("message",messageDao.getMessage(messageId));
+		return "viewMessage";
 	}
 }

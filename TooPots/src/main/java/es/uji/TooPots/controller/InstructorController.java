@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -122,11 +124,15 @@ public class InstructorController {
     	
     	UserDetails user = (UserDetails) session.getAttribute("user");
 		activity.setMailInstructor(user.getMail());
-
+		ActivityValidator actVal = new ActivityValidator();
+		actVal.validate(activity, bindingResult);
+		
 		if (bindingResult.hasErrors()) {
         	return "instructor/add";
         }
-        
+        if (!activity.getTime().matches("\\d{2}:\\d{2}")) {
+        	
+        }
         activityDao.addActivity(activity);
         
         String activityType = activity.getActivityType();
@@ -205,4 +211,23 @@ public class InstructorController {
     	
     	return "instructor/wait";
     }
+}
+
+class ActivityValidator implements Validator{
+
+	@Override
+	public boolean supports(Class<?> clazz) {
+		// TODO Auto-generated method stub
+		return Activity.class.equals(clazz);
+	}
+
+	@Override
+	public void validate(Object target, Errors errors) {
+		// TODO Auto-generated method stub
+		Activity act = (Activity) target;
+		if (!act.getTime().matches("\\d{2}:\\d{2}")) {
+			errors.rejectValue("time", "Format", "The time has to be in a specific format: 'hh:mm'");
+		}
+	}
+	
 }

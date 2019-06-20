@@ -58,7 +58,7 @@ public class CertificateDao {
 	
 	public List<Certificate> getInstructorCertificates(String mail){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Certificate WHERE ownerMail=? and status=?", new CertificateRowMapper(), mail, Status.PENDING);
+			return jdbcTemplate.query("SELECT * FROM Certificate WHERE ownerMail=?", new CertificateRowMapper(), mail);
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Certificate>();
 		}

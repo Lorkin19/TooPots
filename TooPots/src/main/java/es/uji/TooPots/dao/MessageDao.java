@@ -35,7 +35,7 @@ public class MessageDao {
 	public void addMessage(Message message) {
 		jdbcTemplate.update("INSERT INTO Message VALUES(?, ?, ?, ?, ?)",
 				messageId.getAndIncrement(), message.getIssue(),
-				message.getText(), message.getMailReceiver(), message.getStatus());
+				message.getMailReceiver(), message.getText(), message.getStatus());
 	}
 	
 	public void deleteMessage(int messageId) {
@@ -51,8 +51,8 @@ public class MessageDao {
 	
 	public Message getMessage(int messageId) {
 		try {
-			return jdbcTemplate.queryForObject("SELECT * FROM Message"
-					+ "WHERE messageID=?", new MessageRowMapper(), messageId);
+			return jdbcTemplate.queryForObject("SELECT * FROM Message "
+					+ "WHERE messageId=?", new MessageRowMapper(), messageId);
 		}catch(EmptyResultDataAccessException e) {
 			return null;
 		}
