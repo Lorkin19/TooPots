@@ -14,11 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.CertificateDao;
@@ -82,9 +85,7 @@ public class UploadController {
 	                        "Please select a file to upload");
 					return "redirect:/uploadStatus";
 				}
-				
-				System.out.println("Patata");
-				
+								
 				
 				byte[] bytes = file.getBytes();
 				Path path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail());
@@ -127,6 +128,19 @@ public class UploadController {
 		return "/instructor/certificates";
 	}
 	
+	/*@RequestMapping(value="/instructor/viewCertificate/{id}", method = RequestMethod.GET)
+	public String viewCertificate(Model model, @PathVariable("id") int certificateId) {
+		String route = certificateDao.getCertificate(certificateId).getRoute().replace(" ", "%20");
+		
+		UriComponents uC = UriComponentsBuilder.newInstance()
+				.scheme("http").host("localhost").port(8090)
+				.path(route).build();
+		
+		model.addAttribute("certificate", uC);
+		model.addAttribute("prueba", "http://docs.google.com/gview?url=http://localhost:8090/"+uploadDirectory+route+"&embedded=true");
+		return "/instructor/viewCertificate";
+	}*/
+	
 	@RequestMapping("/uploadImages")
 	public String uploadImage(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
@@ -138,7 +152,7 @@ public class UploadController {
 		model.addAttribute("session", session);
 		//model.addAttribute(attributeValue);
 		
-		return "/uploadImages";
+		return "/instructor/uploadImages";
 	}
 	
 	@RequestMapping(value="/uploadImages", method=RequestMethod.POST)
@@ -155,7 +169,13 @@ public class UploadController {
 					return "redirect:/uploadStatus";
 				}
 				bytes = file.getBytes();
-				Path path = Paths.get(uploadDirectory + "/images/activities/"+user.getMail()+"/" + file.getOriginalFilename());
+				
+				Path path = Paths.get(uploadDirectory + "/images/activities/"+user.getMail());
+				if (!Files.isDirectory(path)) {
+					Files.createDirectories(path);
+				}
+				
+				path = Paths.get(uploadDirectory + "/images/activities/"+user.getMail()+"/" + file.getOriginalFilename());
 				Files.write(path, bytes);
 				paths.append(uploadDirectory+"/images/activities/"+user.getMail()+"/" + file.getOriginalFilename()+"\n");
 				

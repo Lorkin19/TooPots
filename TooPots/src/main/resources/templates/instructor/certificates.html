@@ -18,12 +18,17 @@
 		<thead>
 			<tr>
 				<th>File Name</th>
+				<th>Status</th>
         		<!-- <td><embed th:src="${certificate.route}" width="100%" height="600px" type="application/pdf"></td> -->
+        		<th></th>
         	</tr>
         </thead>
         <tbody>
         	<tr th:each="certificate:${certificates}">
         		<td th:text="${certificate.fileName}"></td>
+        		<td th:text="${certificate.status}">
+        		<td><a th:href=@{http://localhost:8090/{pdf}(pdf=${certificate.route})} class="btn btn-info" role="button">Download</a></td>
+        		
         	</tr>
         </tbody>
     	

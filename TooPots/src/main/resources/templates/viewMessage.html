@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>TooPots</title>
+	<meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
+</head>
+<body background="../images/banner.jpg">
+<div th:replace="fragments/navegation" ></div>
+<div class="container">
+	<h1>My messages</h1>
+	<table id="left" class="table table-striped">
+		<thead>
+		<tr>
+			<th>Issue</th>
+			<th>Text</th>
+			<th></th>
+		</tr>
+        </thead>
+        <tbody>
+        	<tr>
+        		<td th:text="${message.issue}"></td>
+        		<td th:text="${message.text}"></td>
+            	<td><a th:href="@{/message/archive/{id}(id=${message.messageId})}" class="btn btn-danger" role="button">Archive</a></td>
+        	</tr>
+        </tbody>
+	</table>
+</div>
