@@ -32,7 +32,6 @@ public class IndexController {
 		
 		for (int i = 0; i < images.length; i++) {
 			images[i] = "/images/carousel/"+images[i];
-			System.out.println(images[i]);	
 		}
 		
 		model.addAttribute("images", images);
