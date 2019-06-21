@@ -75,44 +75,10 @@ public class UploadController {
 	public String processUploadFile(@RequestParam("file") MultipartFile[] files, HttpSession session,
 			RedirectAttributes redirectAttributes) {
 
+		UserDetails user = (UserDetails) session.getAttribute("user");
+
+		redirectAttributes.addFlashAttribute("message", certificateDao.uploadCertificate(files,  user, uploadDirectory));
 		
-		try {
-			UserDetails user = (UserDetails) session.getAttribute("user");
-			StringBuilder paths = new StringBuilder(); 
-			for (MultipartFile file : files) {
-				if (file.isEmpty()) {
-					redirectAttributes.addFlashAttribute("message", 
-	                        "Please select a file to upload");
-					return "redirect:/uploadStatus";
-				}
-								
-				
-				byte[] bytes = file.getBytes();
-				Path path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail());
-				if (!Files.isDirectory(path)) {
-					Files.createDirectories(path);
-				}
-				path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail()+"/"+ file.getOriginalFilename());
-				Files.write(path, bytes);
-	
-				Certificate certificate = new Certificate();
-				
-				certificate.setOwnerMail(((UserDetails) session.getAttribute("user")).getMail());
-				certificate.setRoute("/pdfs/"+user.getMail()+"/" + file.getOriginalFilename());
-				certificate.setActivityType("");
-				certificate.setStatus(Status.PENDING);
-				certificate.setFileName(file.getOriginalFilename());
-			
-				paths.append(uploadDirectory+"/pdfs/"+user.getMail()+"/" + file.getOriginalFilename()+"\n");
-				
-				certificateDao.addCertificate(certificate);
-			}			
-			redirectAttributes.addFlashAttribute("message", "You successfully uploaded:\n"+paths.toString());
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return "redirect:/uploadStatus";
 	}
 	
@@ -157,39 +123,10 @@ public class UploadController {
 	
 	@RequestMapping(value="/uploadImages", method=RequestMethod.POST)
 	public String processUploadImage(HttpSession session, @RequestParam("file") MultipartFile[] files, RedirectAttributes redirectAttributes) {
-		byte[] bytes;
-		try {
-			Image image = new Image();
-			UserDetails user = (UserDetails) session.getAttribute("user");
-			StringBuilder paths = new StringBuilder(); 
-			for (MultipartFile file : files) {
-				if (file.isEmpty()) {
-					redirectAttributes.addFlashAttribute("message", 
-	                        "Please select a image to upload");
-					return "redirect:/uploadStatus";
-				}
-				bytes = file.getBytes();
-				
-				Path path = Paths.get(uploadDirectory + "/images/activities/"+user.getMail());
-				if (!Files.isDirectory(path)) {
-					Files.createDirectories(path);
-				}
-				
-				path = Paths.get(uploadDirectory + "/images/activities/"+user.getMail()+"/" + file.getOriginalFilename());
-				Files.write(path, bytes);
-				paths.append(uploadDirectory+"/images/activities/"+user.getMail()+"/" + file.getOriginalFilename()+"\n");
-				
-				image.setOwnerMail(user.getMail());
-				image.setRoute("/images/activities/"+user.getMail()+"/" + file.getOriginalFilename());
-				
-				imageDao.addImage(image);
-			}
-			redirectAttributes.addFlashAttribute("message", "You successfully uploaded:\n"+paths.toString());
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		
+					redirectAttributes.addFlashAttribute("message", imageDao.uploadImage(files, user, uploadDirectory, 0));
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return "redirect:/uploadStatus";
 	}
 	

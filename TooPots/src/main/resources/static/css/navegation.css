@@ -47,3 +47,8 @@
 .ulSpecific{
 	right:35px;
 }
+
+.btn .btn-secondary{
+	background-color:black !important;
+	border-color:black !important;
+}
