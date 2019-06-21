@@ -73,12 +73,14 @@ public class UploadController {
 	
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
 	public String processUploadFile(@RequestParam("file") MultipartFile[] files, HttpSession session,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, BindingResult bindingResult) {
 
 		UserDetails user = (UserDetails) session.getAttribute("user");
 
-		redirectAttributes.addFlashAttribute("message", certificateDao.uploadCertificate(files,  user, uploadDirectory));
+		redirectAttributes.addFlashAttribute("message", certificateDao.uploadCertificate(files,  user.getMail(), uploadDirectory, bindingResult));
 		
+		
+		session.setAttribute("nextPage", "/instructor/certificates");
 		return "redirect:/uploadStatus";
 	}
 	
@@ -107,31 +109,10 @@ public class UploadController {
 		return "/instructor/viewCertificate";
 	}*/
 	
-	@RequestMapping("/uploadImages")
-	public String uploadImage(Model model, HttpSession session) {
-		UserDetails user = (UserDetails) session.getAttribute("user");
-		
-		if (user == null || user.getUserType()!=1) {
-			session.setAttribute("pagAnt", "/uploadImages");
-			return "redirect:/login";
-		}
-		model.addAttribute("session", session);
-		//model.addAttribute(attributeValue);
-		
-		return "/instructor/uploadImages";
-	}
-	
-	@RequestMapping(value="/uploadImages", method=RequestMethod.POST)
-	public String processUploadImage(HttpSession session, @RequestParam("file") MultipartFile[] files, RedirectAttributes redirectAttributes) {
-		UserDetails user = (UserDetails) session.getAttribute("user");
-		
-					redirectAttributes.addFlashAttribute("message", imageDao.uploadImage(files, user, uploadDirectory, 0));
-
-		return "redirect:/uploadStatus";
-	}
 	
 	@RequestMapping("/uploadStatus")
-	public String uploadStatus(Model model) {
+	public String uploadStatus(Model model, HttpSession session) {
+		model.addAttribute("nextPage", session.getAttribute("nextPage"));
 		return "/uploadStatus";
 	}
 }

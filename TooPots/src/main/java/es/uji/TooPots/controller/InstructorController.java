@@ -10,11 +10,17 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.sun.prism.Image;
 
 import es.uji.TooPots.dao.InstructorDao;
 import es.uji.TooPots.dao.MessageDao;
@@ -23,6 +29,8 @@ import es.uji.TooPots.dao.RequestDao;
 import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.CanOrganizeDao;
+import es.uji.TooPots.dao.CertificateDao;
+import es.uji.TooPots.dao.ImageDao;
 import es.uji.TooPots.model.Activity;
 import es.uji.TooPots.model.ActivityType;
 import es.uji.TooPots.model.Request;
@@ -31,6 +39,23 @@ import es.uji.TooPots.model.UserDetails;
 @Controller
 @RequestMapping("/instructor")
 public class InstructorController {
+	
+	@Value("${upload.file.directory}")
+	private String uploadDirectory;
+	
+	private CertificateDao certificateDao;
+	
+	@Autowired
+	public void setCertificateDao(CertificateDao certificateDao) {
+		this.certificateDao = certificateDao;
+	}
+	
+	private ImageDao imageDao;
+	
+	@Autowired
+	public void setImageDao(ImageDao imageDao) {
+		this.imageDao= imageDao;
+	}
 	
 	private InstructorDao instructorDao;
 	
@@ -119,8 +144,8 @@ public class InstructorController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("activity") Activity activity, @ModelAttribute("type")  ActivityType type,
-                                   BindingResult bindingResult, HttpSession session) {
+    public String processAddSubmit(@RequestParam("file") MultipartFile[] files, @ModelAttribute("activity") Activity activity, @ModelAttribute("type")  ActivityType type,
+                                   BindingResult bindingResult, HttpSession session, RedirectAttributes redirectAttributes) {
     	
     	UserDetails user = (UserDetails) session.getAttribute("user");
 		activity.setMailInstructor(user.getMail());
@@ -130,9 +155,13 @@ public class InstructorController {
 		if (bindingResult.hasErrors()) {
         	return "instructor/add";
         }
-        if (!activity.getTime().matches("\\d{2}:\\d{2}")) {
-        	
-        }
+
+		String message = imageDao.uploadImage(files, user, uploadDirectory, activity.getActivityId(), bindingResult);
+		if (!message.equals("Success")) {
+			session.setAttribute("nextPage", "/instructor/add");
+			redirectAttributes.addFlashAttribute("message", message);
+			return "redirect:/uploadStatus";
+		}
         activityDao.addActivity(activity);
         
         String activityType = activity.getActivityType();
@@ -155,8 +184,8 @@ public class InstructorController {
 		String mail = user.getMail();
 		
 		messageDao.sendMessage(issue, text, mail);
-        
-        return "redirect:menu";
+		session.setAttribute("nextPage", "/instructor/menu");
+        return "redirect:/uploadStatus";
     }
     
     
@@ -192,20 +221,27 @@ public class InstructorController {
     
     @RequestMapping(value="/signup", method=RequestMethod.POST)
     public String processAddSubmit(@ModelAttribute("instructor") Request request,
-    								BindingResult bindingResult, HttpSession session) {
+    								BindingResult bindingResult, HttpSession session, @RequestParam("file") MultipartFile[] files, RedirectAttributes redirectAttributes) {
+    	
     	if (bindingResult.hasErrors()) {
     		return "instructor/signup";
     	}
+    	String message = certificateDao.uploadCertificate(files, request.getMail(), uploadDirectory, bindingResult);
+    	if (!message.equals("Success")) {
+			session.setAttribute("nextPage", "/instructor/signup");
+			redirectAttributes.addFlashAttribute("message", message);
+			return "redirect:/uploadStatus";
+		}
+    	
+    	redirectAttributes.addAttribute("message", message);
+    	
+    	session.setAttribute("nextPage", "/instructor/wait");
     	
     	requestDao.addRequest(request);
-    	return "redirect:/instructor/wait";
+    	return "redirect:/uploadStatus";
     }
-    /**
-     * TODO - Jaime: mira esto, simplemente redirige a una página para que haga algo mientras se está
-     * procesando la petición del instructor
-     * @param model
-     * @return to the wait page.
-     */ 
+
+    
     @RequestMapping("/wait")
     public String waitForAccept(Model model) {
     	
@@ -229,5 +265,4 @@ class ActivityValidator implements Validator{
 			errors.rejectValue("time", "Format", "The time has to be in a specific format: 'hh:mm'");
 		}
 	}
-	
 }

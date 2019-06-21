@@ -13,7 +13,7 @@
 <body background="../images/banner.jpg">
 <div th:replace="fragments/navegation" ></div>
 	<h2>New Activity</h2>
-	<form action="#" th:action="@{/instructor/add}" th:object="${activity}" method="post">
+	<form action="#" th:action="@{/instructor/add}" th:object="${activity}" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
 			<td><label>Type:</label></td>
@@ -69,17 +69,19 @@
 				</select>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="2"><input type="file" name="file"  id="file" multiple/></td>
+		</tr>
+		
+		<tr>
+			<td colspan="2"><input type="submit" value="Add Activity" /></td>
+		</tr>
         
         <tr>
-        	<td colspan="2"><a href="./menu" value="Return">Return</a></td>
-        </tr>
-        
-        <tr>
-        	<td colspan="2"><a href="/" class="btn btn-info" role="button">Inicio</a></td>
+        	<td colspan="2"><a href="./menu" value="Return" class="btn btn-info" role="button">Return</a></td>
         </tr>
 	</table>
-		<input type="file" name="file" enctype="multipart/form-data" id="file" multiple/> <br/>
-		<input type="submit" value="Add Activity" />
+		
 	</form>
 </body>
 </html>
