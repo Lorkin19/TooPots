@@ -47,6 +47,22 @@
 	        		<td><a th:href=@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})} class="btn btn-success" role="button">Approve</a></td>
 	        		
 	        		<td><button onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger">Reject</button></td>
+	        		
+	        		<div id="id01" class="w3-modal">
+					    <div class="w3-modal-content">
+					      <header class="w3-container red-header"> 
+					        <span onclick="document.getElementById('id01').style.display='none'" 
+					        class="w3-button w3-display-topright">&times;</span>
+					        <h2 class="h2Red">Confirmation Message</h2>
+					      </header>
+					      <div class="w3-container">
+					        <p class="p-white">Are you sure you want to reject this certificate?</p>
+					        <p><a th:href=@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})} class="btn btn-info" role="button">Continue</a>
+					        <a onclick="document.getElementById('id01').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+					        </p>
+					      </div>
+					    </div>
+					  </div>
 	        	</tr>
 	        </tbody>
 	    </table>
@@ -97,20 +113,5 @@
 	    </table>
 	</div>
 	</div>
-<div id="id01" class="w3-modal">
-    <div class="w3-modal-content">
-      <header class="w3-container w3-teal"> 
-        <span onclick="document.getElementById('id01').style.display='none'" 
-        class="w3-button w3-display-topright">&times;</span>
-        <h2>Confirmation Message</h2>
-      </header>
-      <div class="w3-container">
-        <p style="color:black">Are you sure you want to reject this certificate?</p>
-        <p><a th:href=@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})} class="btn btn-info" role="button">Continue</a>
-        <a onclick="document.getElementById('id01').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
-        </p>
-      </div>
-    </div>
-  </div>
 </body>
 </html> 
