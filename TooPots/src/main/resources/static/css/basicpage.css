@@ -1,7 +1,10 @@
 body{
 	color:white;
 	text-align: center;
-    background-image:url(/images/banner.jpg);  		
+    background-image:url(/images/banner.jpg);
+    background-position: center;
+	background-repeat: round;
+	background-attachment: fixed;
 }
 table{
 	border-collapse: collapse;

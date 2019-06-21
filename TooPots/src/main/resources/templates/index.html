@@ -9,34 +9,66 @@
     	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <link rel="stylesheet" type="text/css"
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
-    	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/indexstyle.css" th:href="@{/css/indexstyle.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </head>
-<body background="images/banner.jpg">
-<div th:replace="fragments/navegation" >...</div>
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-	<ol class="carousel-indicators">
-		<li th:each="image,iterstat:${images}"
-			data-target="#myCarousel"
-			th:attr="data-slide-to=${iterstat.index}"
-			th:class="${iterstat.index}== 0  ? 'active':''"></li>
-	</ol>
+<body>
+	<div th:replace="fragments/navegation" >...</div>
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+		<ol class="carousel-indicators">
+			<li th:each="image,iterstat:${images}"
+				data-target="#myCarousel"
+				th:attr="data-slide-to=${iterstat.index}"
+				th:class="${iterstat.index}== 0  ? 'active':''"></li>
+		</ol>
+		
+		<div style="max-height:25em;" class="carousel-inner" role="listbox" align="center">
+			<div  th:each="image,iterstat:${images}" th:class=
+	            "${iterstat.index}==0 ? 'carousel-item active':'carousel-item'">
+				<img th:src="@{${image}}" class="d.block w-100">
+			</div>
+		</div>
+		<a class="left carousel-control" href="#mycarousel" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#mycarousel" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
 	
-	<div class="carousel-inner" role="listbox" align="center">
-		<div  th:each="image,iterstat:${images}" th:class=
-            "${iterstat.index}==0 ? 'carousel-item active':'carousel-item'">
-			<img th:src="@{${image}}" class="d.block w-75">
+	<div style="background-color: rgba(0,0,0,0.7);">
+		<h1 class="slogan">Just Do It, Cause YouCan</h1>
+		<div class="info-content">
+			<div class="divblock">
+				<h1 id="titleleft" class="titlespam">Enroll</h1>
+				<p class="pspam">In this website you can enroll different activities.
+						<br>The instructors post the activities they can offer, 
+						the day and the price, so you just have to click on the activity you want, and enjoy it</p>
+			</div>
+			<div class="divblock">
+				<h1 id="titleright" class="titlespam">Become a Instructor</h1>
+				<p class="pspam">If you have some certificate which proves that you are able to instruct an activity,
+						just register as an Instructor and send us your certificates.</p>
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="divblock">
+				<h1 id="titleleft" class="titlespam">Activities</h1>
+				<p class="pspam">Do you want to climb a mountain?<br>You can do it.
+				<br>Do you want do hiking in amazing locations?<br>You can do it.
+				<br>Do you want to do parachuting?<br>You can do it.
+				<br>A great variety o activities are waiting for you.</p>
+			</div>
+			<div class="divblock">
+				<h1 id="titleright" class="titlespam">Alcachofa</h1>
+				<p class="pspam">asdf asdf asdf asdf asd fas df asdf as df asd f asdf asdfasdf asdf asdf a sdf asdfas df asdf a sdf asdfasdfas df asdf as dfasdfasdfas df asdf</p>
+			</div>
 		</div>
 	</div>
-	<a class="left carousel-control" href="#mycarousel" role="button" data-slide="prev">
-		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		<span class="sr-only">Previous</span>
-	</a>
-	<a class="right carousel-control" href="#mycarousel" role="button" data-slide="next">
-		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		<span class="sr-only">Next</span>
-	</a>
-</div>
 </body>
 </html>
