@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.uji.TooPots.model.Certificate;
@@ -102,10 +105,11 @@ public class CertificateDao {
 		}
 	}
 	
-	public String uploadCertificate(MultipartFile[] files, UserDetails user, String uploadDirectory) {
+	public String uploadCertificate(MultipartFile[] files, String mail, String uploadDirectory, BindingResult bindingResult) {
 		StringBuilder message = new StringBuilder();
 		StringBuilder paths = new StringBuilder(); 
 		Certificate certificate = new Certificate();
+		CertificateValidator cV = new CertificateValidator();
 
 		try {
 		for (MultipartFile file : files) {
@@ -113,34 +117,60 @@ public class CertificateDao {
 				message.append("Please select a file to upload. Empty file: " + file.getOriginalFilename());
 				return message.toString();
 			}
-							
+				
 			
 			byte[] bytes = file.getBytes();
-			Path path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail());
+			Path path = Paths.get(uploadDirectory + "/pdfs/request/"+mail);
 			if (!Files.isDirectory(path)) {
 				Files.createDirectories(path);
 			}
-			path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail()+"/"+ file.getOriginalFilename());
-			Files.write(path, bytes);
+			path = Paths.get(uploadDirectory + "/pdfs/request/"+mail+"/"+ file.getOriginalFilename());
 
 			
-			certificate.setOwnerMail(user.getMail());
-			certificate.setRoute("/pdfs/"+user.getMail()+"/" + file.getOriginalFilename());
+			certificate.setOwnerMail(mail);
+			certificate.setRoute("/pdfs/request/"+mail+"/" + file.getOriginalFilename());
 			certificate.setActivityType("");
 			certificate.setStatus(Status.PENDING);
 			certificate.setFileName(file.getOriginalFilename());
-		
-			paths.append(uploadDirectory+"/pdfs/"+user.getMail()+"/" + file.getOriginalFilename()+"\n");
+			
+			cV.validate(certificate, bindingResult);
+			if (bindingResult.hasErrors()) {
+				message.append("Extension not supported. "+file.getOriginalFilename());
+				return message.toString();
+			}
+			
+			Files.write(path, bytes);
+			paths.append(uploadDirectory+"/pdfs/request/"+mail+"/" + file.getOriginalFilename()+"\n");
 			
 			addCertificate(certificate);
 		}			
-		message.append("You successfully uploaded:\n"+paths.toString());
+		message.append("Success");
 		}catch(IOException e) {
 			message = new StringBuilder("An error has occurred.\n");
 			message.append(e.getStackTrace());
 		}
 		return message.toString();
 	}
-	
+}
+
+class CertificateValidator implements Validator{
+
+	@Override
+	public boolean supports(Class<?> clazz) {
+		// TODO Auto-generated method stub
+		return Certificate.class.equals(clazz);
+	}
+
+	@Override
+	public void validate(Object target, Errors errors) {
+		// TODO Auto-generated method stub
+		Certificate certificate = (Certificate) target;
+		String extension = certificate.getRoute().substring(certificate.getRoute().lastIndexOf("."));
+		
+		if (!extension.equals(".pdf")) {
+			errors.reject("Extension not supported");
+		}
+
+	}
 	
 }

@@ -36,7 +36,7 @@ public class ActivityDao {
 				activityId.getAndIncrement(), activity.getName(), activity.getLocation(),
 				activity.getDuration(), activity.getVacancies(), activity.getDescription(),
 				activity.getLevel(), activity.getActivityType(), activity.getPrice(), activity.getMailInstructor(),
-				activity.getDate(), activity.getTime());
+				 activity.getTime(),activity.getDate());
 	}
 	
 	public void deleteActivity(int activityId) {

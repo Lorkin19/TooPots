@@ -13,7 +13,7 @@
 <body background="../images/banner.jpg">
 <div th:replace="fragments/navegation" ></div>
 	<h2>SignUp</h2>
-	<form action="#" th:action="@{/instructor/signup}" th:object="${instructor}" method="post">
+	<form action="#" th:action="@{/instructor/signup}" th:object="${instructor}" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td><label>Mail:</label></td>
@@ -39,6 +39,11 @@
 				<td><label>Bank Account:</label></td>
 				<td><input type="text" th:field="*{bankAccount}"></td>
 			</tr>
+			
+			<tr>
+				<td colspan="2"><input type="file" name="file"  id="file" multiple/></td>
+			</tr>
+			
 			<tr>
 	            <td colspan="2"><input type="submit" value="Add Instructor" /></td>
 	        </tr>

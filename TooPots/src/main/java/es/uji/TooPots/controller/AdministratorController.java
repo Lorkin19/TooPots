@@ -81,10 +81,10 @@ public class AdministratorController {
 		return "administrator/myRejectedRequests";
 	}
 	
-	@RequestMapping("/viewCertificate/{mail}")
+	@RequestMapping("/showCertificates/{mail}")
 	public String viewCertificate(Model model, @PathVariable("mail") String mail) {
 		model.addAttribute("certificates", certificateDao.getInstructorCertificates(mail));
-		return "administrator/viewCertificate";
+		return "administrator/showCertificates";
 	}
 	
 	@RequestMapping("/acceptRequest/{id}")

@@ -38,6 +38,7 @@
 						<th>Status</th>
 						<th></th>
 						<th></th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -51,6 +52,8 @@
 							class="btn btn-warning" th:role="button">Accept Request</a></td>
 						<td><a th:href="@{/administrator/rejectRequest/{id}(id=${request.requestId})}"
 							class="btn btn-danger" th:role="button">Reject Request</a></td>
+						<td><a th:href="@{/administrator/showCertificates/{mail}(mail=${request.mail})}"
+							class="btn btn-secondary" th:role="button">Show Certificates</a></td>
 					</tr>
 				</tbody>
 			</table>

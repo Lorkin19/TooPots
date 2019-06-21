@@ -15,6 +15,6 @@
 <div th:if="${message}">
 	<span th:text="${message}"></span>
 </div>
-<a href="/instructor/certificates" th:href="@{/instructor/certificates}" role="button" class="btn btn-success">Return</a>
+<a href="${nextPage}" th:href="@{${nextPage}}" role="button" class="btn btn-secondary">Return</a>
 </body>
 </html>
