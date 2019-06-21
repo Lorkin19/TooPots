@@ -64,6 +64,7 @@ public class AdministratorController {
 		model.addAttribute("requests", requestDao.getRequests());
 		model.addAttribute("approvedRequests", requestDao.getApprovedRequests());
 		model.addAttribute("rejectedRequests", requestDao.getRejectedRequests());
+		model.addAttribute("idDelCertificado", 0);
 
 		return "administrator/myRequests";
 	}

@@ -10,9 +10,10 @@
     <link rel="stylesheet" type="text/css"
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
     <link rel="stylesheet" type="text/css"
-    	  href="/css/ventanaModal.css" th:href="@{/css/ventanaModal.css}">
+    	  href="/css/popup.css" th:href="@{/css/popup.css}">
     <link rel="stylesheet" type="text/css"
     	  href="/css/tabs.css" th:href="@{/css/tabs.css}">
+   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     	  
 </head>
 <body background="../images/banner.jpg">
@@ -44,19 +45,13 @@
 	        		<td th:text="${certificate.fileName}"></td>
 	        		<td><a th:href=@{http://localhost:8090/{pdf}(pdf=${certificate.route})} class="btn btn-info" role="button">Download</a></td>
 	        		<td><a th:href=@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})} class="btn btn-success" role="button">Approve</a></td>
-	        		<td><a href="#miModal" class="btn btn-danger" role="button">Reject</a></td>
+	        		
+	        		<td><button onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger">Reject</button></td>
 	        	</tr>
 	        </tbody>
 	    </table>
 	    
-	    <div id="miModal" class="modal">
-	    	<div class="modal-contenido">
-	    		<a href="#" class="btn btn-danger" role="button">X</a>
-	    		<h2>Are you sure to reject this certificate?</h2>
-	    		<a href="#" class="btn btn-warning" role="button">Reject</a>
-	    		<a href="#" class="btn btn-secondary" role="button">Cancel</a>
-	    	</div>
-	    </div>
+	    
 	</div>
 	<div id="tab2" class="tab-content">
 		<h2>Approved certificates:</h2>
@@ -102,5 +97,20 @@
 	    </table>
 	</div>
 	</div>
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+      <header class="w3-container w3-teal"> 
+        <span onclick="document.getElementById('id01').style.display='none'" 
+        class="w3-button w3-display-topright">&times;</span>
+        <h2>Confirmation Message</h2>
+      </header>
+      <div class="w3-container">
+        <p style="color:black">Are you sure you want to reject this certificate?</p>
+        <p><a th:href=@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})} class="btn btn-info" role="button">Continue</a>
+        <a onclick="document.getElementById('id01').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+        </p>
+      </div>
+    </div>
+  </div>
 </body>
-</html>
+</html> 
