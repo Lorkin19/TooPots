@@ -1,0 +1,43 @@
+.slogan {
+	text-align: center;
+	color: white;
+	padding: 60px 60px 60px 60px;
+	background-color: rgb(255,0,0);
+	margin-bottom: 50px;
+}
+
+.titlespam{
+	text-align: center;
+	color: white;
+	padding: 20px 20px 20px 20px;
+	background-color: rgb(255,0,0);
+}
+#titleleft{
+	border-top-left-radius: 15px;
+}
+#titleright{
+	border-top-right-radius: 15px;
+}
+.pspam{
+	text-align: center;
+	color: white;
+	padding: 20px 20px 20px 20px;
+	background-color: rgb(50,50,50);
+}
+
+table{
+	margin-left: 15%;
+	margin-right: 15%;
+}
+
+.divblock{
+	display: inline-block;
+	vertical-align: top;
+	width: 30%;
+	margin-right: 25px;
+	margin-left: 25px;
+}
+
+.info-content{
+	text-align: center;
+}
