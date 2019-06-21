@@ -82,7 +82,7 @@
 			<p class="navp" th:if="*{user != null}">
 	    		<ul class="nav" th:if="*{user != null && user.userType == 0}">
 					<li><a href="">User</a>
-						<ul id="ulSpecific">
+						<ul class="ulSpecific">
 							<li><a href="/messages/list">My Messages</a></li>
 							<li><a href="/logout">Logout</a>
 						</ul>
@@ -90,7 +90,7 @@
 				</ul>
 				<ul class="nav" th:if="*{user != null && user.userType == 1}">
 					<li><a href="">User</a>
-						<ul id="ulSpecific">
+						<ul class="ulSpecific">
 							<li><a href="/messages/list">My Messages</a></li>
 							<li><a href="/logout">Logout</a>
 						</ul>
@@ -98,7 +98,7 @@
 				</ul> 	
 				<ul class="nav" th:if="*{user != null && user.userType == 2}">
 					<li><a href="">User</a>
-						<ul id="ulSpecific">
+						<ul class="ulSpecific">
 							<li><a href="/administrator/myRequests#tab1">My Requests</a></li>
 							<li><a href="/administrator/certificateRequests#tab1">Pending Certificates</a></li>
 							<li><a href="/logout">Logout</a>

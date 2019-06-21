@@ -20,6 +20,23 @@ td{
 	padding: 15px;
 }
 
+.h2Red {
+	background-color: red;
+	color: white;
+}
+
 #left{
 	text-align: left;
+}
+.w3-container{
+	background-color:rgb(50,50,50);
+}
+
+.p-white{
+		color: white;
+}
+
+.red-header{
+	color: #fff !important;
+	background-color: #f00 !important;
 }
