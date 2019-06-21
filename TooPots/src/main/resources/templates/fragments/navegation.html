@@ -40,6 +40,7 @@
 		min-width:140px;
 		margin-left:auto;
 		margin-right:auto;
+		z-index:99;
 	}
 	
 	.nav li:hover > ul {
@@ -64,8 +65,11 @@
 				<img alt="TooPots" th:src="@{/images/logo.jpg}">
 			</a>
 		</span>
-		<p id="activity" class="navp">
+		<p id="activity" class="navp" th:if="*{user != null && user.userType == 0}">
 			<a href="/customer/activities" class="btn btn-success" role="button" th:href="@{/customer/activities}">Activities</a>
+		</p>
+		<p id="activity" class="navp" th:if="*{user != null && user.userType == 1}">
+			<a href="/instructor/menu" class="btn btn-success" role="button" th:href="@{/instructor/menu}">Activities</a>
 		</p>
 		<div class="navright">
 			<p class="navp" th:if="*{user == null}">
@@ -74,10 +78,11 @@
 				<a href="/customer/signup" class="btn btn-info" role="button" th:href="@{/customer/signup}">Signup</a>
 			</p>
 			
+			
 			<p class="navp" th:if="*{user != null}">
 	    		<ul class="nav" th:if="*{user != null && user.userType == 0}">
 					<li><a href="">User</a>
-						<ul>
+						<ul id="ulSpecific">
 							<li><a href="/messages/list">My Messages</a></li>
 							<li><a href="/logout">Logout</a>
 						</ul>
@@ -85,7 +90,7 @@
 				</ul>
 				<ul class="nav" th:if="*{user != null && user.userType == 1}">
 					<li><a href="">User</a>
-						<ul>
+						<ul id="ulSpecific">
 							<li><a href="/messages/list">My Messages</a></li>
 							<li><a href="/logout">Logout</a>
 						</ul>
@@ -93,13 +98,13 @@
 				</ul> 	
 				<ul class="nav" th:if="*{user != null && user.userType == 2}">
 					<li><a href="">User</a>
-						<ul>
-							<li><a href="/administrator/myRequests">My Requests</a></li>
-							<li><a href="/administrator/certificateRequests">Pending Certificates</a></li>
+						<ul id="ulSpecific">
+							<li><a href="/administrator/myRequests#tab1">My Requests</a></li>
+							<li><a href="/administrator/certificateRequests#tab1">Pending Certificates</a></li>
 							<li><a href="/logout">Logout</a>
 						</ul>
 					</li>
-				</ul>		    
+				</ul>	    
 	    </div>
     </div>
 </div>

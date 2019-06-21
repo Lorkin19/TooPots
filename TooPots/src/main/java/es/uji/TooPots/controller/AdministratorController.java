@@ -62,6 +62,10 @@ public class AdministratorController {
 	@RequestMapping("/myRequests")
 	public String listRequests(Model model) {
 		model.addAttribute("requests", requestDao.getRequests());
+		model.addAttribute("approvedRequests", requestDao.getApprovedRequests());
+		model.addAttribute("rejectedRequests", requestDao.getRejectedRequests());
+		model.addAttribute("idDelCertificado", 0);
+
 		return "administrator/myRequests";
 	}
 	
@@ -116,6 +120,8 @@ public class AdministratorController {
 	@RequestMapping("/certificateRequests")
 	public String listCertificates(Model model) {
 		model.addAttribute("certificates", certificateDao.getCertificates());
+		model.addAttribute("approvedCertificates", certificateDao.getApprovedCertificates());
+		model.addAttribute("rejectedCertificates", certificateDao.getRejectedCertificates());
 		model.addAttribute("message", new Message());
 		return "administrator/pendingCertificates";
 	}
