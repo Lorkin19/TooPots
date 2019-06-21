@@ -9,6 +9,8 @@
     	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <link rel="stylesheet" type="text/css"
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/ventanaModal.css" th:href="@{/css/ventanaModal.css}">
 </head>
 <body background="../images/banner.jpg">
 	<div th:replace="fragments/navegation" ></div>
@@ -23,14 +25,22 @@
         	</tr>
         </thead>
         <tbody>
-        	<tr th:each="certificate:${certificates}">
+        	<tr th:each="certificate,iter:${certificates}">
         		<td th:text="${certificate.fileName}"></td>
         		<td><a th:href=@{http://localhost:8090/{pdf}(pdf=${certificate.route})} class="btn btn-info" role="button">Download</a></td>
         		<td><a th:href=@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})} class="btn btn-success" role="button">Approve</a></td>
-        		<td><a th:href=@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})} class="btn btn-danger" role="button">Reject</a></td>
-        		
+        		<td><a href="#miModal" class="btn btn-danger" role="button">Reject</a></td>
         	</tr>
         </tbody>
     </table>
+    
+    <div id="miModal" class="modal">
+    	<div class="modal-contenido">
+    		<a href="#" class="btn btn-danger" role="button">X</a>
+    		<h2>Are you sure to reject this certificate?</h2>
+    		<a href="#" class="btn btn-warning" role="button">Reject</a>
+    		<a href="#" class="btn btn-secondary" role="button">Cancel</a>
+    	</div>
+    </div>
 </body>
 </html>
