@@ -26,7 +26,7 @@
 	<div class="carousel-inner" role="listbox" align="center">
 		<div  th:each="image,iterstat:${images}" th:class=
             "${iterstat.index}==0 ? 'carousel-item active':'carousel-item'">
-			<img th:src="@{${image}}" class="d.block w-50">
+			<img th:src="@{${image}}" class="d.block w-75">
 		</div>
 	</div>
 	<a class="left carousel-control" href="#mycarousel" role="button" data-slide="prev">
