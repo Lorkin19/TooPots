@@ -40,3 +40,47 @@ td{
 	color: #fff !important;
 	background-color: #f00 !important;
 }
+
+.h2-red{
+	background-color: red;
+	color: white;
+	display: inline-block;
+	padding: 10px 10px 10px 10px;
+}
+
+.td-right{
+	text-align: right;
+}
+
+.black-table{
+	background-color:rgba(0,0,0,0.8);
+}
+
+.red-tr-head{
+	background-color:rgba(255,0,0,0.8)
+}
+
+.id-site{
+	background-color:rgba(0,0,0,0.9);
+	margin-left:0;
+	margin-right:0;
+	margin-bottom:30px;
+	padding-bottom:15px;
+	padding-top:15px;
+}
+
+.short-input{
+	height: 20px;
+	width: 60px;
+	border-radius:5px;
+}
+
+.red-label {
+	width:0;
+	background-color: rgba(255,0,0,0.8);
+	text-align: right;
+}
+
+.bordered-input {
+	border-radius:5px;
+}

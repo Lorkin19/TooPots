@@ -12,29 +12,38 @@
 </head>
 <body>
 	<div th:replace="fragments/navegation" ></div>
-    <h2>Login</h2>
+    
     <form action="#" th:action="@{/login}" 
           th:object="${user}" method="post">
-		<table>
-			<tr>
-            	<td><label>Mail:</label></td>
-            	<td><input class="form_control" type="text" th:field="*{mail}"/></td>
-            </tr>
-            <tr>
-            	
-            	<td>
-            		<div class="error" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
-            		<label>Password:</label>
-            	</td>
-            	<td>
-            		<input class="form_control" type="password" th:field="*{password}"/>
-            		<div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-            	</td>
-	        </tr>
-		</table>
-        <input class="btn btn-success" type="submit" value="Login" />
+        <div>
+	        <div>
+	        	<h2 style="margin-top:10%; margin-bottom:0;max-width:330px;margin-left:auto;margin-right:auto;display:inherit;" class="h2-red">Login</h2>
+	        </div>
+	        <div>
+				<table>
+					<tr>
+		            	<td class="td-right"><label>Mail:</label></td>
+		            	<td><input class="form_control bordered-input" type="text" th:field="*{mail}"/></td>
+		            </tr>
+		            <tr>
+		            	
+		            	<td class="td-right">
+		            		<div class="error" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
+		            		<label>Password:</label>
+		            	</td>
+		            	<td>
+		            		<input class="form_control bordered-input" type="password" th:field="*{password}"/>
+		            		<div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+		            	</td>
+			        </tr>
+				</table>
+			</div>
+		</div>
+		<div style="margin-top: 10px;">
+			<input class="btn btn-success" type="submit" value="Login" />
+        	<a href="/" class="btn btn-info" role="button">Home</a>
+        </div>
     </form>
-    <a href="/" class="btn btn-info" role="button">Inicio</a>
 </body>
 </html>
 			
