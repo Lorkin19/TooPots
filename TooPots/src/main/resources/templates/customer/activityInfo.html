@@ -3,68 +3,60 @@
 <head>
 	<title>Activity Information</title>
 	<meta charset="UTF-8"/>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css"
     	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <link rel="stylesheet" type="text/css"
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
-    <style>
-    	table{
-			width: 20%;
-        	margin-left : 42%;
-    	}
-    </style>
 </head>
 <body>
 	<div th:replace="fragments/navegation" ></div>
-	<h2>Activity Info</h2>
-	<table id="left" class="table table-striped">
+	<h2 class="id-site">Activity Info</h2>
+	<div class="container">
+	<table id="left" class="table table-striped black-table">
 		<tr>
-			<td><label>Type:</label></td>
+			<td class="red-label"><label>Type:</label></td>
 			<td th:text="${activity.activityType}"></td>
 
 		</tr>
 		<tr>
-			<td><label>Name:</label></td>
+			<td class="red-label"><label>Name:</label></td>
 			<td th:text="${activity.name}"></td>
 		</tr>
 		<tr>
-			<td><label>Location:</label></td>
+			<td class="red-label"><label>Location:</label></td>
 			<td th:text="${activity.location}"></td>
 		</tr>
 		<tr>
-			
-			<td><label>Date: </label></td>
+			<td class="red-label"><label>Date: </label></td>
 			<td th:text="${activity.date}"></td>
 		</tr>
 		<tr>
-			<td><label>Duration:</label></td>
+			<td class="red-label"><label>Duration:</label></td>
 			<td th:text="${activity.duration}"></td>
 		</tr>
 		<tr>
-			<td><label>Vacancies:</label></td>
+			<td class="red-label"><label>Vacancies:</label></td>
 			<td th:text="${activity.vacancies}"></td>
 		</tr>
 		<tr>
-			<td><label>Price:</label></td>
+			<td class="red-label"><label>Price:</label></td>
 			<td th:text="${activity.price}"></td>
 		</tr>
 		<tr>
-			<td><label>Description:</label></td>
+			<td class="red-label"><label>Description:</label></td>
 			<td th:text="${activity.description}"></td>
 		</tr>
 	
 		<tr>
-			<td><label>Level:</label></td>
+			<td class="red-label"><label>Level:</label></td>
 			<td th:text="${activity.level}"></td>
 		</tr>
-        <tr>
-        	<td colspan="2"><a href="../myReservations" class="btn btn-info" role="button">Return</a></td>
-        </tr>
-        <tr>
-        	<td colspan="2"><a href="/" class="btn btn-info" role="button">Inicio</a></td>
-        </tr>
 	</table>
-	
+	<div>
+		<a href="../myReservations" class="btn btn-danger" role="button">Return</a>
+    	<a href="/" class="btn btn-info" role="button">Home</a>
+	</div>
+	</div>
 </body>
 </html>

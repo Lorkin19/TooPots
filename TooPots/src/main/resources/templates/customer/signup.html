@@ -12,43 +12,46 @@
 </head>
 <body background="../images/banner.jpg">
 <div th:replace="fragments/navegation" ></div>
-	<h2>SignUp</h2>
+	<h2 style="margin-top:2%; margin-bottom:0;max-width:335px;margin-left:auto;margin-right:auto;display:inherit;" class="h2-red">SignUp</h2>
 	<form action="#" th:action="@{/customer/signup}" th:object="${customer}" method="post">
 		<table>
 			<tr>
-			   <td colspan="2"><a href="../instructor/signup" class="btn btn-danger" role="button">Signup as Instructor</a></td>
-			</tr>
-			
-			<tr>
 				<td><label>Mail:</label></td>
-				<td><input type="text" th:field="*{mail}"></td>
+				<td><input class="bordered-input" type="text" th:field="*{mail}"></td>
 			</tr>
 			<tr>
 				<td><label>Username:</label></td>
-				<td><input type="text" th:field="*{username}"></td>
+				<td><input class="bordered-input" type="text" th:field="*{username}"></td>
 			</tr>
 			<tr>
 				<td><label>Password:</label></td>
-				<td><input type="password" th:field="*{pwd}"></td>
+				<td><input class="bordered-input" type="password" th:field="*{pwd}"></td>
 			</tr>
 			<tr>
 				<td><label>Name:</label></td>
-				<td><input type="text" th:field="*{name}"></td>
+				<td><input class="bordered-input" type="text" th:field="*{name}"></td>
 			</tr>
 			<tr>
 				<td><label>Surname:</label></td>
-				<td><input type="text" th:field="*{surname}"></td>
+				<td><input class="bordered-input" type="text" th:field="*{surname}"></td>
 			</tr>
 			
-		<tr>
-            <td colspan="2"><input type="submit" value="Add Customer" /></td>
-        </tr>
-        
-        <tr>
-        	<td colspan="2"><a href="/" class="btn btn-info" role="button">Return</a></td>
-        </tr>
+			<tr>
+            	<td colspan="2"><input class="btn btn-success" type="submit" value="Add Customer" /></td>
+        	</tr>
+        	<tr>
+        		<td colspan="2"><p> Or...</p></td>
+        	</tr>
+        	<tr>
+			   <td colspan="2"><a href="../instructor/signup" class="btn btn-warning" role="button">Signup as Instructor</a></td>
+			</tr>
 		</table>
 	</form>
+	<div style="margin-top: 10px;">
+		<a href="/" class="btn btn-danger" role="button">Return</a>
+        <a href="/" class="btn btn-info" role="button">Home</a>
+    </div>
+	<p style="margin-bottom:30px;"></p>
 </body>
 </html>
 	

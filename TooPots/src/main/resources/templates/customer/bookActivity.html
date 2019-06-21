@@ -12,52 +12,47 @@
 </head>
 <body background="../images/banner.jpg">
 <div th:replace="fragments/navegation" ></div>
-	<h2>Enroll</h2>
+	<h2 class="id-site">Enroll</h2>
+	<div class="container">
 		<form action="#" th:action="@{/customer/bookActivity/{id}(id=${activity.activityId})}" th:object="${reservation}" method="post">	
-
-		<table class="table table-striped">
-			<thead>
-			<tr>
-				<th>Name</th>
-				<th>Location</th>
-				<th>Date time</th>
-				<th>Duration</th>
-				<th>Vacancies</th>
-				<th>Price</th>
-				<th>Difficulty</th>
-				<th>Description</th>
-			</tr>
-	        </thead>
-	        <tbody>
-	        	<tr>
-	        		<td th:text="${activity.name}"></td>
-	        		<td th:text="${activity.location}"></td>
-	        		<td th:text="${activity.date}"></td>
-	        		<td th:text="${activity.duration}"></td>
-	        		<td th:text="${activity.vacancies}"></td>
-	        		<td th:text="${activity.price}"></td>
-	        		<td th:text="${activity.level}"></td>
-					<td th:text="${activity.description}"></td>
+			<table class="table table-striped black-table">
+				<thead>
+				<tr class="red-tr-head">
+					<th>Name</th>
+					<th>Location</th>
+					<th>Date time</th>
+					<th>Duration</th>
+					<th>Vacancies</th>
+					<th>Price</th>
+					<th>Difficulty</th>
+					<th>Description</th>
 				</tr>
-	</tbody>
-			<tr>
-				<td><label>Vacancies</label></td>
-				<td><input th:type="number" th:field="*{vacancies}" th:min="1" th:max="${activity.vacancies}"></td>
-			</tr>
-			
-			
-			
-			<tr>
-				<td colspan="2"><input type="submit" value="Enroll"></td>
-			</tr>
-			<tr>
-        		<td colspan="2"><a href="../activities">Return</a></td>
-
-        	</tr>
- 			<tr>
-        		<td colspan="2"><a href="/" class="btn btn-info" role="button">Inicio</a></td>
-      		</tr>        	
-	</table>
-	</form>
+		        </thead>
+		        <tbody>
+		        	<tr>
+		        		<td th:text="${activity.name}"></td>
+		        		<td th:text="${activity.location}"></td>
+		        		<td th:text="${activity.date}"></td>
+		        		<td th:text="${activity.duration}"></td>
+		        		<td th:text="${activity.vacancies}"></td>
+		        		<td th:text="${activity.price}"></td>
+		        		<td th:text="${activity.level}"></td>
+						<td th:text="${activity.description}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<div style="padding-top:15px;padding-bottom:15px;" class="black-table">
+				<label>Vacancies</label>
+				<input class="short-input" th:type="number" th:field="*{vacancies}" th:min="1" th:max="${activity.vacancies}">
+				<input type="submit" class="btn btn-success" value="Enroll">
+	    	</div>       	
+		</form>
+		<div>
+			<p style="margin-bottom:15px;"></p>
+			<a href="../activities" class="btn btn-danger" role="button">Return</a>
+	        <a href="/" class="btn btn-info" role="button">Home</a>
+	   	</div>
+	</div>
+	<p style="margin-bottom:40px;"></p>
 </body>
 </html>
