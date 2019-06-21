@@ -1,5 +1,9 @@
 package es.uji.TooPots.dao;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -10,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import es.uji.TooPots.model.Certificate;
 import es.uji.TooPots.model.Status;
+import es.uji.TooPots.model.UserDetails;
 
 @Repository
 public class CertificateDao {
@@ -94,6 +100,46 @@ public class CertificateDao {
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Certificate>();
 		}
+	}
+	
+	public String uploadCertificate(MultipartFile[] files, UserDetails user, String uploadDirectory) {
+		StringBuilder message = new StringBuilder();
+		StringBuilder paths = new StringBuilder(); 
+		Certificate certificate = new Certificate();
+
+		try {
+		for (MultipartFile file : files) {
+			if (file.isEmpty()) {
+				message.append("Please select a file to upload. Empty file: " + file.getOriginalFilename());
+				return message.toString();
+			}
+							
+			
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail());
+			if (!Files.isDirectory(path)) {
+				Files.createDirectories(path);
+			}
+			path = Paths.get(uploadDirectory + "/pdfs/"+user.getMail()+"/"+ file.getOriginalFilename());
+			Files.write(path, bytes);
+
+			
+			certificate.setOwnerMail(user.getMail());
+			certificate.setRoute("/pdfs/"+user.getMail()+"/" + file.getOriginalFilename());
+			certificate.setActivityType("");
+			certificate.setStatus(Status.PENDING);
+			certificate.setFileName(file.getOriginalFilename());
+		
+			paths.append(uploadDirectory+"/pdfs/"+user.getMail()+"/" + file.getOriginalFilename()+"\n");
+			
+			addCertificate(certificate);
+		}			
+		message.append("You successfully uploaded:\n"+paths.toString());
+		}catch(IOException e) {
+			message = new StringBuilder("An error has occurred.\n");
+			message.append(e.getStackTrace());
+		}
+		return message.toString();
 	}
 	
 	

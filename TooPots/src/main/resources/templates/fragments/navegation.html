@@ -73,9 +73,9 @@
 		</p>
 		<div class="navright">
 			<p class="navp" th:if="*{user == null}">
-				<a href="/login" class="btn btn-warning" role="button" th:href="@{/login}">Login</a>
+				<a href="/login" class="btn btn-danger" role="button" th:href="@{/login}">Login</a>
 				<span class="navp"></span>
-				<a href="/customer/signup" class="btn btn-info" role="button" th:href="@{/customer/signup}">Signup</a>
+				<a href="/customer/signup" style="background-color:black; border-color:black;" class="btn btn-secondary" role="button" th:href="@{/customer/signup}">Signup</a>
 			</p>
 			
 			
