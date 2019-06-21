@@ -9,39 +9,107 @@
     	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <link rel="stylesheet" type="text/css"
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/tabs.css" th:href="@{/css/tabs.css}">
+    	  
 </head>
 <body>
 <div th:replace="fragments/navegation" ></div>
 <div class="container">
 	<h1>Administrator</h1>
 		<h3>My requests</h3>
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Request Id</th>
-					<th>Mail</th>
-					<th>Name</th>
-					<th>Surname</th>
-					<th>Status</th>
-					<th></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="request:${requests}">
-					<td th:text="${request.requestId}"></td>
-					<td th:text="${request.mail}"></td>
-					<td th:text="${request.name}"></td>
-					<td th:text="${request.surname}"></td>
-					<td th:text="${request.status}"></td>
-					<td><a th:href="@{/administrator/acceptRequest/{id}(id=${request.requestId})}"
-						class="btn btn-warning" th:role="button">Accept Request</a></td>
-					<td><a th:href="@{/administrator/rejectRequest/{id}(id=${request.requestId})}"
-						class="btn btn-danger" th:role="button">Reject Request</a></td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="divCertificate">
+		<div>
+		<ul id="superUl">
+    		<li><a href="#tab1" class="btn btn-warning">Pending requests</a></li>
+    		<li><a href="#tab2" class="btn btn-success">Approved requests</a></li>
+    		<li><a href="#tab3" class="btn btn-danger">Rejected requests</a></li>
+		</ul>
+		</div>
+		<div id="tab1" class="tab-content">
+			<h3>Pending requests</h3>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Request Id</th>
+						<th>Mail</th>
+						<th>Name</th>
+						<th>Surname</th>
+						<th>Status</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="request:${requests}">
+						<td th:text="${request.requestId}"></td>
+						<td th:text="${request.mail}"></td>
+						<td th:text="${request.name}"></td>
+						<td th:text="${request.surname}"></td>
+						<td th:text="${request.status}"></td>
+						<td><a th:href="@{/administrator/acceptRequest/{id}(id=${request.requestId})}"
+							class="btn btn-warning" th:role="button">Accept Request</a></td>
+						<td><a th:href="@{/administrator/rejectRequest/{id}(id=${request.requestId})}"
+							class="btn btn-danger" th:role="button">Reject Request</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="tab2" class="tab-content">
+			<h3>Approved requests</h3>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Request Id</th>
+						<th>Mail</th>
+						<th>Name</th>
+						<th>Surname</th>
+						<th>Status</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="approvedRequest:${approvedRequests}">
+						<td th:text="${approvedRequest.requestId}"></td>
+						<td th:text="${approvedRequest.mail}"></td>
+						<td th:text="${approvedRequest.name}"></td>
+						<td th:text="${approvedRequest.surname}"></td>
+						<td th:text="${approvedRequest.status}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="tab3" class="tab-content">
+			<h3>Rejected requests</h3>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Request Id</th>
+						<th>Mail</th>
+						<th>Name</th>
+						<th>Surname</th>
+						<th>Status</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="rejectedRequest:${rejectedRequests}">
+						<td th:text="${rejectedRequest.requestId}"></td>
+						<td th:text="${rejectedRequest.mail}"></td>
+						<td th:text="${rejectedRequest.name}"></td>
+						<td th:text="${rejectedRequest.surname}"></td>
+						<td th:text="${rejectedRequest.status}"></td>
+						<td><a th:href="@{/administrator/acceptRequest/{id}(id=${rejectedRequest.requestId})}"
+							class="btn btn-warning" th:role="button">Accept Request</a></td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<a href="/" class="btn btn-info" role="button">Inicio</a>
+	</div>
 	</div>
 </body>
 </html>

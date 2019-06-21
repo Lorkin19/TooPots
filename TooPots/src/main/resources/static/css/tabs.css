@@ -1,0 +1,34 @@
+.tab-content {
+    display: none;
+}
+.tab-content:target {
+    display: block;
+}
+
+ul{
+	display:flex;
+}
+
+.divCertificate{
+	margin-left:10%;
+	margin-right:10%;
+}
+.divTable{
+	background-color:black;
+}
+#tab1{
+	background-color:black;
+	border-radius:5px;
+}
+#tab2{
+	background-color:black;
+	border-radius:5px;
+}
+#tab3{
+	background-color:black;
+	border-radius:5px;
+}
+#superUl{
+	margin-left:27%;
+	
+}
