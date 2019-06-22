@@ -80,7 +80,7 @@ public class LoginController {
 			if (user.getUserType()==1) {
 				return "redirect:/instructor/menu";
 			}else {
-				return "redirect:/administrator/myRequests";
+				return "redirect:/administrator/myRequests#tab1";
 			}
 		}
 	}

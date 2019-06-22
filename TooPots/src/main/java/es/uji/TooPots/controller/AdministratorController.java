@@ -1,5 +1,9 @@
 package es.uji.TooPots.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,25 +73,17 @@ public class AdministratorController {
 		return "administrator/myRequests";
 	}
 	
-	@RequestMapping("/myApprovedRequests")
-	public String listApprovedRequests(Model model) {
-		model.addAttribute("requests", requestDao.getApprovedRequests());
-		return "administrator/myApprovedRequests";
-	}
-	
-	@RequestMapping("/myRejectedRequests")
-	public String listRejectedRequests(Model model) {
-		model.addAttribute("requests", requestDao.getRejectedRequests());
-		return "administrator/myRejectedRequests";
-	}
-	
 	@RequestMapping("/showCertificates/{mail}")
-	public String viewCertificate(Model model, @PathVariable("mail") String mail) {
+	public String viewCertificate(Model model, @PathVariable("mail") String mail, HttpSession session) {
+		session.setAttribute("nextPageAdmin", "/administrator/showCertificates/"+mail);
 		model.addAttribute("certificates", certificateDao.getInstructorCertificates(mail));
+		model.addAttribute("types", activityTypeDao.getActivityTypes());
+		model.addAttribute("activityType", new ActivityType());
+		System.out.println("patata");
 		return "administrator/showCertificates";
 	}
 	
-	@RequestMapping("/acceptRequest/{id}")
+	@RequestMapping(value="/acceptRequest/{id}")
 	public String acceptRequest(@PathVariable("id") int requestId) {
 		Request request = requestDao.getRequest(requestId);
 		request.setStatus(Status.APPROVED);
@@ -110,6 +106,14 @@ public class AdministratorController {
 	public String rejectRequest(@PathVariable("id") int requestId) {
 		Request request = requestDao.getRequest(requestId);
 		request.setStatus(Status.REJECTED);
+		
+		List<Certificate> certificates = certificateDao.getInstructorCertificates(request.getMail());
+		
+		for (Certificate c : certificates) {
+			c.setStatus(Status.REJECTED);
+			certificateDao.updateCertificate(c);
+		}
+		
 		requestDao.updateRequest(request);
 		System.out.println(request.getMail()+": Your request has been rejected.");
 		return "redirect:/administrator/myRequests";
@@ -118,24 +122,13 @@ public class AdministratorController {
 	
 	
 	@RequestMapping("/certificateRequests")
-	public String listCertificates(Model model) {
+	public String listCertificates(Model model, HttpSession session) {
+		session.setAttribute("nextPageAdmin", "/administrator/certificateRequests");
 		model.addAttribute("certificates", certificateDao.getCertificates());
 		model.addAttribute("approvedCertificates", certificateDao.getApprovedCertificates());
 		model.addAttribute("rejectedCertificates", certificateDao.getRejectedCertificates());
 		model.addAttribute("message", new Message());
 		return "administrator/pendingCertificates";
-	}
-	
-	@RequestMapping("/approvedCertificateRequests")
-	public String listApprovedCertificates(Model model) {
-		model.addAttribute("certificates", certificateDao.getApprovedCertificates());
-		return "administrator/approvedCertificateRequests";
-	}
-	
-	@RequestMapping("/rejectedCertificateRequests")
-	public String listRejectedCertificateRequests(Model model) {
-		model.addAttribute("certificates", certificateDao.getRejectedCertificates());
-		return "administrator/rejectedCertificateRequests";
 	}
 	
 	@RequestMapping("/newTypeCertificates")
@@ -144,8 +137,8 @@ public class AdministratorController {
 		return "administrator/newTypeCertificates";
 	}
 	
-	@RequestMapping("/acceptCertificate/{id}")
-	public String acceptCertificate(@PathVariable("id") int certificateId) {
+	@RequestMapping(value="/acceptCertificate/{id}", method=RequestMethod.POST)
+	public String acceptCertificate(@PathVariable("id") int certificateId, HttpSession session, @ModelAttribute("activityType") ActivityType act) {
 		Certificate certificate = certificateDao.getCertificate(certificateId);
 		
 		certificate.setStatus(Status.APPROVED);
@@ -156,11 +149,11 @@ public class AdministratorController {
 		
 		certificateDao.updateCertificate(certificate);
 		messageDao.sendMessage(issue, text, mail);
-		return "redirect:/administrator/certificateRequests";
+		return "redirect:"+session.getAttribute("nextPageAdmin");
 	}
 	
 	@RequestMapping("/rejectCertificate/{id}")
-	public String rejectCertificate(@PathVariable("id") int certificateId, @ModelAttribute("message") Message message) {
+	public String rejectCertificate(@PathVariable("id") int certificateId, @ModelAttribute("message") Message message, HttpSession session) {
 		Certificate certificate = certificateDao.getCertificate(certificateId);
 		
 		certificate.setStatus(Status.REJECTED);	
@@ -171,7 +164,7 @@ public class AdministratorController {
 		
 		certificateDao.updateCertificate(certificate);
 		messageDao.addMessage(message);
-		return "redirect:/administrator/certificateRequests";
+		return "redirect:"+session.getAttribute("nextPageAdmin");
 	}
 	
 	@RequestMapping("/manageType/{id}")

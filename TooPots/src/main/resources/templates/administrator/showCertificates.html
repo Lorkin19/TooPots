@@ -9,6 +9,7 @@
     	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <link rel="stylesheet" type="text/css"
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
+   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">    	  
 </head>
 <body background="../images/banner.jpg">
 	<div th:replace="fragments/navegation" ></div>
@@ -29,8 +30,77 @@
         		<td th:text="${certificate.fileName}"></td>
         		<td th:text="${certificate.status}">
         		<td><a th:href=@{http://localhost:8090/{pdf}(pdf=${certificate.route})} class="btn btn-info" role="button">Download</a></td>
-        		<td><a th:href="@{/administrator/myRequests#tab1}" class="btn btn-warning" role="button">Return</a></td>
+        		
+        		<td><button onclick="document.getElementById('id02').style.display='block'" class="btn btn-success">Approve Certificate</button></td>
+
+        		<td><button onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger">Reject Certificate</button></td>
+
+  						
+  				<div id="id01" class="w3-modal">
+				    <div class="w3-modal-content">
+				      <header class="w3-container red-header"> 
+				        <span onclick="document.getElementById('id01').style.display='none'" 
+				        class="w3-button w3-display-topright">&times;</span>
+				        <h2 class="h2Red">Confirmation Message</h2>
+				      </header>
+				      <div class="w3-container">
+				        <p class="p-white">Are you sure you want to reject this certificate?</p>
+				        <p><a th:href="@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})}" class="btn btn-info" role="button">Continue</a>
+				        <a onclick="document.getElementById('id01').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+				        </p>
+				      </div>
+				    </div>
+				  </div>
+				  
+				  <div id="id02" class="w3-modal">
+				    <div class="w3-modal-content">
+				      <header class="w3-container red-header"> 
+				        <span onclick="document.getElementById('id02').style.display='none'" 
+				        class="w3-button w3-display-topright">&times;</span>
+				        <h2 class="h2Red">Confirmation Message</h2>
+				      </header>
+				      <div class="w3-container">
+				      <p>
+				        <form action="#" th:action="@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})}" th:object="${activityType}" method="post">
+				       		<table class="table table-striped black-table">
+				       			<tr>
+					       			<td><label>Asign Existing Activity Type:</label></td>
+					       			<td><select id="tipoActividad" th:field="*{name}">
+											<option value="default" selected hidden>Select a type</option>
+											<option th:each="tipo:${types}" th:value="${tipo.name}" th:text="${tipo.name}"></option>
+										</select>
+									</td>
+					       		</tr>
+					       		<tr>
+					       			<td colspan="2"><input type=submit class="btn btn-warning" role=button value="Continue"></td>
+					       		</tr>
+				       		</table>
+				        </form>
+				        <form action="#" th:action="@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})}" th:object="${activityType}" method="post">
+				       		<table class="table table-striped black-table">
+				       			<tr>
+					       			<td><label>Asign New Activity Type:</label></td>
+					       			<td><input type="text" th:field="*{name}"></td>
+					       		</tr>
+					       		<tr>
+					       			<td><label>Asign Description:</label></td>
+					       			<td><input type="text" th:field="*{description}"></td>
+					       		</tr>
+					       		<tr>
+					       			<td colspan="2"><input type=submit class="btn btn-warning" role=button value="Continue"></td>
+					       		</tr>
+				       		</table>
+				        </form>
+				        </p>	
+				        
+				        
+				        <a onclick="document.getElementById('id02').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+				      </div>
+				    </div>
+				  </div>
         	</tr>
-        </tbody>
-    	
+        </tbody>    	
     </table>
+    <a th:href="@{/administrator/myRequests#tab1}" class="btn btn-warning" role="button">Return</a>
+</body>
+</html>

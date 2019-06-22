@@ -36,6 +36,10 @@ td{
 		color: white;
 }
 
+.p-red{
+	color:red;
+}
+
 .red-header{
 	color: #fff !important;
 	background-color: #f00 !important;

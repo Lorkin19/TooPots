@@ -11,6 +11,7 @@
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
     <link rel="stylesheet" type="text/css"
     	  href="/css/tabs.css" th:href="@{/css/tabs.css}">
+   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     	  
 </head>
 <body>
@@ -48,12 +49,45 @@
 						<td th:text="${request.name}"></td>
 						<td th:text="${request.surname}"></td>
 						<td th:text="${request.status}"></td>
-						<td><a th:href="@{/administrator/acceptRequest/{id}(id=${request.requestId})}"
-							class="btn btn-warning" th:role="button">Accept Request</a></td>
-						<td><a th:href="@{/administrator/rejectRequest/{id}(id=${request.requestId})}"
-							class="btn btn-danger" th:role="button">Reject Request</a></td>
+						<td><button onclick="document.getElementById('id02').style.display='block'" class="btn btn-success">Approve Request</button></td>
+						<td><button onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger">Reject Request</button></td>
 						<td><a th:href="@{/administrator/showCertificates/{mail}(mail=${request.mail})}"
 							class="btn btn-secondary" th:role="button">Show Certificates</a></td>
+						
+						<div id="id01" class="w3-modal">
+					    <div class="w3-modal-content">
+					      <header class="w3-container red-header"> 
+					        <span onclick="document.getElementById('id01').style.display='none'" 
+					        class="w3-button w3-display-topright">&times;</span>
+					        <h2 class="h2Red">Confirmation Message</h2>
+					      </header>
+					      <div class="w3-container">
+					        <p class="p-white">Are you sure you want to reject this request?</p>
+					        <p class="p-red"><i>All certificates attached to this request will be marked as rejected.</i></p>
+					        <p><a th:href="@{/administrator/rejectRequest/{id}(id=${request.requestId})}" class="btn btn-info" role="button">Continue</a>
+					        <a onclick="document.getElementById('id01').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+					        </p>
+					      </div>
+					    </div>
+					  </div>
+					  
+					  <div id="id02" class="w3-modal">
+					    <div class="w3-modal-content">
+					      <header class="w3-container red-header"> 
+					        <span onclick="document.getElementById('id02').style.display='none'" 
+					        class="w3-button w3-display-topright">&times;</span>
+					        <h2 class="h2Red">Confirmation Message</h2>
+					      </header>
+					      <div class="w3-container">
+					        <p class="p-white">Are you sure you want to approve this request?</p>
+					        <p class="p-red"><i>Note that only the approved certificates attached to this request will be marked as approved.
+					        					See "Show Certificates" by clicking its button.</i></p>
+					        <p><a th:href="@{/administrator/acceptRequest/{id}(id=${request.requestId})}" class="btn btn-info" role="button">Continue</a>
+					        <a onclick="document.getElementById('id02').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+					        </p>
+					      </div>
+					    </div>
+					  </div>
 					</tr>
 				</tbody>
 			</table>
@@ -111,7 +145,7 @@
 				</tbody>
 			</table>
 		</div>
-		<a href="/" class="btn btn-info" role="button">Inicio</a>
+		<a href="/" class="btn btn-info" role="button">Home</a>
 	</div>
 	</div>
 </body>

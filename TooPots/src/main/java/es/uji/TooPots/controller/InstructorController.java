@@ -144,7 +144,7 @@ public class InstructorController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddSubmit(@RequestParam("file") MultipartFile[] files, @ModelAttribute("activity") Activity activity, @ModelAttribute("type")  ActivityType type,
+    public String processAddSubmit(@RequestParam("file") MultipartFile[] files, @ModelAttribute("activity") Activity activity, @ModelAttribute("type")  List<ActivityType> type,
                                    BindingResult bindingResult, HttpSession session, RedirectAttributes redirectAttributes) {
     	
     	UserDetails user = (UserDetails) session.getAttribute("user");
@@ -156,7 +156,7 @@ public class InstructorController {
         	return "instructor/add";
         }
 
-		String message = imageDao.uploadImage(files, user, uploadDirectory, activity.getActivityId(), bindingResult);
+		String message = imageDao.uploadImage(files, user, uploadDirectory, activityDao.getActivityId(), bindingResult);
 		if (!message.equals("Success")) {
 			session.setAttribute("nextPage", "/instructor/add");
 			redirectAttributes.addFlashAttribute("message", message);
