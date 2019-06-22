@@ -1,11 +1,12 @@
 body{
 	color:white;
 	text-align: center;
-    background-image:url(/images/banner.jpg);
+	background-image:url(/images/banner.jpg);
     background-position: center;
 	background-repeat: round;
 	background-attachment: fixed;
 }
+
 table{
 	border-collapse: collapse;
     text-align:center;
@@ -83,4 +84,16 @@ td{
 
 .bordered-input {
 	border-radius:5px;
+}
+
+.little-black-container{
+	display: inline-block;
+	background-color:rgba(0,0,0,0.9);
+	padding: 15px;
+	border-radius: 5px;
+}
+
+.add-activity{
+	background-color:rgba(0,0,0,0.9);
+	display: inline-block;
 }
