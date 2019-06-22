@@ -77,4 +77,8 @@ public class ActivityDao {
 			return new ArrayList<Activity>();
 		}
 	}
+	
+	public int getActivityId() {
+		return activityId.get();
+	}
 }
