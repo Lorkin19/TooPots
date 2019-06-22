@@ -37,9 +37,18 @@ public class CanOrganizeDao {
 	
 	public List<ActivityType> getInstructorCanOrganize(String mail){
 		try {
-			return jdbcTemplate.query("SELECT activityTypeName FROM CanOrganize WHERE mail=?", new ActivityTypeRowMapper(), mail);
+			return jdbcTemplate.query("SELECT activityTypeName as name FROM CanOrganize WHERE mail=?", new ActivityTypeRowMapper(), mail);
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<ActivityType>();
 		}
 	} 
+	
+	public Boolean isCanOrganize(String mail, String activityType) {
+		try {
+			jdbcTemplate.queryForObject("SELECT * FROM CanOrganize WHERE mail=? and activityTypeName=?", new CanOrganizeRowMapper(), mail, activityType);
+			return true;
+		}catch(EmptyResultDataAccessException e) {
+			return false;
+		}
+	}
 }

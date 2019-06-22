@@ -99,7 +99,17 @@ public class AdministratorController {
 		Request request = requestDao.getRequest(requestId);
 		request.setStatus(Status.APPROVED);
 		requestDao.updateRequest(request);
-		
+		List<Certificate> certificates = certificateDao.getInstructorCertificates(request.getMail());
+		CanOrganize cO = new CanOrganize();
+		for (Certificate c:certificates) {
+			String mail = request.getMail();
+			String activityType = c.getActivityType();
+			if (!canOrganizeDao.isCanOrganize(mail, activityType)) {
+				cO.setActivityTypeName(activityType);
+				cO.setMail(mail);
+				canOrganizeDao.addCanOrganize(cO);
+			}
+		}
 		Instructor instructor = requestDao.convertToInstructor(request);
 		instructorDao.addInstructor(instructor);
 		
