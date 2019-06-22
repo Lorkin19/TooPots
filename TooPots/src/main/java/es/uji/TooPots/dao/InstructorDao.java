@@ -42,6 +42,16 @@ public class InstructorDao {
 				instructor.getBankAccount());
 	}
 	
+	public boolean isInstructor(String mail) {
+		try {
+			jdbcTemplate.queryForObject("SELECT * FROM Instructor "
+					+ "WHERE mail=?", new InstructorRowMapper(), mail);
+			return true;
+		}catch (EmptyResultDataAccessException e) {
+			return false;
+		}
+	}
+	
 	public Instructor getInstructor(String username) {
 		try {
 			return jdbcTemplate.queryForObject("SELECT * FROM Instructor "
@@ -66,7 +76,5 @@ public class InstructorDao {
 		}catch(EmptyResultDataAccessException e) {
 			return new ArrayList<ActivityType>();
 		}
-	}
-	
-	
+	}	
 }
