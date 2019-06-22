@@ -105,6 +105,14 @@ public class CertificateDao {
 		}
 	}
 	
+	public List<Certificate> getInstructorsCertificates(){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Certificate WHERE status=? and ownerMail IN (SELECT mail FROM Instructor)", new CertificateRowMapper(), Status.PENDING);
+		}catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Certificate>();
+		}
+	}
+	
 	public String uploadCertificate(MultipartFile[] files, String mail, String uploadDirectory, BindingResult bindingResult) {
 		StringBuilder message = new StringBuilder();
 		StringBuilder paths = new StringBuilder(); 
@@ -151,6 +159,7 @@ public class CertificateDao {
 		}
 		return message.toString();
 	}
+
 }
 
 class CertificateValidator implements Validator{

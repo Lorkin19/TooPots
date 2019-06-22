@@ -42,8 +42,8 @@
 	        	<tr th:each="certificate:${certificates}">
 	        		<td th:text="${certificate.fileName}"></td>
 	        		<td><a th:href=@{http://localhost:8090/{pdf}(pdf=${certificate.route})} class="btn btn-info" role="button">Download</a></td>
-	        		<td><a th:href=@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})} class="btn btn-success" role="button">Approve</a></td>
 	        		
+	        		<td><button onclick="document.getElementById('id02').style.display='block'" class="btn btn-success">Approve</button></td>
 	        		<td><button onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger">Reject</button></td>
 	        		
 	        		<div id="id01" class="w3-modal">
@@ -61,6 +61,41 @@
 					      </div>
 					    </div>
 					  </div>
+					  <div id="id02" class="w3-modal">
+					<div class="w3-modal-content" style=background-color:rgb(50,50,50)>
+						<div class="w3-center">
+							<header class="w3-container red-header"> 
+				        		<span onclick="document.getElementById('id02').style.display='none'" 
+				        			class="w3-button w3-display-topright">&times;</span>
+				        		<h2 class="h2Red">Confirmation Message</h2>
+				     		 </header>
+						</div>
+						<form class="w3-container" action="#" th:action="@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})}" th:object="${activityType}">
+							<div class="w3-section">
+								<h4><b>Asign Existing Activity Type</b></h4>
+								<label>Name:</label>
+								<select class="bordered-input" id="tipoActividad" th:field="*{name}">
+									<option value="default" selected hidden>Select a type</option>
+									<option th:each="tipo:${types}" th:value="${tipo.name}" th:text="${tipo.name}"></option>
+								</select><br>
+								
+								<button class="btn btn-warning" type="submit">Continue</button>
+							</div>
+						</form>
+						
+						<form class="w3-container" action="#" th:action="@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})}" th:object="${activityType}">
+							<div class="w3-section">
+								<h4><b>Create New Activity Type</b></h4>
+								<label>Name:</label>
+								<input type="text" th:field="*{name}"/><br>
+								<label>Description:</label>
+								<textarea class="bordered-input" rows="5" cols="20" th:field="*{description}"></textarea><br>
+							</div>
+							<button class="btn btn-warning" type="submit">Continue</button><br>
+						</form>
+						<a onclick="document.getElementById('id02').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+					</div> 
+				</div>
 	        	</tr>
 	        </tbody>
 	    </table>
@@ -105,7 +140,6 @@
 	        	<tr th:each="rejectedCertificate:${rejectedCertificates}">
 	        		<td th:text="${rejectedCertificate.fileName}"></td>
 	        		<td><a th:href=@{http://localhost:8090/{pdf}(pdf=${rejectedCertificate.route})} class="btn btn-info" role="button">Download</a></td>
-	        		<td><a th:href=@{/administrator/acceptCertificate/{id}(id=${rejectedCertificate.certificateId})} class="btn btn-success" role="button">Approve</a></td>
 	        	</tr>
 	        </tbody>
 	    </table>
