@@ -78,6 +78,14 @@ public class ActivityDao {
 		}
 	}
 	
+	public List<Activity> getActivitiesOfType(String activityTypeName){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Activity WHERE activityType=?", new ActivityRowMapper(), activityTypeName);
+		}catch(EmptyResultDataAccessException e) {
+			return new ArrayList<Activity>();
+		}
+	}
+	
 	public int getActivityId() {
 		return activityId.get();
 	}

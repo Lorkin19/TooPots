@@ -5,6 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -33,6 +38,10 @@ import es.uji.TooPots.dao.CertificateDao;
 import es.uji.TooPots.dao.ImageDao;
 import es.uji.TooPots.model.Activity;
 import es.uji.TooPots.model.ActivityType;
+import es.uji.TooPots.model.CanOrganize;
+import es.uji.TooPots.model.Certificate;
+import es.uji.TooPots.model.Customer;
+import es.uji.TooPots.model.ReceiveInformation;
 import es.uji.TooPots.model.Request;
 import es.uji.TooPots.model.UserDetails;
 
@@ -112,7 +121,8 @@ public class InstructorController {
 		if (user == null || user.getUserType()!=1) {
 			session.setAttribute("pagAnt", "/instructor/menu");
 			return "redirect:/login";
-		}
+		}		
+        model.addAttribute("type", canOrganizeDao.getInstructorCanOrganize(user.getMail()).size());
 		model.addAttribute("activities", activityDao.getInstructorActivities(user.getMail()));
 		model.addAttribute("session", session);
 		return "instructor/menu";
@@ -144,7 +154,7 @@ public class InstructorController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddSubmit(@RequestParam("file") MultipartFile[] files, @ModelAttribute("activity") Activity activity, @ModelAttribute("type")  List<ActivityType> type,
+    public String processAddSubmit(@RequestParam("file") MultipartFile[] files, @ModelAttribute("activity") Activity activity, 
                                    BindingResult bindingResult, HttpSession session, RedirectAttributes redirectAttributes) {
     	
     	UserDetails user = (UserDetails) session.getAttribute("user");
@@ -166,16 +176,15 @@ public class InstructorController {
         
         String activityType = activity.getActivityType();
         
-        List<String> customers = receiveInformationDao.getCustomersForActivityType(activityType);
         
         String issue;
         String text;
-                
-        for (String mail:customers) {
+        
+        for (ReceiveInformation customer:receiveInformationDao.getCustomersForActivityType(activityType)) {
         	issue = "New Activity.";
         	text="A new activity of type " + activityType + " has been created. Check it out!";
         	
-        	messageDao.sendMessage(issue, text, mail);        	
+        	messageDao.sendMessage(issue, text, customer.getMail());        	
         }
         
         issue="Activity Created";
@@ -226,7 +235,7 @@ public class InstructorController {
     	if (bindingResult.hasErrors()) {
     		return "instructor/signup";
     	}
-    	String message = certificateDao.uploadCertificate(files, request.getMail(), uploadDirectory, bindingResult);
+    	String message = certificateDao.uploadCertificate(files, request.getMail(), uploadDirectory);
     	if (!message.equals("Success")) {
 			session.setAttribute("nextPage", "/instructor/signup");
 			redirectAttributes.addFlashAttribute("message", message);
@@ -240,6 +249,37 @@ public class InstructorController {
     	requestDao.addRequest(request);
     	return "redirect:/uploadStatus";
     }
+    
+    @RequestMapping("/deleteCertificate/{id}")
+    public String deleteCertificate(@PathVariable("id") int certificateId, RedirectAttributes redirectAttributes, HttpSession session) {
+    	Certificate certificate = certificateDao.getCertificate(certificateId);
+    	Path path = Paths.get(uploadDirectory + certificate.getRoute());
+    	try {
+        	certificateDao.deleteCertificate(certificateId);
+			Files.deleteIfExists(path);
+			messageDao.sendMessage("Certificate Delete", "The certificate " + certificate.getFileName() + " has been deleted successfully.", certificate.getOwnerMail());
+			return "redirect:/instructor/certificates#tab1";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			redirectAttributes.addFlashAttribute("message", "A fatal error has occured.");
+			session.setAttribute("nextPage", "/instructor/certificates#tab1");
+		}
+    	return "redirect:/uploadStatus";
+    }
+    
+	@RequestMapping(value="/certificates")
+	public String listCertificates(Model model, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user == null || user.getUserType()!=1) {
+			session.setAttribute("pagAnt", "/instructor/certificates");
+			return "redirect:/login";
+		}
+		model.addAttribute("certificates", certificateDao.getInstructorCertificates(user.getMail()));
+		model.addAttribute("approvedCertificates", certificateDao.getInstructorApprovedCertificates(user.getMail()));
+		model.addAttribute("rejectedCertificates", certificateDao.getInstructorRejectedCertificates(user.getMail()));
+		model.addAttribute("session", session);
+		return "/instructor/certificates";
+	}
 
     
     @RequestMapping("/wait")

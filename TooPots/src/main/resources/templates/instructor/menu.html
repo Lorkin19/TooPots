@@ -45,9 +45,8 @@
         	</tr>
         </tbody>
 	</table>
-	<a href="add" class="btn btn-success" role="button">Create new activity</a>
-    <a href="certificates" class="btn btn-warning" role="button">Certificates</a>
-    <a href="../uploadImages" class="btn btn-info" role="button">Upload Images</a>
+	<a th:if="*{type != 0}" href="add" class="btn btn-success" role="button">Create new activity</a>
+    <a href="certificates#tab1" class="btn btn-warning" role="button">Certificates</a>
     
 </div>
 </body>

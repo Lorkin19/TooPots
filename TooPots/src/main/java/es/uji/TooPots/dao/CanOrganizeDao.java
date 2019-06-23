@@ -27,6 +27,7 @@ public class CanOrganizeDao {
 	}
 	
 	public void addCanOrganize(CanOrganize canOrganize) {
+		System.out.println(canOrganize.getActivityTypeName());
 		jdbcTemplate.update("INSERT INTO CanOrganize VALUES(?, ?)",
 				canOrganize.getMail(), canOrganize.getActivityTypeName());
 	}

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.TooPots.dao.ActivityDao;
+import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.CustomerDao;
 import es.uji.TooPots.dao.MessageDao;
 import es.uji.TooPots.dao.ReceiveInformationDao;
@@ -27,6 +28,13 @@ import es.uji.TooPots.model.UserDetails;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
+	
+	private ActivityTypeDao activityTypeDao;
+	
+	@Autowired
+	public void setActivityTypeDao(ActivityTypeDao activityTypeDao) {
+		this.activityTypeDao=activityTypeDao;
+	}
 	
 	private CustomerDao customerDao;
 	
@@ -70,9 +78,27 @@ public class CustomerController {
 	 * 		...
 	 */
 	@RequestMapping("/activities")
-	public String listActivities(Model model) {
+	public String listActivities(Model model, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		model.addAttribute("user", user);
 		model.addAttribute("activities", activityDao.getActivities());
 		return "customer/activities";
+	}
+	 
+	@RequestMapping("/activityTypes")
+	public String listActivityTypes(Model model, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		model.addAttribute("user", user);
+		model.addAttribute("activityTypes", activityTypeDao.getActivityTypes());
+		return "customer/activityTypes";
+	}
+	
+	@RequestMapping("/activitiesOfType/{activityType}")
+	public String listActivitiesOfType(Model model, @PathVariable("activityType") String activityTypeName, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		model.addAttribute("user", user);
+		model.addAttribute("activities", activityDao.getActivitiesOfType(activityTypeName));
+		return "customer/activitiesOfType";
 	}
 	
 	@RequestMapping(value = "/signup")
@@ -157,10 +183,9 @@ public class CustomerController {
 		return "customer/activityInfo";
 	}
 	
-	@RequestMapping("/subscribe/{id}")
-	public String subscribe(@PathVariable("id") int activityId, HttpSession session) {
+	@RequestMapping("/subscribe/{activityType}")
+	public String subscribe(@PathVariable("activityType") String activityType, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
-		String activityType = (activityDao.getActivity(activityId).getActivityType());
 		
 		ReceiveInformation receiveInformation = new ReceiveInformation();
 		receiveInformation.setActivityTypeName(activityType);

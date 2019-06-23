@@ -47,9 +47,9 @@ public class CertificateDao {
 				certificate.getOwnerMail(), certificate.getFileName());
 	}
 	
-	public void deleteCertificate(Certificate certificate) {
+	public void deleteCertificate(int certificate) {
 		jdbcTemplate.update("DELETE FROM Certificate WHERE certificateId=?",
-				certificate.getCertificateId());
+				certificate);
 	}
 	
 	public void updateCertificate(Certificate certificate) {
@@ -67,7 +67,23 @@ public class CertificateDao {
 	
 	public List<Certificate> getInstructorCertificates(String mail){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Certificate WHERE ownerMail=?", new CertificateRowMapper(), mail);
+			return jdbcTemplate.query("SELECT * FROM Certificate WHERE ownerMail=? and status=?", new CertificateRowMapper(), mail, Status.PENDING);
+		}catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Certificate>();
+		}
+	}
+	
+	public List<Certificate> getInstructorApprovedCertificates(String mail){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Certificate WHERE ownerMail=? and status=?", new CertificateRowMapper(), mail, Status.APPROVED);
+		}catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Certificate>();
+		}
+	}
+	
+	public List<Certificate> getInstructorRejectedCertificates(String mail){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Certificate WHERE ownerMail=? and status=?", new CertificateRowMapper(), mail, Status.REJECTED);
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Certificate>();
 		}
@@ -97,14 +113,6 @@ public class CertificateDao {
 		}
 	}
 	
-	public List<Certificate> getNewTypeCertificates(){
-		try {
-			return jdbcTemplate.query("SELECT * FROM Certificate WHERE status=?", new CertificateRowMapper(), Status.PENDINGTYPE);
-		}catch (EmptyResultDataAccessException e) {
-			return new ArrayList<Certificate>();
-		}
-	}
-	
 	public List<Certificate> getInstructorsCertificates(){
 		try {
 			return jdbcTemplate.query("SELECT * FROM Certificate WHERE status=? and ownerMail IN (SELECT mail FROM Instructor)", new CertificateRowMapper(), Status.PENDING);
@@ -113,7 +121,7 @@ public class CertificateDao {
 		}
 	}
 	
-	public String uploadCertificate(MultipartFile[] files, String mail, String uploadDirectory, BindingResult bindingResult) {
+	public String uploadCertificate(MultipartFile[] files, String mail, String uploadDirectory) {
 		StringBuilder message = new StringBuilder();
 		StringBuilder paths = new StringBuilder(); 
 		Certificate certificate = new Certificate();
@@ -141,12 +149,14 @@ public class CertificateDao {
 			certificate.setStatus(Status.PENDING);
 			certificate.setFileName(file.getOriginalFilename());
 			
-			cV.validate(certificate, bindingResult);
-			if (bindingResult.hasErrors()) {
+			
+			String extension = certificate.getRoute().substring(certificate.getRoute().lastIndexOf("."));
+			
+			if (!extension.equals(".pdf")) {
 				message.append("Extension not supported. "+file.getOriginalFilename());
 				return message.toString();
 			}
-			
+
 			Files.write(path, bytes);
 			paths.append(uploadDirectory+"/pdfs/request/"+mail+"/" + file.getOriginalFilename()+"\n");
 			
