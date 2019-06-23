@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import es.uji.TooPots.model.Customer;
 import es.uji.TooPots.model.ReceiveInformation;
 
 @Repository
@@ -33,12 +34,12 @@ public class ReceiveInformationDao {
 				mail, activityTypeName);
 	}
 	
-	public List<String> getCustomersForActivityType(String activityType){
+	public List<ReceiveInformation> getCustomersForActivityType(String activityType){
 		try {
-			return jdbcTemplate.query("SELECT mail FROM ReceiveInformation WHERE activityTypeName=?",
-					new StringRowMapper(), activityType);
+			return jdbcTemplate.query("SELECT * FROM ReceiveInformation WHERE activityTypeName=?",
+					new ReceiveInformationRowMapper(), activityType);
 		}catch (EmptyResultDataAccessException e) {
-			return new ArrayList<String>();
+			return new ArrayList<ReceiveInformation>();
 		}
 	}
 	

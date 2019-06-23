@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sql.DataSource;
 
@@ -75,10 +74,12 @@ public class ImageDao {
 					return message.toString();
 				}
 				List<Image> images = getInstructorImages(user.getMail());
-				for (Image i:images) {
-					if (i.getRoute().equals(image.getRoute())) {
-						message.append("File already exists. "+file.getOriginalFilename());
-						return message.toString();
+				if (images.size()>0) {
+					for (Image i:images) {
+						if (i.getRoute().equals(image.getRoute())) {
+							message.append("File already exists. "+file.getOriginalFilename());
+							return message.toString();
+						}
 					}
 				}
 				

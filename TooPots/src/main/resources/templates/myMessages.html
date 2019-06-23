@@ -9,29 +9,101 @@
     	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <link rel="stylesheet" type="text/css"
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/tabs.css" th:href="@{/css/tabs.css}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body background="../images/banner.jpg">
 <div th:replace="fragments/navegation" ></div>
 <h1 class="id-site">My messages</h1>
 <div class="container">
-	
-	<table id="left" class="table table-striped black-table">
-		<thead>
-		<tr class="red-tr-head">
-			<th>Issue</th>
-			<th></th>
-			<th></th>
-		</tr>
-        </thead>
-        <tbody>
-        	<tr th:each="message:${messages}">
-        		<td th:text="${message.issue}"></td>
-        		<td><a th:href="@{/messages/viewMessage/{id}(id=${message.messageId})}" class="btn btn-warning" role="button">View</a></td>
-            	<td><a th:href="@{/messages/archive/{id}(id=${message.messageId})}" class="btn btn-danger" role="button">Archive</a></td>
-        	</tr>
-        </tbody>
-	</table>
-	<p style="margin-bottom:40px;"></p>
+	<div class="divCertificate">
+		<div>
+			<ul id="superUl">
+				<li><a href="#tab1" class="btn btn-warning">Messages</a></li>
+				<li><a href="#tab2" class="btn btn-success">Archived Messages</a></li>
+			</ul>
+		</div>
+		<div id="tab1" class="tab-content">
+			<h3>Messages</h3>
+			<table id="left" class="table table-striped black-table">
+				<thead>
+				<tr class="red-tr-head">
+					<th>Issue</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+		        </thead>
+		        <tbody>
+		        	<tr th:each="message:${messages}">
+		        		<td th:text="${message.issue}"></td>
+		        		<td><a th:href="@{/messages/viewMessage/{id}(id=${message.messageId})}" class="btn btn-warning" role="button">View</a></td>
+		            	<td><a th:href="@{/messages/archive/{id}(id=${message.messageId})}" class="btn btn-danger" role="button">Archive</a></td>
+		            	<td><button onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger">Delete</button></td>
+		        		
+		        		<div id="id01" class="w3-modal">
+						    <div class="w3-modal-content">
+						      <header class="w3-container red-header"> 
+						        <span onclick="document.getElementById('id01').style.display='none'" 
+						        class="w3-button w3-display-topright">&times;</span>
+						        <h2 class="h2Red">Confirmation Message</h2>
+						      </header>
+						      <div class="w3-container">
+						        <p class="p-white">Are you sure you want to delete this message?</p>
+						        <p><a th:href=@{/messages/delete/{id}(id=${message.messageId})} class="btn btn-info" role="button">Continue</a>
+						        <a onclick="document.getElementById('id01').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+						        </p>
+						      </div>
+						    </div>
+						  </div>
+		        	</tr>
+		        </tbody>
+			</table>
+			<p style="margin-bottom:40px;"></p>
+		</div>
+		
+		<div id="tab2" class="tab-content">
+			<h3>Archived Messages</h3>
+			<table id="left" class="table table-striped black-table">
+				<thead>
+				<tr class="red-tr-head">
+					<th>Issue</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+		        </thead>
+		        <tbody>
+		        	<tr th:each="message:${archivedMessages}">
+		        		<td th:text="${message.issue}"></td>
+		        		<td><a th:href="@{/messages/viewMessage/{id}(id=${message.messageId})}" class="btn btn-warning" role="button">View</a></td>
+		            	<td><a th:href="@{/messages/reopen/{id}(id=${message.messageId})}" class="btn btn-danger" role="button">Reopen</a></td>
+		            	<td><button onclick="document.getElementById('id02').style.display='block'" class="btn btn-danger">Delete</button></td>
+		        		
+		        		<div id="id02" class="w3-modal">
+						    <div class="w3-modal-content">
+						      <header class="w3-container red-header"> 
+						        <span onclick="document.getElementById('id02').style.display='none'" 
+						        class="w3-button w3-display-topright">&times;</span>
+						        <h2 class="h2Red">Confirmation Message</h2>
+						      </header>
+						      <div class="w3-container">
+						        <p class="p-white">Are you sure you want to delete this message?</p>
+						        <p><a th:href=@{/messages/delete/{id}(id=${message.messageId})} class="btn btn-info" role="button">Continue</a>
+						        <a onclick="document.getElementById('id02').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+						        </p>
+						      </div>
+						    </div>
+						  </div>
+		        	</tr>
+		        </tbody>
+			</table>
+			<p style="margin-bottom:40px;"></p>
+		</div>
+		
+		
+	</div>
 </div>
 </body>
 </html>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import es.uji.TooPots.dao.MessageDao;
 import es.uji.TooPots.model.Message;
+import es.uji.TooPots.model.Status;
 import es.uji.TooPots.model.UserDetails;
 
 @Controller
@@ -32,25 +33,22 @@ public class MessageController {
 		}
 		System.out.println(user.getMail());
 		model.addAttribute("messages", messageDao.getMessagesByMail(user.getMail()));
-		for (Message message:messageDao.getMessagesByMail(user.getMail())) {
-			System.out.println(message.getIssue());
-
-		}
+		model.addAttribute("archivedMessages", messageDao.getArchivedMessagesByMail(user.getMail()));
 		return "myMessages";
 	}
 	
 	@RequestMapping("/delete/{id}")
 	public String processDeleteMessage(@PathVariable int id) {
 		messageDao.deleteMessage(id);
-		return "customer/messages";
+		return "redirect:/messages/list#tab1";
 	}
 	
 	@RequestMapping("/archive/{id}")
 	public String processArchiveMessage(@PathVariable int id) {
 		Message message = messageDao.getMessage(id);
-		message.setStatus("Archived");
+		message.setStatus(Status.ARCHIVED);
 		messageDao.updateMessage(message);
-		return "myMessages";
+		return "redirect:/messages/list#tab1";
 	}
 	
 	@RequestMapping("/viewMessage/{id}")

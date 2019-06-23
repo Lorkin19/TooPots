@@ -65,9 +65,13 @@
 				<img alt="TooPots" th:src="@{/images/logo.jpg}">
 			</a>
 		</span>
-		<p id="activity" class="navp" th:if="*{user != null && user.userType == 0}">
+		<p id="activity" class="navp" th:if="*{user == null || user.userType == 0}">
 			<a href="/customer/activities" class="btn btn-success" role="button" th:href="@{/customer/activities}">Activities</a>
 		</p>
+		<p id="activity" class="navp" th:if="*{user == null || user.userType == 0}">
+			<a href="/customer/activityTypes" class="btn btn-secondary" role="button" th:href="@{/customer/activityTypes}">Activity Types</a>
+		</p>
+
 		<p id="activity" class="navp" th:if="*{user != null && user.userType == 1}">
 			<a href="/instructor/menu" class="btn btn-success" role="button" th:href="@{/instructor/menu}">Activities</a>
 		</p>
@@ -83,7 +87,7 @@
 	    		<ul class="nav" th:if="*{user != null && user.userType == 0}">
 					<li><a href="">User</a>
 						<ul class="ulSpecific">
-							<li><a href="/messages/list">My Messages</a></li>
+							<li><a href="/messages/list#tab1">My Messages</a></li>
 							<li><a href="/logout">Logout</a>
 						</ul>
 					</li>
@@ -91,7 +95,8 @@
 				<ul class="nav" th:if="*{user != null && user.userType == 1}">
 					<li><a href="">User</a>
 						<ul class="ulSpecific">
-							<li><a href="/messages/list">My Messages</a></li>
+							<li><a href="/messages/list#tab1">My Messages</a></li>
+							<li><a href="/instructor/certificates#tab1">My Certificates</a></li>
 							<li><a href="/logout">Logout</a>
 						</ul>
 					</li>

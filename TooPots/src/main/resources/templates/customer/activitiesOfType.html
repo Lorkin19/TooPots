@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>TooPots</title>
-	<meta th:charset="UTF-8" />
+	<meta charset="UTF-8" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css"
@@ -10,11 +10,8 @@
     <link rel="stylesheet" type="text/css"
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
 </head>
-<body>
+<body background="../images/banner.jpg">
 <div th:replace="fragments/navegation" ></div>
-<div class="id-site">
-	<h3>List of Activities</h3>
-</div>
 <div class="container">
 	
 	<table class="table table-striped black-table">
@@ -45,7 +42,6 @@
         </tbody>
 	</table>
 	<div>
-		<a th:if="*{user!=null && user.userType == 0}" th:href="@{/customer/myReservations}" class="btn btn-success" th:role="button">My Reservations</a>
 		<a href="/" class="btn btn-info" role="button">Home</a>
 		<p style="margin-bottom:40px;"></p>
 	</div>

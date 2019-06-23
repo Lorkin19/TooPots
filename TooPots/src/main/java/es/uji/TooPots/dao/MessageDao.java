@@ -60,12 +60,21 @@ public class MessageDao {
 	
 	public List<Message> getMessagesByMail(String mail){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Message WHERE mailReceiver=?",
-					new MessageRowMapper(), mail);
+			return jdbcTemplate.query("SELECT * FROM Message WHERE mailReceiver=? and status=?",
+					new MessageRowMapper(), mail, Status.NOTARCHIVED);
 		}catch(EmptyResultDataAccessException e) {
 			return new ArrayList<>();
 		}
 	}
+	public List<Message> getArchivedMessagesByMail(String mail){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Message WHERE mailReceiver=? and status=?",
+					new MessageRowMapper(), mail, Status.ARCHIVED);
+		}catch(EmptyResultDataAccessException e) {
+			return new ArrayList<>();
+		}
+	}
+	
 	
 	public void sendMessage(String issue, String text, String mail) {
 		Message message = new Message();

@@ -73,42 +73,16 @@ public class UploadController {
 	
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
 	public String processUploadFile(@RequestParam("file") MultipartFile[] files, HttpSession session,
-			RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+			RedirectAttributes redirectAttributes) {
 
 		UserDetails user = (UserDetails) session.getAttribute("user");
 
-		redirectAttributes.addFlashAttribute("message", certificateDao.uploadCertificate(files,  user.getMail(), uploadDirectory, bindingResult));
+		redirectAttributes.addFlashAttribute("message", certificateDao.uploadCertificate(files,  user.getMail(), uploadDirectory));
 		
 		
-		session.setAttribute("nextPage", "/instructor/certificates");
+		session.setAttribute("nextPage", "/instructor/certificates#tab1");
 		return "redirect:/uploadStatus";
 	}
-	
-	@RequestMapping(value="/instructor/certificates")
-	public String listCertificates(Model model, HttpSession session) {
-		UserDetails user = (UserDetails) session.getAttribute("user");
-		if (user == null || user.getUserType()!=1) {
-			session.setAttribute("pagAnt", "/instructor/certificates");
-			return "redirect:/login";
-		}
-		model.addAttribute("certificates", certificateDao.getInstructorCertificates(user.getMail()));
-		model.addAttribute("session", session);
-		return "/instructor/certificates";
-	}
-	
-	/*@RequestMapping(value="/instructor/viewCertificate/{id}", method = RequestMethod.GET)
-	public String viewCertificate(Model model, @PathVariable("id") int certificateId) {
-		String route = certificateDao.getCertificate(certificateId).getRoute().replace(" ", "%20");
-		
-		UriComponents uC = UriComponentsBuilder.newInstance()
-				.scheme("http").host("localhost").port(8090)
-				.path(route).build();
-		
-		model.addAttribute("certificate", uC);
-		model.addAttribute("prueba", "http://docs.google.com/gview?url=http://localhost:8090/"+uploadDirectory+route+"&embedded=true");
-		return "/instructor/viewCertificate";
-	}*/
-	
 	
 	@RequestMapping("/uploadStatus")
 	public String uploadStatus(Model model, HttpSession session) {

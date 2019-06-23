@@ -9,47 +9,130 @@
     	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <link rel="stylesheet" type="text/css"
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/tabs.css" th:href="@{/css/tabs.css}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+ 
 </head>
 <body>
 	<div th:replace="fragments/navegation" ></div>
 	<h2 class="id-site">My certificates:</h2>
 	<div class="container">
-		<table id="left" class="table table-striped black-table">
-			<thead>
-				<tr class="red-tr-head">
-					<th>File Name</th>
-					<th>Status</th>
-	        		<!-- <td><embed th:src="${certificate.route}" width="100%" height="600px" type="application/pdf"></td> -->
-	        		<th></th>
-	        	</tr>
-	        </thead>
-	        <tbody>
-	        	<tr th:each="certificate:${certificates}">
-	        		<td th:text="${certificate.fileName}"></td>
-	        		<td th:text="${certificate.status}">
-	        		<td><a th:href=@{http://localhost:8090/{pdf}(pdf=${certificate.route})} class="btn btn-info" role="button">Download</a></td>
-	        		
-	        	</tr>
-	        </tbody>
-	    	
-	    </table>
-	</div>
-	<p style="margin-bottom:40px;"></p>
-    <h2 class="id-site">New Certificates</h2>
-    
-    <div class="little-black-container">
-    <form method="POST" action="#" 
-                 th:action="@{/upload}" enctype="multipart/form-data">
-    	<input class="btn btn-warning" type="file" name="file" id="file" multiple/> <br/>
-   
- <!--   		<select id="tipoActividad" th:field="*{name}">
-			<option value="default" selected hidden>Select a type</option>
-			<option th:each="tipo:${activityTypes}" th:value="${tipo.name}" th:text="${tipo.name}"></option>
-			<option value="newType">New Type</option>
-		</select> -->
-	
-   		<input style="margin-top:10px;" class="btn btn-success" type="submit" value="upload" name="upload" id="upload" />
-	</form>
+	<div class="divCertificate">
+		<div>
+			<ul id="superUl">
+				<li><a href="#tab1" class="btn btn-warning">Pending Certificates</a></li>
+				<li><a href="#tab2" class="btn btn-success">Approved Certificates</a></li>
+				<li><a href="#tab3" class="btn btn-danger">Rejected Certificates</a></li>
+			</ul>
+		</div>
+		<div id="tab1" class="tab-content">
+			<h3>Pending Certificates</h3>
+			<table id="left" class="table table-striped black-table">
+				<thead>
+					<tr class="red-tr-head">
+						<th>File Name</th>
+						<th>Status</th>
+		        		<th></th>
+		        		<th></th>
+		        	</tr>
+		        </thead>
+		        <tbody>
+		        	<tr th:each="certificate:${certificates}">
+		        		<td th:text="${certificate.fileName}"></td>
+		        		<td th:text="${certificate.status}">
+		        		<td><a th:href=@{http://localhost:8090/{pdf}(pdf=${certificate.route})} class="btn btn-info" role="button">Download</a></td>
+		        		<td><button onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger">Delete</button></td>
+		        		
+		        		<div id="id01" class="w3-modal">
+						    <div class="w3-modal-content">
+						      <header class="w3-container red-header"> 
+						        <span onclick="document.getElementById('id01').style.display='none'" 
+						        class="w3-button w3-display-topright">&times;</span>
+						        <h2 class="h2Red">Confirmation Message</h2>
+						      </header>
+						      <div class="w3-container">
+						        <p class="p-white">Are you sure you want to delete this certificate?</p>
+						        <p><a th:href=@{/instructor/deleteCertificate/{id}(id=${certificate.certificateId})} class="btn btn-info" role="button">Continue</a>
+						        <a onclick="document.getElementById('id01').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+						        </p>
+						      </div>
+						    </div>
+						  </div>
+		        	</tr>
+		        </tbody>	
+		    </table>
+		    <p style="margin-bottom:40px;"></p>
+		    <h2 class="id-site">New Certificates</h2>
+		    
+		    <div class="little-black-container">
+			    <form method="POST" action="#" 
+			          th:action="@{/upload}" enctype="multipart/form-data">
+			    	<input class="btn btn-warning" type="file" name="file" id="file" multiple/> <br/>
+			   		<input style="margin-top:10px;" class="btn btn-success" type="submit" value="upload" name="upload" id="upload" />
+				</form>
+			</div>
+		</div>
+		
+		<div id="tab2" class="tab-content">
+			<h3>Approved Certificates</h3>
+			<table id="left" class="table table-striped">
+				
+				<thead>
+					<tr>
+						<th>File Name</th>
+		        		<th></th>
+		        		<th></th>
+		        		<th></th>
+		        	</tr>
+		        </thead>
+		        <tbody>
+		        	<tr th:each="approvedCertificate:${approvedCertificates}">
+		        		<td th:text="${approvedCertificate.fileName}"></td>
+		        		<td><a th:href=@{http://localhost:8090/{pdf}(pdf=${approvedCertificate.route})} class="btn btn-info" role="button">Download</a></td>
+		        	</tr>
+		        </tbody>
+		    </table>
+		</div>
+		
+		<div id="tab3" class="tab-content">
+			<h3>Rejected Certificates</h3>
+			<table id="left" class="table table-striped">
+			
+				<thead>
+					<tr>
+						<th>File Name</th>
+		        		<!-- <td><embed th:src="${certificate.route}" width="100%" height="600px" type="application/pdf"></td> -->
+		        		<th></th>
+		        		<th></th>
+		        		<th></th>
+		        	</tr>
+		        </thead>
+		        <tbody>
+		        	<tr th:each="rejectedCertificate:${rejectedCertificates}">
+		        		<td th:text="${rejectedCertificate.fileName}"></td>
+		        		<td><a th:href=@{http://localhost:8090/{pdf}(pdf=${rejectedCertificate.route})} class="btn btn-info" role="button">Download</a></td>
+						<td><button onclick="document.getElementById('id02').style.display='block'" class="btn btn-danger">Delete</button></td>
+		        		
+		        		<div id="id02" class="w3-modal">
+						    <div class="w3-modal-content">
+						      <header class="w3-container red-header"> 
+						        <span onclick="document.getElementById('id02').style.display='none'" 
+						        class="w3-button w3-display-topright">&times;</span>
+						        <h2 class="h2Red">Confirmation Message</h2>
+						      </header>
+						      <div class="w3-container">
+						        <p class="p-white">Are you sure you want to delete this certificate?</p>
+						        <p><a th:href=@{/instructor/deleteCertificate/{id}(id=${rejectedCertificate.certificateId})} class="btn btn-info" role="button">Continue</a>
+						        <a onclick="document.getElementById('id02').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
+						        </p>
+						      </div>
+						    </div>
+						  </div>		        	
+					</tr>
+		        </tbody>
+		    </table>
+		</div>
 	</div>
 </body>
 </html>

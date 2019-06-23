@@ -80,7 +80,6 @@ public class AdministratorController {
 		model.addAttribute("requests", requestDao.getRequests());
 		model.addAttribute("approvedRequests", requestDao.getApprovedRequests());
 		model.addAttribute("rejectedRequests", requestDao.getRejectedRequests());
-		model.addAttribute("idDelCertificado", 0);
 
 		return "administrator/myRequests";
 	}
@@ -144,7 +143,7 @@ public class AdministratorController {
 	
 	@RequestMapping("/certificateRequests")
 	public String listCertificates(Model model, HttpSession session) {
-		session.setAttribute("nextPageAdmin", "/administrator/certificateRequests");
+		session.setAttribute("nextPageAdmin", "administrator/certificateRequests#tab1");
 		model.addAttribute("certificates", certificateDao.getInstructorsCertificates());
 		model.addAttribute("approvedCertificates", certificateDao.getApprovedCertificates());
 		model.addAttribute("rejectedCertificates", certificateDao.getRejectedCertificates());
@@ -154,30 +153,10 @@ public class AdministratorController {
 		return "administrator/pendingCertificates";
 	}
 	
-	@RequestMapping("/newTypeCertificates")
-	public String listNewTypeCertificates(Model model) {
-		model.addAttribute("certificates", certificateDao.getNewTypeCertificates());
-		return "administrator/newTypeCertificates";
-	}
-	
 	@RequestMapping(value="/acceptCertificate/{id}")
 	public String acceptCertificate(@PathVariable("id") String certificateId, HttpSession session, @ModelAttribute("activityType") ActivityType act, BindingResult bindingResult) {
-		System.out.println(certificateId);
-		Certificate certificate = certificateDao.getCertificate(Integer.parseInt(certificateId));
+		
 		System.out.println(act.getName());
-		System.out.println(act.getDescription());
-
-		certificate.setActivityType(act.getName());
-		certificate.setStatus(Status.APPROVED);
-		
-		CanOrganize co = new CanOrganize();
-		co.setActivityTypeName(act.getName());
-		co.setMail(certificate.getOwnerMail());
-		
-		
-		String mail =certificate.getOwnerMail();
-		String issue ="Certificate Approved";
-		String text="Your certificate has been approved. You can now create new activites.";
 		
 		if (act.getDescription()!=null) {
 			NewActivityTypeValidator aV = new NewActivityTypeValidator();
@@ -192,11 +171,26 @@ public class AdministratorController {
 			if (bindingResult.hasErrors()) {
 				return (String) session.getAttribute("nextPageAdmin");
 			}
-			
 		}
+		Certificate certificate = certificateDao.getCertificate(Integer.parseInt(certificateId));
+
 		if (instructorDao.isInstructor(certificate.getOwnerMail())) {
-			canOrganizeDao.addCanOrganize(co);
+			CanOrganize co = new CanOrganize();
+			if (!canOrganizeDao.isCanOrganize(certificate.getOwnerMail(), act.getName())) {
+				co.setActivityTypeName(act.getName());
+				co.setMail(certificate.getOwnerMail());
+				canOrganizeDao.addCanOrganize(co);				
+			}
 		}
+		
+		
+		certificate.setActivityType(act.getName());
+		certificate.setStatus(Status.APPROVED);
+		
+		String mail =certificate.getOwnerMail();
+		String issue ="Certificate Approved";
+		String text="Your certificate has been approved. You can now create new activites.";
+		
 		certificateDao.updateCertificate(certificate);
 		messageDao.sendMessage(issue, text, mail);
 		return "redirect:/"+session.getAttribute("nextPageAdmin");
