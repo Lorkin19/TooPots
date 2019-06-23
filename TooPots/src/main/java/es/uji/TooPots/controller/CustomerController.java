@@ -98,6 +98,7 @@ public class CustomerController {
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		model.addAttribute("user", user);
 		model.addAttribute("activities", activityDao.getActivitiesOfType(activityTypeName));
+		model.addAttribute("type", activityTypeName);
 		return "customer/activitiesOfType";
 	}
 	

@@ -16,19 +16,7 @@ ul{
 .divTable{
 	background-color:black;
 }
-#tab1{
-	background-color:black;
-	border-radius:5px;
-}
-#tab2{
-	background-color:black;
-	border-radius:5px;
-}
-#tab3{
-	background-color:black;
-	border-radius:5px;
-}
+
 #superUl{
-	margin-left:27%;
-	
+	display:inline-flex;
 }
