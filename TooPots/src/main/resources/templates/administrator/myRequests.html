@@ -1,152 +1,174 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>TooPots</title>
-	<meta th:charset="UTF-8" />
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css"
-    	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
-    <link rel="stylesheet" type="text/css"
-    	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
-    <link rel="stylesheet" type="text/css"
-    	  href="/css/tabs.css" th:href="@{/css/tabs.css}">
-   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    	  
+<title>TooPots</title>
+<meta th:charset="UTF-8" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/navegation.css"
+	th:href="@{/css/navegation.css}">
+<link rel="stylesheet" type="text/css" href="/css/basicpage.css"
+	th:href="@{/css/basicpage.css}">
+<link rel="stylesheet" type="text/css" href="/css/tabs.css"
+	th:href="@{/css/tabs.css}">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 </head>
 <body>
-<div th:replace="fragments/navegation" ></div>
-<div class="container">
-	<h1>Administrator</h1>
-		<h3>My requests</h3>
-		<div class="divCertificate">
-		<div>
+	<div th:replace="fragments/navegation"></div>
+	<div class="id-site">
+		<h1>Administrator</h1>
+		<h3>Requests</h3>
+	</div>
+	<div class="container">
 		<ul id="superUl">
-    		<li><a href="#tab1" class="btn btn-warning">Pending requests</a></li>
-    		<li><a href="#tab2" class="btn btn-success">Approved requests</a></li>
-    		<li><a href="#tab3" class="btn btn-danger">Rejected requests</a></li>
+			<li><a href="#tab1" class="btn btn-warning">Pending requests</a></li>
+			<li><a href="#tab2" class="btn btn-success">Approved requests</a></li>
+			<li><a href="#tab3" class="btn btn-danger">Rejected requests</a></li>
 		</ul>
-		</div>
-		<div id="tab1" class="tab-content">
-			<h3>Pending requests</h3>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Request Id</th>
-						<th>Mail</th>
-						<th>Name</th>
-						<th>Surname</th>
-						<th>Status</th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="request:${requests}">
-						<td th:text="${request.requestId}"></td>
-						<td th:text="${request.mail}"></td>
-						<td th:text="${request.name}"></td>
-						<td th:text="${request.surname}"></td>
-						<td th:text="${request.status}"></td>
-						<td><button onclick="document.getElementById('id02').style.display='block'" class="btn btn-success">Approve Request</button></td>
-						<td><button onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger">Reject Request</button></td>
-						<td><a th:href="@{/administrator/showCertificates/{mail}(mail=${request.mail})}"
-							class="btn btn-secondary" th:role="button">Show Certificates</a></td>
-						
-						<div id="id01" class="w3-modal">
-					    <div class="w3-modal-content">
-					      <header class="w3-container red-header"> 
-					        <span onclick="document.getElementById('id01').style.display='none'" 
-					        class="w3-button w3-display-topright">&times;</span>
-					        <h2 class="h2Red">Confirmation Message</h2>
-					      </header>
-					      <div class="w3-container">
-					        <p class="p-white">Are you sure you want to reject this request?</p>
-					        <p class="p-red"><i>All certificates attached to this request will be marked as rejected.</i></p>
-					        <p><a th:href="@{/administrator/rejectRequest/{id}(id=${request.requestId})}" class="btn btn-info" role="button">Continue</a>
-					        <a onclick="document.getElementById('id01').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
-					        </p>
-					      </div>
-					    </div>
-					  </div>
-					  
-					  <div id="id02" class="w3-modal">
-					    <div class="w3-modal-content">
-					      <header class="w3-container red-header"> 
-					        <span onclick="document.getElementById('id02').style.display='none'" 
-					        class="w3-button w3-display-topright">&times;</span>
-					        <h2 class="h2Red">Confirmation Message</h2>
-					      </header>
-					      <div class="w3-container">
-					        <p class="p-white">Are you sure you want to approve this request?</p>
-					        <p class="p-red"><i>Note that only the approved certificates attached to this request will be marked as approved.
-					        					See "Show Certificates" by clicking its button.</i></p>
-					        <p><a th:href="@{/administrator/acceptRequest/{id}(id=${request.requestId})}" class="btn btn-info" role="button">Continue</a>
-					        <a onclick="document.getElementById('id02').style.display='none'" class="btn btn-danger" role="button">Cancel</a>
-					        </p>
-					      </div>
-					    </div>
-					  </div>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div id="tab2" class="tab-content">
-			<h3>Approved requests</h3>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Request Id</th>
-						<th>Mail</th>
-						<th>Name</th>
-						<th>Surname</th>
-						<th>Status</th>
-						<th></th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="approvedRequest:${approvedRequests}">
-						<td th:text="${approvedRequest.requestId}"></td>
-						<td th:text="${approvedRequest.mail}"></td>
-						<td th:text="${approvedRequest.name}"></td>
-						<td th:text="${approvedRequest.surname}"></td>
-						<td th:text="${approvedRequest.status}"></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div id="tab3" class="tab-content">
-			<h3>Rejected requests</h3>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Request Id</th>
-						<th>Mail</th>
-						<th>Name</th>
-						<th>Surname</th>
-						<th>Status</th>
-						<th></th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="rejectedRequest:${rejectedRequests}">
-						<td th:text="${rejectedRequest.requestId}"></td>
-						<td th:text="${rejectedRequest.mail}"></td>
-						<td th:text="${rejectedRequest.name}"></td>
-						<td th:text="${rejectedRequest.surname}"></td>
-						<td th:text="${rejectedRequest.status}"></td>
-						<td><a th:href="@{/administrator/acceptRequest/{id}(id=${rejectedRequest.requestId})}"
-							class="btn btn-warning" th:role="button">Accept Request</a></td>
-
-					</tr>
-				</tbody>
-			</table>
+		<div style="min-width:max-content">
+			<div id="tab1" class="tab-content">
+				<h2 class="table-title">Pending requests</h2>
+				<table class="table table-striped black-table">
+					<thead>
+						<tr class="red-tr-head">
+							<th>Request Id</th>
+							<th>Mail</th>
+							<th>Name</th>
+							<th>Surname</th>
+							<th>Status</th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="request:${requests}">
+							<td th:text="${request.requestId}"></td>
+							<td th:text="${request.mail}"></td>
+							<td th:text="${request.name}"></td>
+							<td th:text="${request.surname}"></td>
+							<td th:text="${request.status}"></td>
+							<td><button
+									onclick="document.getElementById('id02').style.display='block'"
+									class="btn btn-success">Approve Request</button></td>
+							<td><button
+									onclick="document.getElementById('id01').style.display='block'"
+									class="btn btn-danger">Reject Request</button></td>
+							<td><a
+								th:href="@{/administrator/showCertificates/{mail}(mail=${request.mail})}"
+								class="btn btn-secondary" th:role="button">Show Certificates</a></td>
+	
+							<div id="id01" class="w3-modal">
+								<div class="w3-modal-content">
+									<header class="w3-container red-header"> <span
+										onclick="document.getElementById('id01').style.display='none'"
+										class="w3-button w3-display-topright">&times;</span>
+									<h2 class="h2Red">Confirmation Message</h2>
+									</header>
+									<div class="w3-container">
+										<p class="p-white">Are you sure you want to reject this
+											request?</p>
+										<p class="p-red">
+											<i>All certificates attached to this request will be
+												marked as rejected.</i>
+										</p>
+										<p>
+											<a
+												th:href="@{/administrator/rejectRequest/{id}(id=${request.requestId})}"
+												class="btn btn-info" role="button">Continue</a> <a
+												onclick="document.getElementById('id01').style.display='none'"
+												class="btn btn-danger" role="button">Cancel</a>
+										</p>
+									</div>
+								</div>
+							</div>
+	
+							<div id="id02" class="w3-modal">
+								<div class="w3-modal-content">
+									<header class="w3-container red-header"> <span
+										onclick="document.getElementById('id02').style.display='none'"
+										class="w3-button w3-display-topright">&times;</span>
+									<h2 class="h2Red">Confirmation Message</h2>
+									</header>
+									<div class="w3-container">
+										<p class="p-white">Are you sure you want to approve this
+											request?</p>
+										<p class="p-red">
+											<i>Note that only the approved certificates attached to
+												this request will be marked as approved. See "Show
+												Certificates" by clicking its button.</i>
+										</p>
+										<p>
+											<a
+												th:href="@{/administrator/acceptRequest/{id}(id=${request.requestId})}"
+												class="btn btn-info" role="button">Continue</a> <a
+												onclick="document.getElementById('id02').style.display='none'"
+												class="btn btn-danger" role="button">Cancel</a>
+										</p>
+									</div>
+								</div>
+							</div>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="tab2" class="tab-content">
+				<h2 class="white-table-title">Approved requests</h2>
+				<table class="table table-striped black-table">
+					<thead>
+						<tr class="red-tr-head">
+							<th>Request Id</th>
+							<th>Mail</th>
+							<th>Name</th>
+							<th>Surname</th>
+							<th>Status</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="approvedRequest:${approvedRequests}">
+							<td th:text="${approvedRequest.requestId}"></td>
+							<td th:text="${approvedRequest.mail}"></td>
+							<td th:text="${approvedRequest.name}"></td>
+							<td th:text="${approvedRequest.surname}"></td>
+							<td th:text="${approvedRequest.status}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="tab3" class="tab-content">
+				<h2 class="white-table-title">Rejected requests</h2>
+				<table class="table table-striped black-table">
+					<thead>
+						<tr class="red-tr-head">
+							<th>Request Id</th>
+							<th>Mail</th>
+							<th>Name</th>
+							<th>Surname</th>
+							<th>Status</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="rejectedRequest:${rejectedRequests}">
+							<td th:text="${rejectedRequest.requestId}"></td>
+							<td th:text="${rejectedRequest.mail}"></td>
+							<td th:text="${rejectedRequest.name}"></td>
+							<td th:text="${rejectedRequest.surname}"></td>
+							<td th:text="${rejectedRequest.status}"></td>
+							<td><a
+								th:href="@{/administrator/acceptRequest/{id}(id=${rejectedRequest.requestId})}"
+								class="btn btn-warning" th:role="button">Accept Request</a></td>
+	
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<a href="/" class="btn btn-info" role="button">Home</a>
-	</div>
 	</div>
 </body>
 </html>

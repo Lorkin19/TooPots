@@ -12,9 +12,12 @@
 </head>
 <body>
 <div th:replace="fragments/navegation" >...</div>
-<div th:if="${message}">
-	<span th:text="${message}"></span>
+<div style="margin-top:18%;padding:20px;background-color:rgba(0,0,0,0.8);display:inline-block;">
+	<div th:if="${message}">
+		<span th:text="${message}"></span>
+	</div>
+	<p style="margin-top:15px;"></p>
+	<a href="${nextPage}" th:href="@{${nextPage}}" role="button" class="btn btn-secondary">Return</a>
 </div>
-<a href="${nextPage}" th:href="@{${nextPage}}" role="button" class="btn btn-secondary">Return</a>
 </body>
 </html>

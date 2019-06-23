@@ -12,11 +12,15 @@
 </head>
 <body background="../images/banner.jpg">
 	<div th:replace="fragments/navegation" ></div>
+	<div class="id-site">
+		<h2>Activity Types</h2>
+	</div>
 	<div class="container">
 		<table id="left" class="table table-striped black-table">
 			<thead>
 			<tr class="red-tr-head">
 				<th>Name</th>
+				<th>Description</th>
 				<th></th>
 				<th></th>
 			</tr>
@@ -24,6 +28,7 @@
 	        <tbody>
 	        	<tr th:each="type:${activityTypes}">
 	        		<td th:text="${type.name}"></td>
+	        		<td th:text="${type.description}"></td>
 	        		<td><a th:if="*{user!=null && user.userType == 0}"th:href="@{/customer/subscribe/{activityType}(activityType=${type.name})}" class="btn btn-danger" role="button">Subscribe</a></td>
 	        		<td><a th:href="@{/customer/activitiesOfType/{activityType}(activityType=${type.name})}" class="btn btn-warning" role="button">See Activities</a></td>
 	        	</tr>
