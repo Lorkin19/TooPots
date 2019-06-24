@@ -26,11 +26,11 @@
 			</tr>
 			<tr>
 				<td class="red-label"><label>Name:</label></td>
-				<td><input class="bordered-input" type="text" th:field="*{name}"/></td>
+				<td><input class="bordered-input" type="text" id="name" th:field="*{name}"/></td>
 			</tr>
 			<tr>
 				<td class="red-label"><label>Location:</label></td>
-				<td ><input class="bordered-input" type="text" th:field="*{location}"/></td>
+				<td ><input class="bordered-input" type="text" id="location" th:field="*{location}"/></td>
 			</tr>
 			<tr>
 				
@@ -40,29 +40,29 @@
 			
 			<tr>
 				<td class="red-label"><label>Time: </label></td>
-				<td><input class="bordered-input" type="text" placeholder="hh:mm" th:field="*{time}"/></td>
+				<td><input class="bordered-input" type="text" id="time" placeholder="hh:mm" th:field="*{time}"/></td>
 			</tr>
 			
 			<tr>
 				<td class="red-label"><label>Duration:</label></td>
-				<td><input class="bordered-input" type="text" th:field="*{duration}"></td>
+				<td><input class="bordered-input" type="text" id="duration" th:field="*{duration}"></td>
 			</tr>
 			<tr>
 				<td class="red-label"><label>Vacancies:</label></td>
-				<td><input class="bordered-input" type="text" th:field="*{vacancies}"></td>
+				<td><input class="bordered-input" type="text" id="vacancies" th:field="*{vacancies}"></td>
 			</tr>
 			<tr>
 				<td class="red-label"><label>Price:</label></td>
-				<td><input class="bordered-input" type="number" th:field="*{price}"></td>
+				<td><input class="bordered-input" type="number" id="price" th:field="*{price}"></td>
 			</tr>
 			<tr>
 				<td class="red-label"><label>Description:</label></td>
-				<td><textarea class="bordered-input" rows="5" cols="20" th:field="*{description}"></textarea></td>
+				<td><textarea class="bordered-input" rows="5" cols="20" id="description" th:field="*{description}"></textarea></td>
 			</tr>
 		
 			<tr>
 				<td class="red-label"><label>Level:</label></td>
-				<td><select class="bordered-input" id="nivel" th:field="*{level}">
+				<td><select class="bordered-input" id="level" th:field="*{level}">
 						<option value="default" selected hidden>Select a level</option>
 						<option value="Begginer">Begginer</option>
 						<option value="Intermediate">Intermediate</option>
