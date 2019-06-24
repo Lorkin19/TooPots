@@ -117,13 +117,46 @@ public class InstructorController {
 		this.messageDao = messageDao;
 	}
 	
+	@RequestMapping("/editAccount/{mail}")
+	public String editAccount(Model model, HttpSession session, @PathVariable("mail") String mail) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user == null || user.getUserType()!=1) {
+			session.setAttribute("pagAnt", "/instructor/editAccount/"+mail);
+			return "redirect:/login";
+		}	
+		model.addAttribute("user", user);
+		session.setAttribute("nextPage", "/");
+		model.addAttribute("instructor", instructorDao.getInstructor(mail));
+		return "instructor/editAccount";
+	}
+	
+	@RequestMapping(value="/editAccount/{mail}", method=RequestMethod.POST)
+	public String proccessEditAccount(@PathVariable("mail") String mail, @ModelAttribute("instructor") Instructor instructor, BindingResult bindingResult) {
+		InstructorValidator iV = new InstructorValidator();
+		iV.validate(instructor, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			return "redirect:/instructor/editAccount/"+mail;
+		}
+		
+		instructorDao.updateInstructor(instructor);
+
+
+
+
+		return "instructor/menu";
+	}
+	
+	
+	
 	@RequestMapping("/menu")
 	public String listInstructor(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		if (user == null || user.getUserType()!=1) {
 			session.setAttribute("pagAnt", "/instructor/menu");
 			return "redirect:/login";
-		}		
+		}	
+		model.addAttribute("user", user);
         model.addAttribute("type", canOrganizeDao.getInstructorCanOrganize(user.getMail()).size());
 		model.addAttribute("activities", activityDao.getInstructorActivities(user.getMail()));
 		model.addAttribute("session", session);
@@ -148,6 +181,8 @@ public class InstructorController {
 		}
 		
 		Activity act = new Activity();
+		model.addAttribute("user", user);
+
         model.addAttribute("activity", act);
         model.addAttribute("type", canOrganizeDao.getInstructorCanOrganize(user.getMail()));
         model.addAttribute("session", session);
@@ -208,7 +243,8 @@ public class InstructorController {
         	session.setAttribute("pagAnt", "/instructor/update/"+id);
 			return "redirect:/login";
         }
-    	
+		model.addAttribute("user", user);
+
         model.addAttribute("session", session);
     	model.addAttribute("activity", activityDao.getActivity(id));
         return "instructor/update";
@@ -280,6 +316,8 @@ public class InstructorController {
 			session.setAttribute("pagAnt", "/instructor/certificates");
 			return "redirect:/login";
 		}
+		model.addAttribute("user", user);
+
 		model.addAttribute("certificates", certificateDao.getInstructorCertificates(user.getMail()));
 		model.addAttribute("approvedCertificates", certificateDao.getInstructorApprovedCertificates(user.getMail()));
 		model.addAttribute("rejectedCertificates", certificateDao.getInstructorRejectedCertificates(user.getMail()));
@@ -304,6 +342,9 @@ public class InstructorController {
     		return"redirect:"+session.getAttribute("nextPage");
     	}
     	redirectAttributes.addFlashAttribute("message", "Instructor with mail " + instructorMail + " cannot be deleted because he still has activities." );
+    	instructorDao.deleteInstructor(instructor);
+    	certificateDao.deleteInstructorCertificates(instructorMail);
+    	imageDao.deleteInstructorImages(instructorMail);
     	return "redirect:"+session.getAttribute("nextPage");
     }
     
@@ -433,6 +474,60 @@ class SignupValidator implements Validator{
 		}
 		
 		if (request.getBankAccount().length() > 12) {
+			errors.rejectValue("pwd","Value too long", "This field has a limit of 20 characters.");
+		}
+	}
+}
+
+class InstructorValidator implements Validator{
+	@Override
+	public boolean supports(Class<?> clazz) {
+		// TODO Auto-generated method stub
+		return Instructor.class.equals(clazz);
+	}
+
+	@Override
+	public void validate(Object target, Errors errors) {
+		// TODO Auto-generated method stub
+		Instructor instructor = (Instructor) target;
+		
+		if (instructor.getMail().length() > 40) {
+			errors.rejectValue("mail", "Value too long", "This field has a limit of 40 characters.");
+		}
+		
+		if (instructor.getMail().equals("")) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (instructor.getName().length() > 20) {
+			errors.rejectValue("name", "Value too long", "This field has a limit of 20 characters.");
+		}
+		
+		if (instructor.getName().equals("")) {
+			errors.rejectValue("name", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (instructor.getSurname().equals("")) {
+			errors.rejectValue("surname", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (instructor.getSurname().length() > 20) {
+			errors.rejectValue("surname","Value too long", "This field has a limit of 20 characters.");
+		}
+		
+		if (instructor.getPwd().equals("")) {
+			errors.rejectValue("pwd", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (instructor.getPwd().length() > 20) {
+			errors.rejectValue("pwd","Value too long", "This field has a limit of 20 characters.");
+		}
+		
+		if (instructor.getBankAccount().equals("")) {
+			errors.rejectValue("bankAccount", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (instructor.getBankAccount().length() > 12) {
 			errors.rejectValue("pwd","Value too long", "This field has a limit of 20 characters.");
 		}
 	}

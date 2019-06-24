@@ -99,6 +99,7 @@
 						<ul class="ulSpecific">
 							<li><a href="/messages/list#tab1">My Messages</a></li>
 							<li><a href="/instructor/certificates#tab1">My Certificates</a></li>
+							<li><a th:href="@{/instructor/editAccount/{mail}(mail=${user.mail})}">Edit Account</a></li>
 							<li><a href="/logout">Logout</a>
 						</ul>
 					</li>
