@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -134,6 +136,10 @@ public class CustomerController {
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String processAddSubmit(@ModelAttribute("Customer") Customer customer, BindingResult bindingResult) {
+		CustomerSignupValidator cSV = new CustomerSignupValidator();
+		
+		cSV.validate(customer, bindingResult);
+		
 		if (bindingResult.hasErrors()) {
 			return "customer/signup";
 		}
@@ -271,5 +277,56 @@ public class CustomerController {
 		model.addAttribute("subscriptions", receiveInformationDao.getCustomerSubscriptions(user.getMail()));
 		return "customer/mySubscriptions";
 	}
+}
 
+class CustomerSignupValidator implements Validator{
+
+	@Override
+	public boolean supports(Class<?> clazz) {
+		// TODO Auto-generated method stub
+		return Customer.class.equals(clazz);
+	}
+
+	@Override
+	public void validate(Object target, Errors errors) {
+		// TODO Auto-generated method stub
+		Customer customer = (Customer) target;
+		
+		if (customer.getMail().equals("")) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (customer.getMail().length() > 40) {
+			errors.rejectValue("mail", "ValueTooLong", "This field has a limit of 40 characters.");
+		}
+		if (customer.getName().equals("")) {
+			errors.rejectValue("name", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (customer.getName().length() > 20) {
+			errors.rejectValue("name", "ValueTooLong", "This field has a limit of 20 characters.");
+		}
+		if (customer.getUsername().equals("")) {
+			errors.rejectValue("username", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (customer.getUsername().length() > 20) {
+			errors.rejectValue("username", "ValueTooLong", "This field has a limit of 20 characters.");
+		}
+		if (customer.getSurname().equals("")) {
+			errors.rejectValue("surname", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (customer.getSurname().length() > 20) {
+			errors.rejectValue("surname", "ValueTooLong", "This field has a limit of 20 characters.");
+		}
+		if (customer.getPwd().equals("")) {
+			errors.rejectValue("pwd", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (customer.getPwd().length() > 20) {
+			errors.rejectValue("pwd", "ValueTooLong", "This field has a limit of 20 characters.");
+		}
+	}
+	
 }
