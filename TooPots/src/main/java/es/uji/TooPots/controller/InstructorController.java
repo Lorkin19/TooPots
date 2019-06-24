@@ -233,6 +233,10 @@ public class InstructorController {
     public String processAddSubmit(@ModelAttribute("instructor") Request request,
     								BindingResult bindingResult, HttpSession session, @RequestParam("file") MultipartFile[] files, RedirectAttributes redirectAttributes) {
     	
+    	SignupValidator sV = new SignupValidator();
+    	
+    	sV.validate(request, bindingResult);
+    	
     	if (bindingResult.hasErrors()) {
     		return "instructor/signup";
     	}
@@ -318,6 +322,100 @@ class ActivityValidator implements Validator{
 		Activity act = (Activity) target;
 		if (!act.getTime().matches("\\d{2}:\\d{2}")) {
 			errors.rejectValue("time", "Format", "The time has to be in a specific format: 'hh:mm'");
+		}
+		
+		if (act.getActivityType().equals("Select a type")) {
+			errors.rejectValue("activityType", "selectType", "You must select a type");
+		}
+		
+		if (act.getLevel().equals("Select a level")) {
+			errors.rejectValue("level", "selectLevel", "You must select a level");
+		}
+		
+		if (act.getLocation().equals("")) {
+			errors.rejectValue("location", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (act.getLocation().length()>50) {
+			errors.rejectValue("location", "Value too long", "This field has a limit of 50 characters.");
+		}
+		
+		if (act.getDuration().equals("")) {
+			errors.rejectValue("duration", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (act.getDuration().length()>20) {
+			errors.rejectValue("duration", "Value too long", "This field has a limit of 20 characters.");
+		}
+		
+		if (act.getDescription().equals("")) {
+			errors.rejectValue("description", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (act.getDescription().length()>500) {
+			errors.rejectValue("description", "Value too long", "This field has a limit of 500 characters.");
+		}
+		
+		if (act.getMailInstructor().equals("")) {
+			errors.rejectValue("mailInstructor", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (act.getMailInstructor().length()>500) {
+			errors.rejectValue("mailInstructor", "Value too long", "This field has a limit of 500 characters.");
+		}
+	}
+}
+
+class SignupValidator implements Validator{
+	@Override
+	public boolean supports(Class<?> clazz) {
+		// TODO Auto-generated method stub
+		return Request.class.equals(clazz);
+	}
+
+	@Override
+	public void validate(Object target, Errors errors) {
+		// TODO Auto-generated method stub
+		Request request = (Request) target;
+		
+		if (request.getMail().length() > 40) {
+			errors.rejectValue("mail", "Value too long", "This field has a limit of 40 characters.");
+		}
+		
+		if (request.getMail().equals("")) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (request.getName().length() > 20) {
+			errors.rejectValue("name", "Value too long", "This field has a limit of 20 characters.");
+		}
+		
+		if (request.getName().equals("")) {
+			errors.rejectValue("name", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (request.getSurname().equals("")) {
+			errors.rejectValue("surname", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (request.getSurname().length() > 20) {
+			errors.rejectValue("surname","Value too long", "This field has a limit of 20 characters.");
+		}
+		
+		if (request.getPwd().equals("")) {
+			errors.rejectValue("pwd", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (request.getPwd().length() > 20) {
+			errors.rejectValue("pwd","Value too long", "This field has a limit of 20 characters.");
+		}
+		
+		if (request.getBankAccount().equals("")) {
+			errors.rejectValue("bankAccount", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (request.getBankAccount().length() > 12) {
+			errors.rejectValue("pwd","Value too long", "This field has a limit of 20 characters.");
 		}
 	}
 }
