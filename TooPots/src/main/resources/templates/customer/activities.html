@@ -24,10 +24,7 @@
 			<th>Location</th>
 			<th>Date</th>
 			<th>Time</th>
-			<th>Duration</th>
-			<th>Vacancies</th>
-			<th>Price</th>
-			<th>Difficulty</th>
+			<th></th>
 			<th></th>
 		</tr>
         </thead>
@@ -37,11 +34,8 @@
         		<td th:text="${activity.location}"></td>
         		<td th:text="${activity.date}"></td>
         		<td th:text="${activity.time}"></td>
-        		<td th:text="${activity.duration}"></td>
-        		<td th:text="${activity.vacancies}"></td>
-        		<td th:text="${activity.price}"></td>
-        		<td th:text="${activity.level}"></td>
-				<td><a th:href="@{/customer/bookActivity/{id}(id=${activity.activityId})}" class="btn btn-warning" th:role="button">+info</a></td>
+        		<td><a th:href="@{/customer/activityInfo/{id}(id=${activity.activityId})}" class="btn btn-info" th:role="button">+Info</a></td>
+				<td><a th:href="@{/customer/bookActivity/{id}(id=${activity.activityId})}" class="btn btn-warning" th:role="button">Enroll</a></td>
         </tbody>
 	</table>
 	<div>

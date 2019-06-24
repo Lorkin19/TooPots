@@ -1,5 +1,7 @@
 package es.uji.TooPots.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +12,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.CustomerDao;
+import es.uji.TooPots.dao.ImageDao;
 import es.uji.TooPots.dao.MessageDao;
 import es.uji.TooPots.dao.ReceiveInformationDao;
 import es.uji.TooPots.dao.ReservationDao;
 import es.uji.TooPots.model.Activity;
 import es.uji.TooPots.model.Customer;
+import es.uji.TooPots.model.Image;
 import es.uji.TooPots.model.Message;
 import es.uji.TooPots.model.ReceiveInformation;
 import es.uji.TooPots.model.Reservation;
@@ -28,6 +33,13 @@ import es.uji.TooPots.model.UserDetails;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
+	
+	private ImageDao imageDao;
+	
+	@Autowired
+	public void setImageDao(ImageDao imageDao) {
+		this.imageDao = imageDao;
+	}
 	
 	private ActivityTypeDao activityTypeDao;
 	
@@ -79,14 +91,21 @@ public class CustomerController {
 	 */
 	@RequestMapping("/activities")
 	public String listActivities(Model model, HttpSession session) {
+		session.setAttribute("pagAnt", "/customer/activities");
+
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		model.addAttribute("user", user);
 		model.addAttribute("activities", activityDao.getActivities());
+		
+		session.setAttribute("nextPageCustomer", "/customer/activities");
+
 		return "customer/activities";
 	}
 	 
 	@RequestMapping("/activityTypes")
 	public String listActivityTypes(Model model, HttpSession session) {
+		session.setAttribute("pagAnt", "/customer/activityTypes");
+
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		model.addAttribute("user", user);
 		model.addAttribute("activityTypes", activityTypeDao.getActivityTypes());
@@ -96,9 +115,13 @@ public class CustomerController {
 	@RequestMapping("/activitiesOfType/{activityType}")
 	public String listActivitiesOfType(Model model, @PathVariable("activityType") String activityTypeName, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
+		session.setAttribute("pagAnt", "/customer/activitiesOfType/"+activityTypeName);
+
 		model.addAttribute("user", user);
 		model.addAttribute("activities", activityDao.getActivitiesOfType(activityTypeName));
 		model.addAttribute("type", activityTypeName);
+		session.setAttribute("nextPageCustomer", "/customer/activitiesOfType/"+activityTypeName);
+
 		return "customer/activitiesOfType";
 	}
 	
@@ -126,9 +149,10 @@ public class CustomerController {
 			session.setAttribute("pagAnt", "/customer/bookActivity/"+activityId);
 			return "redirect:/login";
 		}
-		
+		model.addAttribute("user", user);
 		model.addAttribute("activity", activityDao.getActivity(activityId));
 		model.addAttribute("reservation", new Reservation());
+		model.addAttribute("nextPageCustomer", session.getAttribute("nextPageCustomer"));
 		return "customer/bookActivity";
 	}
 	
@@ -142,7 +166,8 @@ public class CustomerController {
 		reservation.setMail(user.getMail());
 		reservation.setPlace(activity.getLocation());
 		reservation.setActivityId(activity.getActivityId());
-				
+		reservation.setDate(activity.getDate());
+
 		//REVISAR
 		if (reservation.getVacancies() > activity.getVacancies()) {
 			bindingResult.rejectValue("vacancies", "badVacancies", "Reservation vacancies are greater than available vacancies.");
@@ -159,48 +184,62 @@ public class CustomerController {
 		
 		activity.setVacancies(activity.getVacancies()-reservation.getVacancies());
 		
-		
 		reservationDao.addReservation(reservation);
 		messageDao.sendMessage(issue, text, mail);
 		activityDao.updateActivity(activity);
-		return "redirect:../myReservations";
+		return "redirect:/customer/myReservations";
 	}
 
 	@RequestMapping("/myReservations")
 	public String listMyReservations(Model model, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
-		session.setAttribute("pagAnt", "/customer/myReservations");
 		if (user == null || user.getUserType()!=0) {
 			session.setAttribute("pagAnt", "/customer/myReservations");
 			return "redirect:/login";
 		}
+		session.setAttribute("nextPageCustomer", "/customer/myReservations");
+		model.addAttribute("user", user);
 		model.addAttribute("reservations", reservationDao.getCustomerReservations(user.getMail()));
 		return "customer/myReservations";
 	}
 	
 	@RequestMapping("/activityInfo/{id}")
-	public String activityInformation(Model model, @PathVariable("id") int activityId) {
+	public String activityInformation(Model model, @PathVariable("id") int activityId, HttpSession session) {
+		session.setAttribute("pagAnt", "/customer/activityInfo/"+activityId);
+
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		model.addAttribute("user", user);
 		model.addAttribute("activity", activityDao.getActivity(activityId));
+		List<Image> l =  imageDao.getActivityImages(activityId, activityDao.getActivity(activityId).getMailInstructor());
+		if (l.size() > 0) {
+			model.addAttribute("images",l);
+		}
+		model.addAttribute("nextPageCustomer", session.getAttribute("nextPageCustomer"));
 		return "customer/activityInfo";
 	}
 	
 	@RequestMapping("/subscribe/{activityType}")
-	public String subscribe(@PathVariable("activityType") String activityType, HttpSession session) {
+	public String subscribe(@PathVariable("activityType") String activityType, RedirectAttributes redirectAttributes, HttpSession session) {		
 		UserDetails user = (UserDetails) session.getAttribute("user");
-		
 		ReceiveInformation receiveInformation = new ReceiveInformation();
 		receiveInformation.setActivityTypeName(activityType);
 		receiveInformation.setMail(user.getMail());
 		
-		receiveInformationDao.addReceiveInformation(receiveInformation);
 		
-		String issue="Subscription Success";
-		String text ="You have just get subscripted to a new type of activity.\n Activity type: " + activityType;
-		String mail = user.getMail();
+		if (!receiveInformationDao.isSubscribed(user.getMail(), activityType)){
+			receiveInformationDao.addReceiveInformation(receiveInformation);
+			String issue="Subscription Success";
+			String text ="You have just get subscripted to a new type of activity.\n Activity type: " + activityType;
+			String mail = user.getMail();
+			
+			messageDao.sendMessage(issue, text, mail);
+		}else {
+			redirectAttributes.addFlashAttribute("message", "You are already subscribed to this type of activity.");
+		}
 		
-		messageDao.sendMessage(issue, text, mail);
 		
-		return "redirect:/customer/activities";
+		
+		return "redirect:/customer/activityTypes";
 	}
 	
 	@RequestMapping("/unsubscribe/{activityTypeName}")
@@ -220,6 +259,17 @@ public class CustomerController {
 		messageDao.sendMessage(issue, text, mail);
 		
 		return "redirect:/customer/mySubscriptions";
+	}
+	
+	@RequestMapping("/mySubscriptions")
+	public String mySubscriptions(Model model, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user==null) {
+			session.setAttribute("pagAnt", "/customer/mySubscriptions");
+			return "redirect:/login";
+		}
+		model.addAttribute("subscriptions", receiveInformationDao.getCustomerSubscriptions(user.getMail()));
+		return "customer/mySubscriptions";
 	}
 
 }

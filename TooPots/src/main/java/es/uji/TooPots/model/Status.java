@@ -7,4 +7,5 @@ public class Status {
 	public static final String PENDINGTYPE = "PendingType";
 	public static final String NOTARCHIVED = "NotArchived";
 	public static final String ARCHIVED = "Archived";
+	public static final String PAID = "Paid";
 }

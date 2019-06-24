@@ -30,7 +30,7 @@ public class ReceiveInformationDao {
 	}
 	
 	public void deleteReceiveInformation(String mail, String activityTypeName) {
-		jdbcTemplate.update("DELETE FROM ReceiveInformation WHERE mail=? and acitivityTypeName=?",
+		jdbcTemplate.update("DELETE FROM ReceiveInformation WHERE mail=? and activityTypeName=?",
 				mail, activityTypeName);
 	}
 	
@@ -38,6 +38,24 @@ public class ReceiveInformationDao {
 		try {
 			return jdbcTemplate.query("SELECT * FROM ReceiveInformation WHERE activityTypeName=?",
 					new ReceiveInformationRowMapper(), activityType);
+		}catch (EmptyResultDataAccessException e) {
+			return new ArrayList<ReceiveInformation>();
+		}
+	}
+	
+	public boolean isSubscribed(String mail, String activityTypeName) {
+		try {
+			jdbcTemplate.queryForObject("SELECT * FROM ReceiveInformation WHERE mail=? and activityTypeName=?",
+					new ReceiveInformationRowMapper(), mail, activityTypeName);
+			return true;
+		}catch (EmptyResultDataAccessException e) {
+			return false;
+		}
+	}
+	public List<ReceiveInformation> getCustomerSubscriptions(String mail){
+		try {
+			return jdbcTemplate.query("SELECT * FROM ReceiveInformation WHERE mail=?",
+					new ReceiveInformationRowMapper(), mail);
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<ReceiveInformation>();
 		}

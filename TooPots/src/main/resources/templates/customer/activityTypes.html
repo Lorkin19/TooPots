@@ -16,6 +16,9 @@
 		<h2>Activity Types</h2>
 	</div>
 	<div class="container">
+		<div th:if="${message}">
+			<span th:text="${message}" id="message"></span>
+		</div>
 		<table id="left" class="table table-striped black-table">
 			<thead>
 			<tr class="red-tr-head">

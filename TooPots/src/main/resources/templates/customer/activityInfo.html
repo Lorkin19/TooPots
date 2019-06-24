@@ -53,8 +53,31 @@
 			<td th:text="${activity.level}"></td>
 		</tr>
 	</table>
+	<div id="myCarousel" class="carousel slide" data-ride="carousel" th:if="${images}">
+		<ol class="carousel-indicators">
+			<li th:each="image,iterstat:${images}"
+				data-target="#myCarousel"
+				th:attr="data-slide-to=${iterstat.index}"
+				th:class="${iterstat.index}== 0  ? 'active':''"></li>
+		</ol>
+		
+		<div style="max-height:25em;" class="carousel-inner" role="listbox" align="center">
+			<div  th:each="image,iterstat:${images}" th:class=
+	            "${iterstat.index}==0 ? 'carousel-item active':'carousel-item'">
+				<img th:src="@{${image.route}}" class="d.block w-100">
+			</div>
+		</div>
+		<a class="left carousel-control" href="#mycarousel" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#mycarousel" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
 	<div>
-		<a href="../myReservations" class="btn btn-danger" role="button">Return</a>
+		<a th:href="@{${nextPageCustomer}}" class="btn btn-danger" role="button">Return</a>
     	<a href="/" class="btn btn-info" role="button">Home</a>
 	</div>
 	</div>
