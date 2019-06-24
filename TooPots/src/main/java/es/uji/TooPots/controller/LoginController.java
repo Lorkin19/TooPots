@@ -80,7 +80,11 @@ public class LoginController {
 			if (user.getUserType()==1) {
 				return "redirect:/instructor/menu";
 			}else {
-				return "redirect:"+session.getAttribute("pagAntAdmin");
+				if (session.getAttribute("pagAntAdmin")!=null){
+					return "redirect:"+session.getAttribute("pagAntAdmin");
+				}else{
+					return "redirect:/administrator/myRequests#tab1";
+				}
 			}
 		}
 	}
