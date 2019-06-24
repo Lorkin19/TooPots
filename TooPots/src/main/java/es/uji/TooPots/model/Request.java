@@ -9,7 +9,6 @@ public class Request {
 	private String pwd;
 	private String bankAccount;
 	private String status;
-	private String[] routesCertificates; //Se guardará la ruta a cada certificado
 
 	
 	
@@ -37,12 +36,6 @@ public class Request {
 		this.username = username;
 	}
 
-	public String[] getRoutesCertificates() {
-		return routesCertificates;
-	}
-	public void setRoutesCertificates(String[] routesCertificates) {
-		this.routesCertificates = routesCertificates;
-	}
 	public String getPwd() {
 		return pwd;
 	}

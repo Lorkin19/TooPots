@@ -12,6 +12,8 @@
 <link rel="stylesheet" type="text/css" href="/css/tabs.css"
 	th:href="@{/css/tabs.css}">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 </head>
 <body background="../images/banner.jpg">
@@ -49,83 +51,78 @@
 								th:href=@{http://localhost:8090/{pdf}(pdf=${certificate.route})}
 								class="btn btn-info" role="button">Download</a></td>
 
-							<td><button
-									onclick="document.getElementById('id02').style.display='block'"
-									class="btn btn-success">Approve</button></td>
-							<td><button
-									onclick="document.getElementById(iterstat.index).style.display='block'"
-									class="btn btn-danger">Reject</button></td>
-
-							<div th:id="${iterstat.index}" class="w3-modal">
-								<div class="w3-modal-content">
-									<header class="w3-container red-header"> <span
-										onclick="document.getElementById(certificate.route).style.display='none'"
-										class="w3-button w3-display-topright">&times;</span>
-									<h2 class="h2Red">Confirmation Message</h2>
-									</header>
-									<div class="w3-container">
-										<p class="p-white">Are you sure you want to reject this
-											certificate?</p>
-										<p>
-											<a
-												th:href="@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})}"
-												class="btn btn-info" role="button">Continue</a> <a
-												onclick="document.getElementById('id01').style.display='none'"
-												class="btn btn-danger" role="button">Cancel</a>
-										</p>
+							<td><a class="btn btn-success" data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning-acc'+${certificate.certificateId}">
+									Aprove</a></td>
+									<div class="modal" th:id="modal-warning-acc+${certificate.certificateId}" >
+									    <div class="modal-dialog">
+									        <div class="modal-content">
+									            <div class="modal-header">
+									                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									                    <span aria-hidden="true">×</span></button>
+									                <h2 class="modal-title">Aprove Certificate</h2>
+									            </div>
+									            <div class="modal-body">
+									                <form class="w3-container" action="#"
+														th:action="@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})}"
+														th:object="${activityType}">
+														<div class="w3-section">
+															<h4>
+																<b>Asign Existing Activity Type</b>
+															</h4>
+															<label>Name:</label> <select class="bordered-input"
+																id="tipoActividad" th:field="*{name}">
+																<option value="default" selected hidden>Select a
+																	type</option>
+																<option th:each="tipo:${types}" th:value="${tipo.name}"
+																	th:text="${tipo.name}"></option>
+															</select><br>
+				
+															<button class="btn btn-warning" type="submit">Continue</button>
+														</div>
+													</form>
+													<form class="w3-container" action="#"
+														th:action="@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})}"
+														th:object="${activityType}">
+														<div class="w3-section">
+															<h4>
+																<b>Create New Activity Type</b>
+															</h4>
+															<label>Name:</label> <input type="text" th:field="*{name}" /><br>
+															<label>Description:</label>
+															<textarea class="bordered-input" rows="5" cols="20"
+																th:field="*{description}"></textarea>
+															<br>
+														</div>
+														<button class="btn btn-warning" type="submit">Continue</button>
+														<br>
+													</form>
+									            </div>
+									            <div class="modal-footer">
+									                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+									            </div>
+									        </div>
+									    </div>
 									</div>
-								</div>
-							</div>
-							<div id="id02" class="w3-modal">
-								<div class="w3-modal-content"
-									style="background-color: rgb(50, 50, 50)">
-									<div class="w3-center">
-										<header class="w3-container red-header"> <span
-											onclick="document.getElementById('id02').style.display='none'"
-											class="w3-button w3-display-topright">&times;</span>
-										<h2 class="h2Red">Confirmation Message</h2>
-										</header>
+							<td><a class="btn btn-danger" data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning-rej'+${certificate.certificateId}">
+									Reject</a></td>
+									<div class="modal" th:id="modal-warning-rej+${certificate.certificateId}" >
+									    <div class="modal-dialog">
+									        <div class="modal-content">
+									            <div class="modal-header">
+									                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									                    <span aria-hidden="true">×</span></button>
+									                <h2 class="modal-title">Reject Certificate</h2>
+									            </div>
+									            <div class="modal-body">
+									                <h3>Are you sure you want to REJECT this certificate?</h3>
+									            </div>
+									            <div class="modal-footer">
+									                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+									                <a type="button" class="btn btn-success" th:href="@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})}">Continue</a>
+									            </div>
+									        </div>
+									    </div>
 									</div>
-									<form class="w3-container" action="#"
-										th:action="@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})}"
-										th:object="${activityType}">
-										<div class="w3-section">
-											<h4>
-												<b>Asign Existing Activity Type</b>
-											</h4>
-											<label>Name:</label> <select class="bordered-input"
-												id="tipoActividad" th:field="*{name}">
-												<option value="default" selected hidden>Select a
-													type</option>
-												<option th:each="tipo:${types}" th:value="${tipo.name}"
-													th:text="${tipo.name}"></option>
-											</select><br>
-
-											<button class="btn btn-warning" type="submit">Continue</button>
-										</div>
-									</form>
-
-									<form class="w3-container" action="#"
-										th:action="@{/administrator/acceptCertificate/{id}(id=${certificate.certificateId})}"
-										th:object="${activityType}">
-										<div class="w3-section">
-											<h4>
-												<b>Create New Activity Type</b>
-											</h4>
-											<label>Name:</label> <input type="text" th:field="*{name}" /><br>
-											<label>Description:</label>
-											<textarea class="bordered-input" rows="5" cols="20"
-												th:field="*{description}"></textarea>
-											<br>
-										</div>
-										<button class="btn btn-warning" type="submit">Continue</button>
-										<br>
-									</form>
-									<a
-										onclick="document.getElementById('id02').style.display='none'"
-										class="btn btn-danger" role="button">Cancel</a>
-								</div>
-							</div>
 						</tr>
 					</tbody>
 				</table>

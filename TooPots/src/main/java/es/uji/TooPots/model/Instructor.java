@@ -14,7 +14,6 @@ public class Instructor implements User{
 	private String username;
 	private String pwd;
 	private String bankAccount;
-	private String[] routesCertificates; //Se guardará la ruta a cada certificado
 	
 	
 	public Instructor() {
@@ -28,12 +27,6 @@ public class Instructor implements User{
 		this.username = username;
 	}
 
-	public String[] getRoutesCertificates() {
-		return routesCertificates;
-	}
-	public void setRoutesCertificates(String[] routesCertificates) {
-		this.routesCertificates = routesCertificates;
-	}
 	public String getPwd() {
 		return pwd;
 	}

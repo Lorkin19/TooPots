@@ -107,6 +107,7 @@ public class AdministratorController {
 		model.addAttribute("certificates", certificateDao.getInstructorCertificates(mail));
 		model.addAttribute("types", activityTypeDao.getActivityTypes());
 		model.addAttribute("activityType", new ActivityType());
+		model.addAttribute("instructorMail", mail);
 		return "administrator/showCertificates";
 	}
 	
