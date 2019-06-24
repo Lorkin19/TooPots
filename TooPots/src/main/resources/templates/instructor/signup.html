@@ -12,47 +12,51 @@
 </head>
 <body background="../images/banner.jpg">
 <div th:replace="fragments/navegation" ></div>
-	<h2>SignUp</h2>
+	<h2 style="margin-top:2%; margin-bottom:0;max-width:390px;margin-left:auto;margin-right:auto;display:inherit;" class="h2-red">SignUp</h2>
 	<form action="#" th:action="@{/instructor/signup}" th:object="${instructor}" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td><label>Mail:</label></td>
-				<td><input type="text" th:field="*{mail}"></td>
+				<td><input class="bordered-input" type="text" th:field="*{mail}"></td>
 			</tr>
 			<tr>
 				<td><label>Name:</label></td>
-				<td><input type="text" th:field="*{name}"></td>
+				<td><input class="bordered-input" type="text" th:field="*{name}"></td>
 			</tr>
 			<tr>
 				<td><label>Surname:</label></td>
-				<td><input type="text" th:field="*{surname}"></td>
+				<td><input class="bordered-input" type="text" th:field="*{surname}"></td>
 			</tr>
 			<tr>
 				<td><label>Username:</label></td>
-				<td><input type="text" th:field="*{username}"></td>
+				<td><input class="bordered-input" type="text" th:field="*{username}"></td>
 			</tr>
 			<tr>
 				<td><label>Password:</label></td>
-				<td><input type="password" th:field="*{pwd}"></td>
+				<td><input class="bordered-input" type="password" th:field="*{pwd}"></td>
 			</tr>
 			<tr>
 				<td><label>Bank Account:</label></td>
-				<td><input type="text" th:field="*{bankAccount}"></td>
+				<td><input class="bordered-input" type="text" th:field="*{bankAccount}"></td>
 			</tr>
 			
 			<tr>
-				<td colspan="2"><input type="file" name="file"  id="file" multiple/></td>
+				<td colspan="2"><h3>Certificates:</h3></td>
 			</tr>
 			
 			<tr>
-	            <td colspan="2"><input type="submit" value="Add Instructor" /></td>
-	        </tr>
-	        
-	        <tr>
-	        	<td colspan="2"><a href="/" class="btn btn-info" role="button">Return</a></td>
+				<td colspan="2"><input class="btn btn-warning" type="file" name="file"  id="file" multiple/></td>
+			</tr>
+			
+			<tr>
+	            <td colspan="2"><input class="btn btn-success" type="submit" value="Signup as Instructor" /></td>
 	        </tr>
 		</table>
 	</form>
+	<div style="margin-top: 10px;">
+		<a href="/" class="btn btn-danger" role="button">Return Home</a>
+    </div>
+	<p style="margin-bottom:30px;"></p>
 </body>
 </html>
 	

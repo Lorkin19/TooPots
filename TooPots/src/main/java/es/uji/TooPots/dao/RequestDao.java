@@ -93,7 +93,6 @@ public class RequestDao {
 		ins.setMail(request.getMail());
 		ins.setName(request.getName());
 		ins.setSurname(request.getSurname());
-		ins.setRoutesCertificates(request.getRoutesCertificates());
 		ins.setPwd(request.getPwd());
 		return ins;
 	}
