@@ -1,85 +1,88 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Activity Information</title>
-	<meta charset="UTF-8"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css"
-    	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
-    <link rel="stylesheet" type="text/css"
-    	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
+<title>Activity Information</title>
+<meta charset="UTF-8" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/navegation.css"
+	th:href="@{/css/navegation.css}">
+<link rel="stylesheet" type="text/css" href="/css/basicpage.css"
+	th:href="@{/css/basicpage.css}">
 </head>
 <body>
-	<div th:replace="fragments/navegation" ></div>
+	<div th:replace="fragments/navegation"></div>
 	<h2 class="id-site">Activity Info</h2>
 	<div class="container">
-	<table id="left" class="table table-striped black-table">
-		<tr>
-			<td class="red-label"><label>Type:</label></td>
-			<td th:text="${activity.activityType}"></td>
+		<div id="myCarousel" class="carousel slide half-page" data-ride="carousel"
+			th:if="${images}">
+			<ol class="carousel-indicators">
+				<li th:each="image,iterstat:${images}" data-target="#myCarousel"
+					th:attr="data-slide-to=${iterstat.index}"
+					th:class="${iterstat.index}== 0  ? 'active':''"></li>
+			</ol>
 
-		</tr>
-		<tr>
-			<td class="red-label"><label>Name:</label></td>
-			<td th:text="${activity.name}"></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Location:</label></td>
-			<td th:text="${activity.location}"></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Date: </label></td>
-			<td th:text="${activity.date}"></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Duration:</label></td>
-			<td th:text="${activity.duration}"></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Vacancies:</label></td>
-			<td th:text="${activity.vacancies}"></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Price:</label></td>
-			<td th:text="${activity.price}"></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Description:</label></td>
-			<td th:text="${activity.description}"></td>
-		</tr>
-	
-		<tr>
-			<td class="red-label"><label>Level:</label></td>
-			<td th:text="${activity.level}"></td>
-		</tr>
-	</table>
-	<div id="myCarousel" class="carousel slide" data-ride="carousel" th:if="${images}">
-		<ol class="carousel-indicators">
-			<li th:each="image,iterstat:${images}"
-				data-target="#myCarousel"
-				th:attr="data-slide-to=${iterstat.index}"
-				th:class="${iterstat.index}== 0  ? 'active':''"></li>
-		</ol>
-		
-		<div style="max-height:25em;" class="carousel-inner" role="listbox" align="center">
-			<div  th:each="image,iterstat:${images}" th:class=
-	            "${iterstat.index}==0 ? 'carousel-item active':'carousel-item'">
-				<img th:src="@{${image.route}}" class="d.block w-100">
+			<div style="max-height: 25em;" class="carousel-inner" role="listbox"
+				align="center">
+				<div th:each="image,iterstat:${images}"
+					th:class="${iterstat.index}==0 ? 'carousel-item active':'carousel-item'">
+					<img th:src="@{${image.route}}" class="d.block w-100">
+				</div>
 			</div>
+			<a class="left carousel-control" href="#mycarousel" role="button"
+				data-slide="prev"> <span
+				class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a> <a class="right carousel-control" href="#mycarousel" role="button"
+				data-slide="next"> <span
+				class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
 		</div>
-		<a class="left carousel-control" href="#mycarousel" role="button" data-slide="prev">
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
-		</a>
-		<a class="right carousel-control" href="#mycarousel" role="button" data-slide="next">
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</a>
+		<table id="left" class="table table-striped black-table half-page">
+			<tr>
+				<td class="red-label"><label>Type:</label></td>
+				<td th:text="${activity.activityType}"></td>
+
+			</tr>
+			<tr>
+				<td class="red-label"><label>Name:</label></td>
+				<td th:text="${activity.name}"></td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Location:</label></td>
+				<td th:text="${activity.location}"></td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Date: </label></td>
+				<td th:text="${activity.date}"></td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Duration:</label></td>
+				<td th:text="${activity.duration}"></td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Vacancies:</label></td>
+				<td th:text="${activity.vacancies}"></td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Price:</label></td>
+				<td th:text="${activity.price}"></td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Description:</label></td>
+				<td th:text="${activity.description}"></td>
+			</tr>
+
+			<tr>
+				<td class="red-label"><label>Level:</label></td>
+				<td th:text="${activity.level}"></td>
+			</tr>
+		</table>
 	</div>
 	<div>
 		<a th:href="@{${nextPageCustomer}}" class="btn btn-danger" role="button">Return</a>
-    	<a href="/" class="btn btn-info" role="button">Home</a>
-	</div>
+		<a href="/" class="btn btn-info" role="button">Home</a>
 	</div>
 </body>
 </html>
