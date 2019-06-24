@@ -116,3 +116,9 @@ td{
 #message{
 	color:red;
 }
+
+.half-page{
+	max-width:45%;
+	display:inline-table;
+	vertical-align:middle;
+}
