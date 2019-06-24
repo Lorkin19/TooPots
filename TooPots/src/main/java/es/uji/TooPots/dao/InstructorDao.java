@@ -52,10 +52,10 @@ public class InstructorDao {
 		}
 	}
 	
-	public Instructor getInstructor(String username) {
+	public Instructor getInstructor(String mail) {
 		try {
 			return jdbcTemplate.queryForObject("SELECT * FROM Instructor "
-					+ "WHERE username=?", new InstructorRowMapper(), username);
+					+ "WHERE mail=?", new InstructorRowMapper(), mail);
 		}catch(EmptyResultDataAccessException e) {
 			return null;
 		}

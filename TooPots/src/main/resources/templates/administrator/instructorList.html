@@ -13,34 +13,31 @@
 <body>
 <div th:replace="fragments/navegation" ></div>
 <div class="id-site">
-	<h2>List of Activities</h2>
+	<h2>List of Instructors</h2>
 </div>
 <div class="container">
-	
+	<div th:if="${message}">
+		<span id="message" th:text="${message}"></span>
+	</div>
 	<table class="table table-striped black-table">
 		<thead>
 		<tr class="red-tr-head">
 			<th>Name</th>
-			<th>Location</th>
-			<th>Date</th>
-			<th>Time</th>
+			<th>Mail</th>
+			<th>Username</th>
 			<th></th>
 			<th></th>
 		</tr>
         </thead>
         <tbody>
-        	<tr th:each="activity:${activities}">
-        		<td th:text="${activity.name}"></td>
-        		<td th:text="${activity.location}"></td>
-        		<td th:text="${activity.date}"></td>
-        		<td th:text="${activity.time}"></td>
-        		<td><a th:href="@{/customer/activityInfo/{id}(id=${activity.activityId})}" class="btn btn-info" th:role="button">+Info</a></td>
-				<td><a th:href="@{/customer/bookActivity/{id}(id=${activity.activityId})}" class="btn btn-warning" th:role="button">Enroll</a></td>
+        	<tr th:each="instructor:${instructors}">
+        		<td th:text="${instructor.name}"></td>
+        		<td th:text="${instructor.mail}"></td>
+        		<td th:text="${instructor.username}"></td>
+        		<td><a th:href="@{/instructor/deleteInstructor/{mail}(mail=${instructor.mail})}" class="btn btn-danger" th:role="button">Delete Instructor</a></td>
         </tbody>
 	</table>
 	<div>
-		<a th:if="*{user!=null && user.userType == 0}" th:href="@{/customer/myReservations#tab1}" class="btn btn-success" th:role="button">My Reservations</a>
-		<a href="/" class="btn btn-info" role="button">Home</a>
 		<p style="margin-bottom:40px;"></p>
 	</div>
 </div>

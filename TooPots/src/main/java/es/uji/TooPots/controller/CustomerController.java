@@ -193,7 +193,7 @@ public class CustomerController {
 		reservationDao.addReservation(reservation);
 		messageDao.sendMessage(issue, text, mail);
 		activityDao.updateActivity(activity);
-		return "redirect:/customer/myReservations";
+		return "redirect:/customer/myReservations#tab1";
 	}
 
 	@RequestMapping("/myReservations")
@@ -206,6 +206,8 @@ public class CustomerController {
 		session.setAttribute("nextPageCustomer", "/customer/myReservations");
 		model.addAttribute("user", user);
 		model.addAttribute("reservations", reservationDao.getCustomerReservations(user.getMail()));
+		model.addAttribute("paidReservations", reservationDao.getPaidCustomerReservations(user.getMail()));
+		model.addAttribute("allReservations", reservationDao.getReservations());
 		return "customer/myReservations";
 	}
 	
@@ -256,6 +258,8 @@ public class CustomerController {
 			return "redirect:/login";
 		}
 		
+		System.out.println(activityTypeName);
+		
 		receiveInformationDao.deleteReceiveInformation(user.getMail(), activityTypeName);
 		
 		String issue="Unsubscription Success";
@@ -277,6 +281,27 @@ public class CustomerController {
 		model.addAttribute("subscriptions", receiveInformationDao.getCustomerSubscriptions(user.getMail()));
 		return "customer/mySubscriptions";
 	}
+	
+	@RequestMapping("/payReservation/{id}")
+	public String payReservation(@PathVariable("id") int reservationId) {
+		Reservation reservation = reservationDao.getReservation(reservationId);
+		reservation.setStatus(Status.PAID);
+		reservationDao.updateReservation(reservation);
+		
+		return "redirect:/customer/myReservations#tab1";
+	}
+	
+	@RequestMapping("/cancelReservation/{id}")
+	public String cancelReservation(@PathVariable("id") int reservationId) {
+		Reservation reservation = reservationDao.getReservation(reservationId);
+		Activity act = activityDao.getActivity(reservation.getActivityId());
+		act.setVacancies(act.getVacancies() + reservation.getVacancies());
+		reservationDao.deleteReservation(reservationId);
+		activityDao.updateActivity(act);
+		
+		return "redirect:/customer/myReservations#tab1";
+
+	}
 }
 
 class CustomerSignupValidator implements Validator{
@@ -285,7 +310,8 @@ class CustomerSignupValidator implements Validator{
 	public boolean supports(Class<?> clazz) {
 		// TODO Auto-generated method stub
 		return Customer.class.equals(clazz);
-	}
+
+
 
 	@Override
 	public void validate(Object target, Errors errors) {
@@ -328,5 +354,4 @@ class CustomerSignupValidator implements Validator{
 			errors.rejectValue("pwd", "ValueTooLong", "This field has a limit of 20 characters.");
 		}
 	}
-	
 }

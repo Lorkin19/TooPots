@@ -28,6 +28,7 @@ import es.uji.TooPots.model.Instructor;
 import es.uji.TooPots.model.Message;
 import es.uji.TooPots.model.Request;
 import es.uji.TooPots.model.Status;
+import es.uji.TooPots.model.UserDetails;
 
 @Controller
 @RequestMapping("/administrator")
@@ -76,7 +77,14 @@ public class AdministratorController {
 	}
 	
 	@RequestMapping("/myRequests")
-	public String listRequests(Model model) {
+	public String listRequests(Model model, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		
+		if (user == null || user.getUserType()!=2) {
+			session.setAttribute("pagAntAdmin", "/administrator/myRequests#tab1");
+			return "redirect:/login";
+		}
+		
 		model.addAttribute("requests", requestDao.getRequests());
 		model.addAttribute("approvedRequests", requestDao.getApprovedRequests());
 		model.addAttribute("rejectedRequests", requestDao.getRejectedRequests());
@@ -86,6 +94,15 @@ public class AdministratorController {
 	
 	@RequestMapping(value="/showCertificates/{mail}")
 	public String viewCertificate(Model model, @PathVariable("mail") String mail, HttpSession session) {
+		
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		
+		if (user == null || user.getUserType()!=2) {
+			session.setAttribute("pagAntAdmin", "/administrator/showCertificates/"+mail);
+			return "redirect:/login";
+		}
+		
+		
 		session.setAttribute("nextPageAdmin", "administrator/showCertificates/"+mail);
 		model.addAttribute("certificates", certificateDao.getInstructorCertificates(mail));
 		model.addAttribute("types", activityTypeDao.getActivityTypes());
@@ -143,6 +160,15 @@ public class AdministratorController {
 	
 	@RequestMapping("/certificateRequests")
 	public String listCertificates(Model model, HttpSession session) {
+		
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		
+		if (user == null || user.getUserType()!=2) {
+			session.setAttribute("pagAntAdmin", "/administrator/certificateRequests");
+			return "redirect:/login";
+		}
+		
+		
 		session.setAttribute("nextPageAdmin", "administrator/certificateRequests#tab1");
 		model.addAttribute("certificates", certificateDao.getInstructorsCertificates());
 		model.addAttribute("approvedCertificates", certificateDao.getApprovedCertificates());
@@ -218,6 +244,22 @@ public class AdministratorController {
 		certificate.setStatus(Status.REJECTED);	
 		certificateDao.updateCertificate(certificate);
 		return "redirect:"+session.getAttribute("nextPageAdmin");
+	}
+	
+	@RequestMapping("/instructorList")
+	public String instructorList(Model model, HttpSession session) {
+		
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		
+		if (user == null || user.getUserType()!=2) {
+			session.setAttribute("pagAntAdmin", "/administrator/instructorList");
+			return "redirect:/login";
+		}
+		
+		
+		model.addAttribute("instructors", instructorDao.getInstructors());
+		session.setAttribute("nextPage", "/administrator/instructorList");
+		return "/administrator/instructorList";
 	}
 }
 

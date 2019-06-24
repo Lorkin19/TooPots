@@ -43,7 +43,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="certificate:${certificates}">
+						<tr th:each="certificate, iterstat:${certificates}">
 							<td th:text="${certificate.fileName}"></td>
 							<td><a
 								th:href=@{http://localhost:8090/{pdf}(pdf=${certificate.route})}
@@ -53,13 +53,13 @@
 									onclick="document.getElementById('id02').style.display='block'"
 									class="btn btn-success">Approve</button></td>
 							<td><button
-									onclick="document.getElementById('id01').style.display='block'"
+									onclick="document.getElementById(iterstat.index).style.display='block'"
 									class="btn btn-danger">Reject</button></td>
 
-							<div id="id01" class="w3-modal">
+							<div th:id="${iterstat.index}" class="w3-modal">
 								<div class="w3-modal-content">
 									<header class="w3-container red-header"> <span
-										onclick="document.getElementById('id01').style.display='none'"
+										onclick="document.getElementById(certificate.route).style.display='none'"
 										class="w3-button w3-display-topright">&times;</span>
 									<h2 class="h2Red">Confirmation Message</h2>
 									</header>
@@ -68,7 +68,7 @@
 											certificate?</p>
 										<p>
 											<a
-												th:href=@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})}
+												th:href="@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})}"
 												class="btn btn-info" role="button">Continue</a> <a
 												onclick="document.getElementById('id01').style.display='none'"
 												class="btn btn-danger" role="button">Cancel</a>

@@ -9,6 +9,9 @@
     	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
     <link rel="stylesheet" type="text/css"
     	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
+    <link rel="stylesheet" type="text/css" href="/css/tabs.css"
+		  th:href="@{/css/tabs.css}">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 <div th:replace="fragments/navegation" ></div>
@@ -17,29 +20,103 @@
 	<h3>My reservations</h3>
 </div>
 <div class="container">
-	<table class="table table-striped black-table">
-		<thead>
-			<tr class="red-tr-head">
-				<th>Reservation Id</th>
-				<th>Location</th>
-				<th>Status</th>
-				<th>Vacancies</th>
-				<th>Price</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="reservation:${reservations}">
-				<td th:text="${reservation.reservationId}"></td>
-				<td th:text="${reservation.place}"></td>
-				<td th:text="${reservation.status}"></td>
-				<td th:text="${reservation.vacancies}"></td>
-				<td th:text="${reservation.price}"></td>
-				<td><a th:href="@{/customer/activityInfo/{id}(id=${reservation.activityId})}"
-					class="btn btn-warning" th:role="button">More activity info</a></td>
-			</tr>
-		</tbody>
-	</table>
+	<ul id="superUl">
+		<li><a href="#tab1" class="btn btn-warning">Pending reservations</a></li>
+		<li><a href="#tab2" class="btn btn-success">Paid reservations</a></li>
+		<li><a href="#tab3" class="btn btn-danger">All</a></li>
+	</ul>
+	<div style="min-width:max-content">
+		<div id="tab1" class="tab-content">
+			<h2 class="table-title">Pending reservations</h2>
+			<table class="table table-striped black-table">
+				<thead>
+					<tr class="red-tr-head">
+						<th>Reservation Id</th>
+						<th>Location</th>
+						<th>Status</th>
+						<th>Vacancies</th>
+						<th>Price</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="reservation:${reservations}">
+						<td th:text="${reservation.reservationId}"></td>
+						<td th:text="${reservation.place}"></td>
+						<td th:text="${reservation.status}"></td>
+						<td th:text="${reservation.vacancies}"></td>
+						<td th:text="${reservation.price}"></td>
+						<td><a th:href="@{/customer/payReservation/{id}(id=${reservation.reservationId})}"
+							class="btn btn-info" th:role="button">Pay Reservation</a></td>
+						<td><a th:href="@{/customer/cancelReservation/{id}(id=${reservation.reservationId})}"
+							class="btn btn-danger" th:role="button">Cancel Reservation</a></td>
+						<td><a th:href="@{/customer/activityInfo/{id}(id=${reservation.activityId})}"
+							class="btn btn-warning" th:role="button">More activity info</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div id="tab2" class="tab-content">
+			<h2 class="table-title">Pending reservations</h2>
+			<table class="table table-striped black-table">
+				<thead>
+					<tr class="red-tr-head">
+						<th>Reservation Id</th>
+						<th>Location</th>
+						<th>Status</th>
+						<th>Vacancies</th>
+						<th>Price</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="reservation:${paidReservations}">
+						<td th:text="${reservation.reservationId}"></td>
+						<td th:text="${reservation.place}"></td>
+						<td th:text="${reservation.status}"></td>
+						<td th:text="${reservation.vacancies}"></td>
+						<td th:text="${reservation.price}"></td>
+						<td><a th:href="@{/customer/cancelReservation/{id}(id=${reservation.reservationId})}"
+							class="btn btn-danger" th:role="button">Cancel Reservation</a></td>
+						<td><a th:href="@{/customer/activityInfo/{id}(id=${reservation.activityId})}"
+							class="btn btn-warning" th:role="button">More activity info</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div id="tab3" class="tab-content">
+			<h2 class="table-title">Pending reservations</h2>
+			<table class="table table-striped black-table">
+				<thead>
+					<tr class="red-tr-head">
+						<th>Reservation Id</th>
+						<th>Location</th>
+						<th>Status</th>
+						<th>Vacancies</th>
+						<th>Price</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="reservation:${allReservations}">
+						<td th:text="${reservation.reservationId}"></td>
+						<td th:text="${reservation.place}"></td>
+						<td th:text="${reservation.status}"></td>
+						<td th:text="${reservation.vacancies}"></td>
+						<td th:text="${reservation.price}"></td>
+						<td><a th:href="@{/customer/activityInfo/{id}(id=${reservation.activityId})}"
+							class="btn btn-warning" th:role="button">More activity info</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+				
+</div>
 	<a href="activities" class="btn btn-success" th:role="button">Enroll
 		in a new Activity</a>
 	<a href="/" class="btn btn-info" role="button">Inicio</a>
