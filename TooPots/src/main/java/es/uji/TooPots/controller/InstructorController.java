@@ -41,6 +41,7 @@ import es.uji.TooPots.model.ActivityType;
 import es.uji.TooPots.model.CanOrganize;
 import es.uji.TooPots.model.Certificate;
 import es.uji.TooPots.model.Customer;
+import es.uji.TooPots.model.Instructor;
 import es.uji.TooPots.model.ReceiveInformation;
 import es.uji.TooPots.model.Request;
 import es.uji.TooPots.model.UserDetails;
@@ -287,6 +288,20 @@ public class InstructorController {
     	
     	return "instructor/wait";
     }
+    
+    @RequestMapping("/deleteInstructor/{mail}")
+    public String deleteInstructor(@PathVariable("mail") String instructorMail, HttpSession session, RedirectAttributes redirectAttributes) {
+    	Instructor instructor = instructorDao.getInstructor(instructorMail);
+    	List<Activity> lA = activityDao.getInstructorActivities(instructorMail);
+    	
+    	if (lA.isEmpty()) {
+    		instructorDao.deleteInstructor(instructor);
+    		return"redirect:"+session.getAttribute("nextPage");
+    	}
+    	redirectAttributes.addFlashAttribute("message", "Instructor with mail " + instructorMail + " cannot be deleted because he still has activities." );
+    	return "redirect:"+session.getAttribute("nextPage");
+    }
+    
 }
 
 class ActivityValidator implements Validator{

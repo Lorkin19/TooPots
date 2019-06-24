@@ -187,7 +187,7 @@ public class CustomerController {
 		reservationDao.addReservation(reservation);
 		messageDao.sendMessage(issue, text, mail);
 		activityDao.updateActivity(activity);
-		return "redirect:/customer/myReservations";
+		return "redirect:/customer/myReservations#tab1";
 	}
 
 	@RequestMapping("/myReservations")
@@ -282,7 +282,18 @@ public class CustomerController {
 		reservation.setStatus(Status.PAID);
 		reservationDao.updateReservation(reservation);
 		
-		return "redirect:/customer/myReservations";
+		return "redirect:/customer/myReservations#tab1";
+	}
+	
+	@RequestMapping("/cancelReservation/{id}")
+	public String cancelReservation(@PathVariable("id") int reservationId) {
+		Reservation reservation = reservationDao.getReservation(reservationId);
+		Activity act = activityDao.getActivity(reservation.getActivityId());
+		act.setVacancies(act.getVacancies() + reservation.getVacancies());
+		reservationDao.deleteReservation(reservationId);
+		activityDao.updateActivity(act);
+		
+		return "redirect:/customer/myReservations#tab1";
 	}
 
 }

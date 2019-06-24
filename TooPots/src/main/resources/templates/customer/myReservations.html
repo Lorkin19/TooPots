@@ -38,6 +38,7 @@
 						<th>Price</th>
 						<th></th>
 						<th></th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -48,7 +49,9 @@
 						<td th:text="${reservation.vacancies}"></td>
 						<td th:text="${reservation.price}"></td>
 						<td><a th:href="@{/customer/payReservation/{id}(id=${reservation.reservationId})}"
-							class="btn btn-danger" th:role="button">Pay Reservation</a></td>
+							class="btn btn-info" th:role="button">Pay Reservation</a></td>
+						<td><a th:href="@{/customer/cancelReservation/{id}(id=${reservation.reservationId})}"
+							class="btn btn-danger" th:role="button">Cancel Reservation</a></td>
 						<td><a th:href="@{/customer/activityInfo/{id}(id=${reservation.activityId})}"
 							class="btn btn-warning" th:role="button">More activity info</a></td>
 					</tr>
@@ -67,6 +70,7 @@
 						<th>Vacancies</th>
 						<th>Price</th>
 						<th></th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -76,6 +80,8 @@
 						<td th:text="${reservation.status}"></td>
 						<td th:text="${reservation.vacancies}"></td>
 						<td th:text="${reservation.price}"></td>
+						<td><a th:href="@{/customer/cancelReservation/{id}(id=${reservation.reservationId})}"
+							class="btn btn-danger" th:role="button">Cancel Reservation</a></td>
 						<td><a th:href="@{/customer/activityInfo/{id}(id=${reservation.activityId})}"
 							class="btn btn-warning" th:role="button">More activity info</a></td>
 					</tr>
