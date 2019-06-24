@@ -53,6 +53,11 @@ public class CertificateDao {
 				certificate);
 	}
 	
+	public void deleteInstructorCertificates(String mail) {
+		jdbcTemplate.update("DELETE FROM Certificate WHERE ownerMail=?",
+				mail);
+	}
+	
 	public void updateCertificate(Certificate certificate) {
 		jdbcTemplate.update("UPDATE Certificate SET status=? WHERE certificateId=?",
 				certificate.getStatus(), certificate.getCertificateId());

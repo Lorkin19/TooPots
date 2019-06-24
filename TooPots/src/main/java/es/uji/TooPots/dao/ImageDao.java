@@ -37,6 +37,14 @@ public class ImageDao {
 		jdbcTemplate.update("DELETE FROM Image WHERE route=?", route);
 	}
 	
+	public void deleteInstructorImages(String mail) {
+		List<Image> images = getInstructorImages(mail);
+		
+		for (Image i : images) {
+			jdbcTemplate.update("DELETE FROM Image WHERE route=?", i.getRoute());
+		}
+	}
+	
 	public List<Image> getInstructorImages(String mail) {
 		try {
 			return jdbcTemplate.query("SELECT * FROM Image WHERE ownerMail=?", new ImageRowMapper(), mail);

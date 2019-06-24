@@ -18,31 +18,31 @@
 		<table id="left" class="table table-stripped black-table">
 			<tr>
 			<td class="red-label"><label>Location:</label></td>
-			<td><input class="bordered-input" type="text" th:field="*{location}"/></td>
+			<td><input class="bordered-input" id="location" type="text" th:field="*{location}"/></td>
 		</tr>
 		<tr>		
 			<td class="red-label"><label>Date: </label></td>
-			<td><input class="bordered-input" th:type="date" th:field="*{date}"/></td>
+			<td><input class="bordered-input" id="date" th:type="date" th:field="*{date}"/></td>
 		</tr>
 		<tr>
 			<td class="red-label"><label>Duration:</label></td>
-			<td><input class="bordered-input" type="text" th:field="*{duration}"></td>
+			<td><input class="bordered-input" id="duration" type="text" th:field="*{duration}"></td>
 		</tr>
 		<tr>
 			<td class="red-label"><label>Vacancies:</label></td>
-			<td><input class="bordered-input" type="text" th:field="*{vacancies}"></td>
+			<td><input class="bordered-input" id="vacancies" type="text" th:field="*{vacancies}"></td>
 		</tr>
 		<tr>
 			<td class="red-label"><label>Price:</label></td>
-			<td><input class="bordered-input" th:type="number" th:field="*{price}"></td>
+			<td><input class="bordered-input" id="price" th:type="number" th:field="*{price}"></td>
 		</tr>
 		<tr>
 			<td class="red-label"><label>Description:</label></td>
-			<td><textarea class="bordered-input" type="text" th:field="*{description}"></textarea></td>
+			<td><textarea class="bordered-input" id="description" type="text" th:field="*{description}"></textarea></td>
 		</tr>
 		<tr>
 			<td class="red-label"><label>Level:</label></td>
-			<td><select class="bordered-input" id="nivel" th:field="*{level}">
+			<td><select class="bordered-input" id="level" th:field="*{level}">
 					<option value="default" selected hidden>Select a level</option>
 					<option value="Begginer">Begginer</option>
 					<option value="Intermediate">Intermediate</option>
