@@ -116,6 +116,10 @@ public class AdministratorController {
 		Request request = requestDao.getRequest(requestId);
 		request.setStatus(Status.APPROVED);
 		requestDao.updateRequest(request);
+		
+		Instructor instructor = requestDao.convertToInstructor(request);
+		instructorDao.addInstructor(instructor);
+		
 		List<Certificate> certificates = certificateDao.getInstructorCertificates(request.getMail());
 		CanOrganize cO = new CanOrganize();
 		for (Certificate c:certificates) {
@@ -127,8 +131,6 @@ public class AdministratorController {
 				canOrganizeDao.addCanOrganize(cO);
 			}
 		}
-		Instructor instructor = requestDao.convertToInstructor(request);
-		instructorDao.addInstructor(instructor);
 		
 		String issue = "Request Approved";
 		String text = "Your request has been approved. You are now part from our family. Welcome!!";
@@ -182,8 +184,8 @@ public class AdministratorController {
 	
 	@RequestMapping(value="/acceptCertificate/{id}")
 	public String acceptCertificate(@PathVariable("id") String certificateId, HttpSession session, @ModelAttribute("activityType") ActivityType act, BindingResult bindingResult) {
-		
-		System.out.println(act.getName());
+		Certificate certificate = certificateDao.getCertificate(Integer.parseInt(certificateId));
+		certificate.setActivityType(act.getName());
 		
 		if (act.getDescription()!=null) {
 			NewActivityTypeValidator aV = new NewActivityTypeValidator();
@@ -199,7 +201,6 @@ public class AdministratorController {
 				return (String) session.getAttribute("nextPageAdmin");
 			}
 		}
-		Certificate certificate = certificateDao.getCertificate(Integer.parseInt(certificateId));
 
 		if (instructorDao.isInstructor(certificate.getOwnerMail())) {
 			CanOrganize co = new CanOrganize();
@@ -211,7 +212,6 @@ public class AdministratorController {
 		}
 		
 		
-		certificate.setActivityType(act.getName());
 		certificate.setStatus(Status.APPROVED);
 		
 		String mail =certificate.getOwnerMail();

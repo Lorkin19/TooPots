@@ -310,7 +310,7 @@ class CustomerSignupValidator implements Validator{
 	public boolean supports(Class<?> clazz) {
 		// TODO Auto-generated method stub
 		return Customer.class.equals(clazz);
-
+	}
 
 
 	@Override

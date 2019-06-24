@@ -38,24 +38,25 @@
         		<td th:text="${instructor.username}"></td>
         		<td><a class="btn btn-danger" data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${instructor.mail}">
 					Delete Instructor</a></td>
-					<div class="modal" th:id="modal-warning+${instructor.mail}" >
-					    <div class="modal-dialog">
-					        <div class="modal-content">
-					            <div class="modal-header">
-					                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					                    <span aria-hidden="true">×</span></button>
-					                <h2 class="modal-title">Delete Instructor</h2>
-					            </div>
-					            <div class="modal-body">
-					                <h3>Are you sure you want to DELETE this Instructor?</h3>
-					            </div>
-					            <div class="modal-footer">
-					                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-					                <a type="button" class="btn btn-success" th:href="@{/instructor/deleteInstructor/{mail}(mail=${instructor.mail})}">Continue</a>
-					            </div>
-					        </div>
-					    </div>
-					</div>
+				<div class="modal" th:id="modal-warning+${instructor.mail}" >
+				    <div class="modal-dialog">
+				        <div class="modal-content">
+				            <div class="modal-header">
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                    <span aria-hidden="true">×</span></button>
+				                <h2 class="modal-title">Delete Instructor</h2>
+				            </div>
+				            <div class="modal-body">
+				                <h3>Are you sure you want to DELETE this Instructor?</h3>
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				                <a type="button" class="btn btn-success" th:href="@{/instructor/deleteInstructor/{mail}(mail=${instructor.mail})}">Continue</a>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+			</tr>
         </tbody>
 	</table>
 	<div>
