@@ -38,7 +38,7 @@ public class CanOrganizeDao {
 	
 	public List<ActivityType> getInstructorCanOrganize(String mail){
 		try {
-			return jdbcTemplate.query("SELECT activityTypeName as name FROM CanOrganize WHERE mail=?", new ActivityTypeRowMapper(), mail);
+			return jdbcTemplate.query("SELECT * FROM ActivityType WHERE name IN (SELECT activityTypeName FROM CanOrganize  WHERE mail=?)", new ActivityTypeRowMapper(), mail);
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<ActivityType>();
 		}
