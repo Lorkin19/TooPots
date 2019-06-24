@@ -68,7 +68,7 @@
 											certificate?</p>
 										<p>
 											<a
-												th:href=@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})}
+												th:href="@{/administrator/rejectCertificate/{id}(id=${certificate.certificateId})}"
 												class="btn btn-info" role="button">Continue</a> <a
 												onclick="document.getElementById('id01').style.display='none'"
 												class="btn btn-danger" role="button">Cancel</a>

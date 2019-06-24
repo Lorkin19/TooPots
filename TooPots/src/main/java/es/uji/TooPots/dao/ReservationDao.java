@@ -46,9 +46,9 @@ public class ReservationDao {
 	
 	public void updateReservation(Reservation reservation) {
 		jdbcTemplate.update("UPDATE Reservation SET "
-				+ "price=?, mail=?, activityId=? WHERE reservationId=?",
+				+ "price=?, mail=?, activityId=?, status=? WHERE reservationId=?",
 				reservation.getPrice(), reservation.getMail(),
-				reservation.getActivityId(), reservation.getReservationId());
+				reservation.getActivityId(), reservation.getStatus(),reservation.getReservationId());
 	}	
 	public Reservation getReservation(int reservationId) {
 		try {
@@ -61,16 +61,16 @@ public class ReservationDao {
 	
 	public List<Reservation> getCustomerReservations(String customerMail){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Reservation WHERE mail=? and status=?",
-					new ReservationRowMapper(), customerMail, Status.PENDING);
+			return jdbcTemplate.query("SELECT * FROM Reservation WHERE mail=? and status=? and date>=? ORDER BY date",
+					new ReservationRowMapper(), customerMail, Status.PENDING, LocalDate.now());
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Reservation>();
 		}
 	}
 	public List<Reservation> getPaidCustomerReservations(String customerMail){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Reservation WHERE mail=? and status=?",
-					new ReservationRowMapper(), customerMail, Status.PAID);
+			return jdbcTemplate.query("SELECT * FROM Reservation WHERE mail=? and status=? and date>=? ORDER BY date",
+					new ReservationRowMapper(), customerMail, Status.PAID, LocalDate.now());
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Reservation>();
 		}
@@ -78,7 +78,7 @@ public class ReservationDao {
 	
 	public List<Reservation> getReservations(){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Reservation",
+			return jdbcTemplate.query("SELECT * FROM Reservation ORDER BY date",
 					new ReservationRowMapper());
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Reservation>();

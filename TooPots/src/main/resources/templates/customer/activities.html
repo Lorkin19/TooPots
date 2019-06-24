@@ -39,7 +39,7 @@
         </tbody>
 	</table>
 	<div>
-		<a th:if="*{user!=null && user.userType == 0}" th:href="@{/customer/myReservations}" class="btn btn-success" th:role="button">My Reservations</a>
+		<a th:if="*{user!=null && user.userType == 0}" th:href="@{/customer/myReservations#tab1}" class="btn btn-success" th:role="button">My Reservations</a>
 		<a href="/" class="btn btn-info" role="button">Home</a>
 		<p style="margin-bottom:40px;"></p>
 	</div>

@@ -200,6 +200,8 @@ public class CustomerController {
 		session.setAttribute("nextPageCustomer", "/customer/myReservations");
 		model.addAttribute("user", user);
 		model.addAttribute("reservations", reservationDao.getCustomerReservations(user.getMail()));
+		model.addAttribute("paidReservations", reservationDao.getPaidCustomerReservations(user.getMail()));
+		model.addAttribute("allReservations", reservationDao.getReservations());
 		return "customer/myReservations";
 	}
 	
@@ -250,6 +252,8 @@ public class CustomerController {
 			return "redirect:/login";
 		}
 		
+		System.out.println(activityTypeName);
+		
 		receiveInformationDao.deleteReceiveInformation(user.getMail(), activityTypeName);
 		
 		String issue="Unsubscription Success";
@@ -270,6 +274,15 @@ public class CustomerController {
 		}
 		model.addAttribute("subscriptions", receiveInformationDao.getCustomerSubscriptions(user.getMail()));
 		return "customer/mySubscriptions";
+	}
+	
+	@RequestMapping("/payReservation/{id}")
+	public String payReservation(@PathVariable("id") int reservationId) {
+		Reservation reservation = reservationDao.getReservation(reservationId);
+		reservation.setStatus(Status.PAID);
+		reservationDao.updateReservation(reservation);
+		
+		return "redirect:/customer/myReservations";
 	}
 
 }
