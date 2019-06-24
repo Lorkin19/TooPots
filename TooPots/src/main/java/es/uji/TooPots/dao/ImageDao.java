@@ -45,6 +45,22 @@ public class ImageDao {
 		}
 	}
 	
+	public List<Image> getActivityImages(int activityId, String mail){
+		try {
+			List<Image> im = jdbcTemplate.query("SELECT * FROM Image WHERE ownerMail=?", new ImageRowMapper(), mail);
+			List<Image> list = new ArrayList<Image>();
+			for (Image i : im) {
+				String route = i.getRoute().substring(0, i.getRoute().lastIndexOf("/"));
+				if (route.equals("/images/activities/"+activityId+"/"+mail)) {
+					list.add(i);
+				}
+			}
+			return list;
+		}catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Image>();
+		}
+	}
+	
 	public String uploadImage(MultipartFile[] files, UserDetails user, String uploadDirectory, int activityId, BindingResult bindingResult) {
 		StringBuilder message = new StringBuilder();
 		ImageValidator iV = new ImageValidator();

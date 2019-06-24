@@ -20,6 +20,7 @@ import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.uji.TooPots.model.Certificate;
+import es.uji.TooPots.model.Image;
 import es.uji.TooPots.model.Status;
 import es.uji.TooPots.model.UserDetails;
 
@@ -155,6 +156,16 @@ public class CertificateDao {
 			if (!extension.equals(".pdf")) {
 				message.append("Extension not supported. "+file.getOriginalFilename());
 				return message.toString();
+			}
+			
+			List<Certificate> certificates = getInstructorCertificates(mail);
+			if (certificates.size()>0) {
+				for (Certificate c:certificates) {
+					if (c.getRoute().equals(certificate.getRoute())) {
+						message.append("File already exists. "+file.getOriginalFilename());
+						return message.toString();
+					}
+				}
 			}
 
 			Files.write(path, bytes);

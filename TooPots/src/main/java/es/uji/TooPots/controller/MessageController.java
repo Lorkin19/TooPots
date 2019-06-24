@@ -56,4 +56,12 @@ public class MessageController {
 		model.addAttribute("message",messageDao.getMessage(messageId));
 		return "viewMessage";
 	}
+	
+	@RequestMapping("/reopen/{id}")
+	public String reopen(@PathVariable("id") int messageId) {
+		Message message = messageDao.getMessage(messageId);
+		message.setStatus(Status.NOTARCHIVED);
+		messageDao.updateMessage(message);
+		return "redirect:/messages/list#tab2";
+	}
 }

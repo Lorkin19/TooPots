@@ -1,5 +1,6 @@
 package es.uji.TooPots.dao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,10 +33,10 @@ public class ReservationDao {
 	}
 	
 	public void addReservation(Reservation reservation) {
-		jdbcTemplate.update("INSERT INTO Reservation VALUES(?, ?, ?, ?, ?, ?, ?)",
+		jdbcTemplate.update("INSERT INTO Reservation VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
 				reservationId.getAndIncrement(), reservation.getVacancies(),
 				reservation.getPrice(), reservation.getMail(), reservation.getActivityId(),
-				Status.PENDING, reservation.getPlace());
+				Status.PENDING, reservation.getPlace(), reservation.getDate());
 	}
 	
 	public void deleteReservation(int reservationId) {
@@ -60,8 +61,16 @@ public class ReservationDao {
 	
 	public List<Reservation> getCustomerReservations(String customerMail){
 		try {
-			return jdbcTemplate.query("SELECT * FROM Reservation WHERE mail=?",
-					new ReservationRowMapper(), customerMail);
+			return jdbcTemplate.query("SELECT * FROM Reservation WHERE mail=? and status=?",
+					new ReservationRowMapper(), customerMail, Status.PENDING);
+		}catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Reservation>();
+		}
+	}
+	public List<Reservation> getPaidCustomerReservations(String customerMail){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Reservation WHERE mail=? and status=?",
+					new ReservationRowMapper(), customerMail, Status.PAID);
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Reservation>();
 		}
@@ -74,5 +83,5 @@ public class ReservationDao {
 		}catch (EmptyResultDataAccessException e) {
 			return new ArrayList<Reservation>();
 		}
-}
+	}
 }

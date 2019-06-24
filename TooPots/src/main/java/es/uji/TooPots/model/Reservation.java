@@ -1,5 +1,7 @@
 package es.uji.TooPots.model;
 
+import java.time.LocalDate;
+
 public class Reservation {
 	private int reservationId;
 	private int vacancies;
@@ -8,6 +10,7 @@ public class Reservation {
 	private String mail;
 	private int activityId;
 	private String status;
+	private LocalDate date;
 	
 	public Reservation() {}
 
@@ -64,5 +67,13 @@ public class Reservation {
 
 	public void setVacancies(int vacancies) {
 		this.vacancies = vacancies;
+	}
+	
+	public LocalDate getDate() {
+		return this.date;
+	}
+	
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 }

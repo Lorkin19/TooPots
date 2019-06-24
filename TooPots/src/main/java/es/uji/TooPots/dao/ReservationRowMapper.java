@@ -2,6 +2,7 @@ package es.uji.TooPots.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -20,6 +21,7 @@ public class ReservationRowMapper implements RowMapper<Reservation> {
 		reservation.setMail(rs.getString("mail"));
 		reservation.setVacancies(Integer.parseInt(rs.getString("vacancies")));
 		reservation.setActivityId(Integer.parseInt(rs.getString("activityId")));
+		reservation.setDate(LocalDate.parse(rs.getString("date")));
 		return reservation;
 	}
 }
