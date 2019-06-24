@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -323,6 +324,19 @@ class ActivityValidator implements Validator{
 		if (!act.getTime().matches("\\d{2}:\\d{2}")) {
 			errors.rejectValue("time", "Format", "The time has to be in a specific format: 'hh:mm'");
 		}
+		String[] time = act.getTime().split(":");
+		try {
+			int hour = Integer.parseInt(time[0]);
+			int minutes = Integer.parseInt(time[1]);
+			if (hour < 0 || hour > 23) {
+				errors.rejectValue("time", "Format", "Time must be between 00:00 and 23:59");
+			}
+			if (minutes<0 || minutes>59) {
+				errors.rejectValue("time", "Format", "Time must be between 00:00 and 23:59");
+			}
+		}catch(Exception e) {
+			errors.rejectValue("time", "Format", "Time must be between 00:00 and 23:59");
+		}
 		
 		if (act.getActivityType().equals("Select a type")) {
 			errors.rejectValue("activityType", "selectType", "You must select a type");
@@ -362,6 +376,10 @@ class ActivityValidator implements Validator{
 		
 		if (act.getMailInstructor().length()>500) {
 			errors.rejectValue("mailInstructor", "Value too long", "This field has a limit of 500 characters.");
+		}
+		
+		if (act.getDate().compareTo(LocalDate.now())<0) {
+			errors.rejectValue("date", "Format", "Dates must be from now on");
 		}
 	}
 }
