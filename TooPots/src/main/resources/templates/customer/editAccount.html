@@ -19,7 +19,7 @@
 <div th:replace="fragments/navegation" ></div>
 <div class="id-site">
 	<h2>Edit Account</h2>
-	<form action="#" th:action="@{/instructor/editAccount/{mail}(mail=${instructor.mail})}" th:object="${instructor}" method="post">
+	<form action="#" th:action="@{/customer/editAccount/{mail}(mail=${customer.mail})}" th:object="${customer}" method="post">
 		<div class="add-activity">
 			<table id="left" class="table table-stripped black-table">
 				<tr>
@@ -34,38 +34,13 @@
 					<td class="red-label"><label>Surname:</label></td>
 					<td><input class="bordered-input" type="text" id="surname" th:field="*{surname}"></td>
 				</tr>
-				<tr>
-					<td class="red-label"><label>BankAccount:</label></td>
-					<td><input class="bordered-input" type="text" id="bankAccount" th:field="*{bankAccount}"></td>
-				</tr>
 			</table>
 		<input class="btn btn-success" type="submit" value="Edit Account" />
 		<p style="margin-bottom:30px;"></p>
 		</div>
 	</form>
-	<a type="button" class="btn btn-danger" th:href="@{/confirmationMessage/{mail}(mail=${instructor.mail})}">Delete Account</a>
-
-	<div class="modal" th:id="modal-warning-rej+${instructor.mail}" >
-	    <div class="modal-dialog">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                    <span aria-hidden="true">×</span></button>
-	                <h2 class="modal-title">Reject Request</h2>
-	            </div>
-	            <div class="modal-body">
-	                <h3>Are you sure you want to DELETE your account?</h3>
-	                <p class="p-red">
-						<i>This is an irreversible action. All your data will be automatically deleted of the database</i>
-					</p>
-	            </div>
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-	                <a type="button" class="btn btn-success" th:href="@{/instructor/deleteInstructor/{mail}(mail=${instructor.mail})}">Delete</a>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+	<a type="button" class="btn btn-danger" th:href="@{/confirmationMessage/{mail}(mail=${customer.mail})}">Delete Account</a>
 </div>
 </body>
 </html>
+	

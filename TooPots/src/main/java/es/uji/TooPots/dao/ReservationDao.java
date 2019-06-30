@@ -76,6 +76,16 @@ public class ReservationDao {
 		}
 	}
 	
+	public List<Reservation> checkCustomerReservations(String customerMail){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Reservation WHERE mail=? and date>=? ORDER BY date",
+					new ReservationRowMapper(), customerMail, LocalDate.now());
+		}catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Reservation>();
+		}
+	}
+	
+	
 	public List<Reservation> getReservations(){
 		try {
 			return jdbcTemplate.query("SELECT * FROM Reservation ORDER BY date",

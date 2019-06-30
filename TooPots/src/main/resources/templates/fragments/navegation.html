@@ -90,6 +90,8 @@
 							<li><a href="/messages/list#tab1">My Messages</a></li>
 							<li><a href="/customer/mySubscriptions">My Subscriptions</a></li>
 							<li><a href="/customer/myReservations#tab1">My Reservations</a></li>
+							<li><a th:href="@{/customer/editAccount/{mail}(mail=${user.mail})}">Edit Account</a></li>
+							
 							<li><a href="/logout">Logout</a>
 						</ul>
 					</li>

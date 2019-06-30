@@ -40,10 +40,7 @@
 					<td th:text="${instructor.name}"></td>
 					<td th:text="${instructor.mail}"></td>
 					<td th:text="${instructor.username}"></td>
-					<td><a class="btn btn-danger" data-toggle="modal"
-						data-target="#modal-warning"
-						th:attr="data-target='#modal-warning'+${instructor.mail}">
-							Delete Instructor</a></td>
+					<td><a type="button" class="btn btn-danger" th:href="@{/confirmationMessage/{mail}(mail=${instructor.mail})}">Delete Instructor</a></td>
 					<div class="modal" th:id="modal-warning+${instructor.mail}">
 						<div class="modal-dialog">
 							<div class="modal-content">

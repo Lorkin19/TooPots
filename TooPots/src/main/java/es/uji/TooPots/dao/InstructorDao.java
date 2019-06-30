@@ -32,14 +32,14 @@ public class InstructorDao {
 	}
 	
 	public void deleteInstructor(Instructor instructor) {
-		jdbcTemplate.update("DELETE FROM Instructor WHERE username=?",
-				instructor.getUsername());
+		jdbcTemplate.update("DELETE FROM Instructor WHERE mail=?",
+				instructor.getMail());
 		FakeUserProvider.deleteUser(instructor.getMail());
 	}
 	public void updateInstructor(Instructor instructor) {
-		jdbcTemplate.update("UPDATE Instructor SET username=?, mail=?, pwd=?, bankAccount=?",
-				instructor.getUsername(), instructor.getMail(), instructor.getPwd(),
-				instructor.getBankAccount());
+		jdbcTemplate.update("UPDATE Instructor SET username=?, name=?, surname=?, bankAccount=? where mail=?",
+				instructor.getUsername(), instructor.getName(), instructor.getSurname(),
+				instructor.getBankAccount(), instructor.getMail());
 	}
 	
 	public boolean isInstructor(String mail) {

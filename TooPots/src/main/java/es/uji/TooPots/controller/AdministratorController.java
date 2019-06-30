@@ -259,7 +259,8 @@ public class AdministratorController {
 		
 		
 		model.addAttribute("instructors", instructorDao.getInstructors());
-		session.setAttribute("nextPage", "/administrator/instructorList");
+		session.setAttribute("nextPage", "/");
+		session.setAttribute("returnUsers", "/administrator/instructorList");
 		return "/administrator/instructorList";
 	}
 }

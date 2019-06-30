@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.sun.prism.Image;
 
 import es.uji.TooPots.dao.InstructorDao;
 import es.uji.TooPots.dao.MessageDao;
@@ -126,6 +124,7 @@ public class InstructorController {
 		}	
 		model.addAttribute("user", user);
 		session.setAttribute("nextPage", "/");
+		session.setAttribute("returnUsers", "/instructor/editAccount/"+mail);
 		model.addAttribute("instructor", instructorDao.getInstructor(mail));
 		return "instructor/editAccount";
 	}
@@ -144,7 +143,7 @@ public class InstructorController {
 
 
 
-		return "instructor/menu";
+		return "redirect:/instructor/menu";
 	}
 	
 	
