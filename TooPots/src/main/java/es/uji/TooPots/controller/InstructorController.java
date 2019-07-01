@@ -30,6 +30,7 @@ import es.uji.TooPots.dao.InstructorDao;
 import es.uji.TooPots.dao.MessageDao;
 import es.uji.TooPots.dao.ReceiveInformationDao;
 import es.uji.TooPots.dao.RequestDao;
+import es.uji.TooPots.dao.ReservationDao;
 import es.uji.TooPots.dao.ActivityDao;
 import es.uji.TooPots.dao.ActivityTypeDao;
 import es.uji.TooPots.dao.CanOrganizeDao;
@@ -43,6 +44,7 @@ import es.uji.TooPots.model.Customer;
 import es.uji.TooPots.model.Instructor;
 import es.uji.TooPots.model.ReceiveInformation;
 import es.uji.TooPots.model.Request;
+import es.uji.TooPots.model.Reservation;
 import es.uji.TooPots.model.UserDetails;
 
 @Controller
@@ -51,6 +53,13 @@ public class InstructorController {
 	
 	@Value("${upload.file.directory}")
 	private String uploadDirectory;
+	
+	private ReservationDao reservationDao;
+	
+	@Autowired
+	public void setReservationDao(ReservationDao reservationDao) {
+		this.reservationDao = reservationDao;
+	}
 	
 	private CertificateDao certificateDao;
 	
@@ -346,6 +355,26 @@ public class InstructorController {
     	imageDao.deleteInstructorImages(instructorMail);
     	return "redirect:"+session.getAttribute("nextPage");
     }
+    
+    @RequestMapping("/deleteWarning/{id}")
+    public String deleteWarning(Model model, HttpSession session, @ModelAttribute("id") int activityId) {
+    	model.addAttribute("user", session.getAttribute("user"));
+    	model.addAttribute("activityId", activityId);
+    	return "instructor/deleteWarning";
+    }
+    
+    @RequestMapping("/deleteActivity/{id}")
+    public String deleteActivity(@ModelAttribute("id") int id, RedirectAttributes redirectAttributes) {
+    	List<Reservation> lR = reservationDao.getActivityReservations(id);
+    	if (!lR.isEmpty()) {
+    		redirectAttributes.addFlashAttribute("message", "Cannot delete activity. It has reservations.");
+    		return "redirect:/instructor/deleteWarning";
+    	}
+    	activityDao.deleteActivity(id);
+    	return "redirect:/instructor/menu";
+    }
+    
+    
     
 }
 

@@ -59,6 +59,14 @@ public class ReservationDao {
 		}
 	}
 	
+	public List<Reservation> getActivityReservations(int activityId){
+		try {
+			return jdbcTemplate.query("SELECT * FROM Reservation WHERE activityId=? ORDER BY date",
+					new ReservationRowMapper(), activityId);
+		}catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Reservation>();
+		}
+	}	
 	public List<Reservation> getCustomerReservations(String customerMail){
 		try {
 			return jdbcTemplate.query("SELECT * FROM Reservation WHERE mail=? and status=? and date>=? ORDER BY date",
