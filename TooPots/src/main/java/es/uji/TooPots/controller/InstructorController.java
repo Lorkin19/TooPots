@@ -473,6 +473,14 @@ class SignupValidator implements Validator{
 			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
 		}
 		
+		if (request.getUsername().length() > 20) {
+			errors.rejectValue("username", "Value too long", "This field has a limit of 20 characters.");
+		}
+		
+		if (request.getUsername().equals("")) {
+			errors.rejectValue("username", "EmptyField", "This field cannot be empty.");
+		}
+		
 		if (request.getName().length() > 20) {
 			errors.rejectValue("name", "Value too long", "This field has a limit of 20 characters.");
 		}
