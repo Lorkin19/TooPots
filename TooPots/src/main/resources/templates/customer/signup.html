@@ -12,39 +12,49 @@
 </head>
 <body background="../images/banner.jpg">
 <div th:replace="fragments/navegation" ></div>
-	<h2 style="margin-top:2%; margin-bottom:0;max-width:335px;margin-left:auto;margin-right:auto;display:inherit;" class="h2-red">SignUp</h2>
+	<div class="warning-signup">
+		<p>You are signing up as Customer.
+		<br>You can sign up as Instructor here:</p>
+		<a href="../instructor/signup" class="btn btn-warning" role="button">Signup as Instructor</a>
+	</div>
+	<h2 style="margin-top:2%; margin-bottom:0;max-width:335px;margin-left:auto;margin-right:auto;display:inherit;" class="h2-red">SignUp as Customer</h2>
 	<form action="#" th:action="@{/customer/signup}" th:object="${customer}" method="post">
 		<table>
 			<tr>
 				<td><label>Mail:</label></td>
-				<td><input class="bordered-input" type="text" id="mail" th:field="*{mail}"></td>
+				<td>
+					<input class="bordered-input" type="text" id="mail" th:field="*{mail}">
+					<div style="color:red;" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label>Username:</label></td>
-				<td><input class="bordered-input" type="text" id="username" th:field="*{username}"></td>
+				<td><input class="bordered-input" type="text" id="username" th:field="*{username}">
+					<div style="color:red;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label>Password:</label></td>
-				<td><input class="bordered-input" type="password" id="pwd"th:field="*{pwd}"></td>
+				<td><input class="bordered-input" type="password" id="pwd"th:field="*{pwd}">
+					<div style="color:red;" th:if="${#fields.hasErrors('pwd')}" th:errors="*{pwd}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label>Name:</label></td>
-				<td><input class="bordered-input" type="text" id="name" th:field="*{name}"></td>
+				<td><input class="bordered-input" type="text" id="name" th:field="*{name}">
+					<div style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label>Surname:</label></td>
-				<td><input class="bordered-input" type="text" id="surname" th:field="*{surname}"></td>
+				<td><input class="bordered-input" type="text" id="surname" th:field="*{surname}">
+					<div style="color:red;" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+				</td>
 			</tr>
 			
 			<tr>
             	<td colspan="2"><input class="btn btn-success" type="submit" value="Signup as Customer" /></td>
         	</tr>
-        	<tr>
-        		<td colspan="2"><p> Or...</p></td>
-        	</tr>
-        	<tr>
-			   <td colspan="2"><a href="../instructor/signup" class="btn btn-warning" role="button">Signup as Instructor</a></td>
-			</tr>
 		</table>
 	</form>
 	<div style="margin-top: 10px;">

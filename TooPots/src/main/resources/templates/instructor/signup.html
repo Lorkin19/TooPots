@@ -12,56 +12,45 @@
 </head>
 <body background="../images/banner.jpg">
 <div th:replace="fragments/navegation" ></div>
-	<h2 style="margin-top:2%; margin-bottom:0;max-width:390px;margin-left:auto;margin-right:auto;display:inherit;" class="h2-red">SignUp</h2>
+	<h2 style="margin-top:2%; margin-bottom:0;max-width:390px;margin-left:auto;margin-right:auto;display:inherit;" class="h2-red">SignUp as Instructor</h2>
 	<form action="#" th:action="@{/instructor/signup}" th:object="${instructor}" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td><label>Mail:</label></td>
-				<td><input class="bordered-input" type="text" id="mail" th:field="*{mail}"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td style="color:red;" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></td>
+				<td>
+					<input class="bordered-input" type="text" id="mail" th:field="*{mail}">
+					<div style="color:red;" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label>Name:</label></td>
-				<td><input class="bordered-input" type="text" id="name" th:field="*{name}"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></td>
+				<td><input class="bordered-input" type="text" id="name" th:field="*{name}">
+					<div style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label>Surname:</label></td>
-				<td><input class="bordered-input" type="text" id="surname" th:field="*{surname}"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td style="color:red;" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></td>
+				<td><input class="bordered-input" type="text" id="surname" th:field="*{surname}">
+					<div style="color:red;" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label>Username:</label></td>
-				<td><input class="bordered-input" type="text" id="username" th:field="*{username}"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td style="color:red;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></td>
+				<td><input class="bordered-input" type="text" id="username" th:field="*{username}">
+					<div style="color:red;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label>Password:</label></td>
-				<td><input class="bordered-input" type="password" id="pwd" th:field="*{pwd}"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td style="color:red;" th:if="${#fields.hasErrors('pwd')}" th:errors="*{pwd}"></td>
+				<td><input class="bordered-input" type="password" id="pwd" th:field="*{pwd}">
+					<div style="color:red;" th:if="${#fields.hasErrors('pwd')}" th:errors="*{pwd}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label>Bank Account:</label></td>
-				<td><input class="bordered-input" type="text" id="bankAccount" th:field="*{bankAccount}"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td style="color:red;" th:if="${#fields.hasErrors('bankAccount')}" th:errors="*{bankAccount}"></td>
+				<td><input class="bordered-input" type="text" id="bankAccount" th:field="*{bankAccount}">
+					<div style="color:red;" th:if="${#fields.hasErrors('bankAccount')}" th:errors="*{bankAccount}"></div>
+				</td>
 			</tr>
 			
 			<tr>

@@ -17,40 +17,59 @@
 		<div class="add-activity">
 		<table id="left" class="table table-stripped black-table">
 			<tr>
-			<td class="red-label"><label>Location:</label></td>
-			<td><input class="bordered-input" id="location" type="text" th:field="*{location}"/></td>
-		</tr>
-		<tr>		
-			<td class="red-label"><label>Date: </label></td>
-			<td><input class="bordered-input" id="date" th:type="date" th:field="*{date}"/></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Duration:</label></td>
-			<td><input class="bordered-input" id="duration" type="text" th:field="*{duration}"></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Vacancies:</label></td>
-			<td><input class="bordered-input" id="vacancies" type="text" th:field="*{vacancies}"></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Price:</label></td>
-			<td><input class="bordered-input" id="price" th:type="number" th:field="*{price}"></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Description:</label></td>
-			<td><textarea class="bordered-input" id="description" type="text" th:field="*{description}"></textarea></td>
-		</tr>
-		<tr>
-			<td class="red-label"><label>Level:</label></td>
-			<td><select class="bordered-input" id="level" th:field="*{level}">
-					<option value="default" selected hidden>Select a level</option>
-					<option value="Begginer">Begginer</option>
-					<option value="Intermediate">Intermediate</option>
-					<option value="Expert">Expert</option>
-				</select>
-			</td>
-		</tr>
-		<tr><td></td><td></td></tr>
+				<td class="red-label"><label>Name:</label></td>
+				<td><input class="bordered-input" id="name" type="text" th:field="*{name}"/>
+					<div style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Location:</label></td>
+				<td><input class="bordered-input" id="location" type="text" th:field="*{location}"/>
+					<div style="color:red;" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></div>
+				</td>
+			</tr>
+			<tr>		
+				<td class="red-label"><label>Date: </label></td>
+				<td><input class="bordered-input" id="date" th:type="date" th:field="*{date}"/>
+					<div style="color:red;" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Duration:</label></td>
+				<td><input class="bordered-input" id="duration" type="text" th:field="*{duration}">
+					<div style="color:red;" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Vacancies:</label></td>
+				<td><input class="bordered-input" id="vacancies" type="text" th:field="*{vacancies}">
+					<div style="color:red;" th:if="${#fields.hasErrors('vacancies')}" th:errors="*{vacancies}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Price:</label></td>
+				<td><input class="bordered-input" id="price" th:type="number" th:field="*{price}">
+					<div style="color:red;" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Description:</label></td>
+				<td><textarea class="bordered-input" id="description" type="text" th:field="*{description}"></textarea>
+					<div style="color:red;" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="red-label"><label>Level:</label></td>
+				<td><select class="bordered-input" id="level" th:field="*{level}">
+						<option value="default" selected hidden>Select a level</option>
+						<option value="Begginer">Begginer</option>
+						<option value="Intermediate">Intermediate</option>
+						<option value="Expert">Expert</option>
+					</select>
+					<div style="color:red;" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></div>
+				</td>
+			</tr>
+			<tr><td></td><td></td></tr>
 		</table>
 		<input class="btn btn-success" type="submit" value="Update Activity" />
 		<p style="margin-bottom:30px;"></p>

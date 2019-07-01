@@ -48,6 +48,10 @@ td{
 	background-color: #f00 !important;
 }
 
+.error{
+	color:red;
+}
+
 .h2-red{
 	background-color: red;
 	color: white;
@@ -115,6 +119,17 @@ td{
 }
 #message{
 	color:red;
+}
+
+.warning-signup{
+	background-color:white;
+	color:red;
+	text-align:center;
+	padding: 20px;
+	border-radius:5px;
+	margin:15px;
+	max-width:max-content;
+	display:inline-block;
 }
 
 .half-page{

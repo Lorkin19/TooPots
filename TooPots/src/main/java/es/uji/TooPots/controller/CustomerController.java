@@ -38,8 +38,12 @@ import es.uji.TooPots.model.UserDetails;
 @RequestMapping("/customer")
 public class CustomerController {
 	
-	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
 	
 	private ImageDao imageDao;
 	
@@ -359,9 +363,9 @@ class CustomerSignupValidator implements Validator{
 		if (customer.getMail().equals("")) {
 			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
 		}
-		if (customer.getMail() == null) {
+		/*if (customer.getMail() == null) {
 			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
-		}
+		}*/
 		
 		if (customer.getMail().length() > 40) {
 			errors.rejectValue("mail", "ValueTooLong", "This field has a limit of 40 characters.");
@@ -370,27 +374,27 @@ class CustomerSignupValidator implements Validator{
 			errors.rejectValue("name", "EmptyField", "This field cannot be empty.");
 		}
 		
-		if (customer.getName() == null) {
+		/*if (customer.getName() == null) {
 			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
-		}
+		}*/
 		if (customer.getName().length() > 20) {
 			errors.rejectValue("name", "ValueTooLong", "This field has a limit of 20 characters.");
 		}
 		if (customer.getUsername().equals("")) {
 			errors.rejectValue("username", "EmptyField", "This field cannot be empty.");
 		}
-		if (customer.getUsername() == null) {
+		/*if (customer.getUsername() == null) {
 			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
-		}
+		}*/
 		if (customer.getUsername().length() > 20) {
 			errors.rejectValue("username", "ValueTooLong", "This field has a limit of 20 characters.");
 		}
 		if (customer.getSurname().equals("")) {
 			errors.rejectValue("surname", "EmptyField", "This field cannot be empty.");
 		}
-		if (customer.getSurname() == null) {
+		/*if (customer.getSurname() == null) {
 			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
-		}
+		}*/
 		
 		if (customer.getSurname().length() > 20) {
 			errors.rejectValue("surname", "ValueTooLong", "This field has a limit of 20 characters.");
@@ -398,9 +402,9 @@ class CustomerSignupValidator implements Validator{
 		if (customer.getPwd().equals("")) {
 			errors.rejectValue("pwd", "EmptyField", "This field cannot be empty.");
 		}
-		if (customer.getPwd() == null) {
+		/*if (customer.getPwd() == null) {
 			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
-		}
+		}*/
 		if (customer.getPwd().length() > 20) {
 			errors.rejectValue("pwd", "ValueTooLong", "This field has a limit of 20 characters.");
 		}
