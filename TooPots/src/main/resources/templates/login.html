@@ -23,12 +23,14 @@
 				<table>
 					<tr>
 		            	<td class="td-right"><label>Mail:</label></td>
-		            	<td><input class="form_control bordered-input" type="text" th:field="*{mail}"/></td>
+		            	<td>
+		            		<input class="form_control bordered-input" type="text" th:field="*{mail}"/>
+		            		<div class="error" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
+		            	</td>
 		            </tr>
 		            <tr>
 		            	
 		            	<td class="td-right">
-		            		<div class="error" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
 		            		<label>Password:</label>
 		            	</td>
 		            	<td>

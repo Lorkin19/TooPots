@@ -24,19 +24,27 @@
 			<table id="left" class="table table-stripped black-table">
 				<tr>
 					<td class="red-label"><label>Username:</label></td>
-					<td><input class="bordered-input" type="text" id="username" th:field="*{username}"/></td>
+					<td><input class="bordered-input" type="text" id="username" th:field="*{username}"/>
+						<div style="color:red;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+					</td>
 				</tr>
 				<tr>		
 					<td class="red-label"><label>Name: </label></td>
-					<td><input class="bordered-input" th:type="text" id="name" th:field="*{name}"/></td>
+					<td><input class="bordered-input" th:type="text" id="name" th:field="*{name}"/>
+						<div style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+					</td>
 				</tr>
 				<tr>
 					<td class="red-label"><label>Surname:</label></td>
-					<td><input class="bordered-input" type="text" id="surname" th:field="*{surname}"></td>
+					<td><input class="bordered-input" type="text" id="surname" th:field="*{surname}">
+						<div style="color:red;" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+					</td>
 				</tr>
 				<tr>
 					<td class="red-label"><label>BankAccount:</label></td>
-					<td><input class="bordered-input" type="text" id="bankAccount" th:field="*{bankAccount}"></td>
+					<td><input class="bordered-input" type="text" id="bankAccount" th:field="*{bankAccount}">
+						<div style="color:red;" th:if="${#fields.hasErrors('bankAccount')}" th:errors="*{bankAccount}"></div>
+					</td>
 				</tr>
 			</table>
 		<input class="btn btn-success" type="submit" value="Edit Account" />

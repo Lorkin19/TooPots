@@ -22,42 +22,59 @@
 						<option value="default" selected hidden>Select a type</option>
 						<option th:each="tipo:${type}" th:value="${tipo.name}" th:text="${tipo.name}"></option>
 					</select>
+					<div style="color:red;" th:if="${#fields.hasErrors('activityType')}" th:errors="*{activityType}"></div>
 				</td>
 			</tr>
 			<tr>
 				<td class="red-label"><label>Name:</label></td>
-				<td><input class="bordered-input" type="text" id="name" th:field="*{name}"/></td>
+				<td><input class="bordered-input" type="text" id="name" th:field="*{name}"/>
+					<div style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td class="red-label"><label>Location:</label></td>
-				<td ><input class="bordered-input" type="text" id="location" th:field="*{location}"/></td>
+				<td ><input class="bordered-input" type="text" id="location" th:field="*{location}"/>
+					<div style="color:red;" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></div>
+				</td>
 			</tr>
 			<tr>
 				
 				<td class="red-label"><label>Date: </label></td>
-				<td><input type="date" class="form-control" id="date" th:field="*{date}"/></td>
+				<td><input type="date" class="form-control" id="date" th:field="*{date}"/>
+					<div style="color:red;" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+				</td>
 			</tr>
 			
 			<tr>
 				<td class="red-label"><label>Time: </label></td>
-				<td><input class="bordered-input" type="text" id="time" placeholder="hh:mm" th:field="*{time}"/></td>
+				<td><input class="bordered-input" type="text" id="time" placeholder="hh:mm" th:field="*{time}"/>
+					<div style="color:red;" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></div>
+				</td>
 			</tr>
 			
 			<tr>
 				<td class="red-label"><label>Duration:</label></td>
-				<td><input class="bordered-input" type="text" id="duration" th:field="*{duration}"></td>
+				<td><input class="bordered-input" type="text" id="duration" th:field="*{duration}">
+					<div style="color:red;" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td class="red-label"><label>Vacancies:</label></td>
-				<td><input class="bordered-input" type="text" id="vacancies" th:field="*{vacancies}"></td>
+				<td><input class="bordered-input" type="text" id="vacancies" th:field="*{vacancies}">
+					<div style="color:red;" th:if="${#fields.hasErrors('vacancies')}" th:errors="*{vacancies}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td class="red-label"><label>Price:</label></td>
-				<td><input class="bordered-input" type="number" id="price" th:field="*{price}"></td>
+				<td><input class="bordered-input" type="number" id="price" th:field="*{price}">
+					<div style="color:red;" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+				</td>
 			</tr>
 			<tr>
 				<td class="red-label"><label>Description:</label></td>
-				<td><textarea class="bordered-input" rows="5" cols="20" id="description" th:field="*{description}"></textarea></td>
+				<td><textarea class="bordered-input" rows="5" cols="20" id="description" th:field="*{description}"></textarea>
+					<div style="color:red;" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+				</td>
 			</tr>
 		
 			<tr>
@@ -68,6 +85,7 @@
 						<option value="Intermediate">Intermediate</option>
 						<option value="Expert">Expert</option>
 					</select>
+					<div style="color:red;" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></div>
 				</td>
 			</tr>
 			<tr>
