@@ -120,7 +120,7 @@ public class AdministratorController {
 		Instructor instructor = requestDao.convertToInstructor(request);
 		instructorDao.addInstructor(instructor);
 		
-		List<Certificate> certificates = certificateDao.getInstructorCertificates(request.getMail());
+		List<Certificate> certificates = certificateDao.getInstructorApprovedCertificates(request.getMail());
 		CanOrganize cO = new CanOrganize();
 		for (Certificate c:certificates) {
 			String mail = request.getMail();
@@ -200,6 +200,7 @@ public class AdministratorController {
 			if (bindingResult.hasErrors()) {
 				return (String) session.getAttribute("nextPageAdmin");
 			}
+			certificate.setActivityType(act.getName());
 		}
 
 		if (instructorDao.isInstructor(certificate.getOwnerMail())) {
@@ -259,7 +260,7 @@ public class AdministratorController {
 		
 		
 		model.addAttribute("instructors", instructorDao.getInstructors());
-		session.setAttribute("nextPage", "/");
+		session.setAttribute("nextPage", "/administrator/instructorList");
 		session.setAttribute("returnUsers", "/administrator/instructorList");
 		return "/administrator/instructorList";
 	}

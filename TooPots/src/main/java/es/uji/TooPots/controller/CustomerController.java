@@ -96,10 +96,6 @@ public class CustomerController {
 	public String listActivities(Model model, HttpSession session) {
 
 		UserDetails user = (UserDetails) session.getAttribute("user");
-		if (user == null || user.getUserType()!=0) {
-			session.setAttribute("pagAnt", "/customer/activities");
-			return "redirect:/login";
-		}
 		
 		model.addAttribute("user", session.getAttribute("user"));
 		model.addAttribute("activities", activityDao.getActivities());
@@ -113,10 +109,6 @@ public class CustomerController {
 	public String listActivityTypes(Model model, HttpSession session) {
 
 		UserDetails user = (UserDetails) session.getAttribute("user");
-		if (user == null || user.getUserType()!=0) {
-			session.setAttribute("pagAnt", "/customer/activitiesTypes");
-			return "redirect:/login";
-		}
 		
 		model.addAttribute("user", user);
 		model.addAttribute("activityTypes", activityTypeDao.getActivityTypes());
@@ -126,10 +118,6 @@ public class CustomerController {
 	@RequestMapping("/activitiesOfType/{activityType}")
 	public String listActivitiesOfType(Model model, @PathVariable("activityType") String activityTypeName, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
-		if (user == null || user.getUserType()!=0) {
-			session.setAttribute("pagAnt", "/customer/activitiesOfType/"+activityTypeName);
-			return "redirect:/login";
-		}
 
 		session.setAttribute("pagAnt", "/customer/activitiesOfType/"+activityTypeName);
 

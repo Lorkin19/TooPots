@@ -288,7 +288,7 @@ public class InstructorController {
     	session.setAttribute("nextPage", "/instructor/wait");
     	
     	requestDao.addRequest(request);
-    	return "redirect:/uploadStatus";
+    	return "redirect:/instructor/wait";
     }
     
     @RequestMapping("/deleteCertificate/{id}")

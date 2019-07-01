@@ -97,7 +97,8 @@ public class ConfirmationMessageController {
 	}
 	
 	@RequestMapping("/deleteAccount/{mail}")
-	public String deleteAccount(@PathVariable("mail") String mail, @ModelAttribute("user") UserDetails user, RedirectAttributes redirectAttributes, HttpSession session) {
+	public String deleteAccount(@PathVariable("mail") String mail, RedirectAttributes redirectAttributes, HttpSession session) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
 		String ret;
 		if (user.getUserType() == 0) {
 			List<Reservation> lR = reservationDao.checkCustomerReservations(mail);
@@ -114,11 +115,10 @@ public class ConfirmationMessageController {
 	    	
 	    	if (lA.isEmpty()) {
 	    		instructorDao.deleteInstructor(instructor);
-	    	}else {
-		    	redirectAttributes.addFlashAttribute("message", "Instructor with mail " + mail + " cannot be deleted because he still has activities." );
-		    	instructorDao.deleteInstructor(instructor);
-		    	certificateDao.deleteInstructorCertificates(mail);
+	    		certificateDao.deleteInstructorCertificates(mail);
 		    	imageDao.deleteInstructorImages(mail);
+	    	}else {
+		    	redirectAttributes.addFlashAttribute("message", "Instructor with mail " + mail + " cannot be deleted because he still has activities." );		    	
 		    }
 	    	if (user.getUserType() == 1) {
     			ret="redirect:/";
