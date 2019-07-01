@@ -473,7 +473,7 @@ class SignupValidator implements Validator{
 		}
 		
 		if (request.getBankAccount().length() > 12) {
-			errors.rejectValue("pwd","Value too long", "This field has a limit of 20 characters.");
+			errors.rejectValue("bankAccount","Value too long", "This field has a limit of 121h characters.");
 		}
 	}
 }
@@ -482,7 +482,7 @@ class InstructorValidator implements Validator{
 	@Override
 	public boolean supports(Class<?> clazz) {
 		// TODO Auto-generated method stub
-		return Instructor.class.equals(clazz);
+		return Instructor.class.equals(clazz); 
 	}
 
 	@Override
@@ -493,6 +493,9 @@ class InstructorValidator implements Validator{
 		if (instructor.getMail().length() > 40) {
 			errors.rejectValue("mail", "Value too long", "This field has a limit of 40 characters.");
 		}
+		if (instructor.getMail() == null) {
+			errors.rejectValue("mail", "Value null", "This field cannot be empty.");
+		}
 		
 		if (instructor.getMail().equals("")) {
 			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
@@ -500,6 +503,9 @@ class InstructorValidator implements Validator{
 		
 		if (instructor.getName().length() > 20) {
 			errors.rejectValue("name", "Value too long", "This field has a limit of 20 characters.");
+		}
+		if (instructor.getName() == null) {
+			errors.rejectValue("mail", "Value null", "This field cannot be empty.");
 		}
 		
 		if (instructor.getName().equals("")) {
@@ -509,6 +515,9 @@ class InstructorValidator implements Validator{
 		if (instructor.getSurname().equals("")) {
 			errors.rejectValue("surname", "EmptyField", "This field cannot be empty.");
 		}
+		if (instructor.getSurname() == null) {
+			errors.rejectValue("mail", "Value null", "This field cannot be empty.");
+		}
 		
 		if (instructor.getSurname().length() > 20) {
 			errors.rejectValue("surname","Value too long", "This field has a limit of 20 characters.");
@@ -517,6 +526,9 @@ class InstructorValidator implements Validator{
 		if (instructor.getPwd().equals("")) {
 			errors.rejectValue("pwd", "EmptyField", "This field cannot be empty.");
 		}
+		if (instructor.getPwd() == null) {
+			errors.rejectValue("mail", "Value null", "This field cannot be empty.");
+		}
 		
 		if (instructor.getPwd().length() > 20) {
 			errors.rejectValue("pwd","Value too long", "This field has a limit of 20 characters.");
@@ -524,6 +536,9 @@ class InstructorValidator implements Validator{
 		
 		if (instructor.getBankAccount().equals("")) {
 			errors.rejectValue("bankAccount", "EmptyField", "This field cannot be empty.");
+		}
+		if (instructor.getBankAccount() == null) {
+			errors.rejectValue("mail", "Value null", "This field cannot be empty.");
 		}
 		
 		if (instructor.getBankAccount().length() > 12) {
