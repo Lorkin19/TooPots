@@ -35,10 +35,10 @@ public class CustomerDao {
 	}
 	
 	public void updateCustomer(Customer customer) {
-		jdbcTemplate.update("UPDATE Customer SET  mail=?, username=?, pwd=?,"
-				+ "name=?, surname=?",
-				 customer.getMail(), customer.getUsername(), customer.getPwd(),
-				 customer.getName(), customer.getSurname());
+		jdbcTemplate.update("UPDATE Customer SET username=?, "
+				+ "name=?, surname=? where mail=?",
+				 customer.getUsername(),
+				 customer.getName(), customer.getSurname(), customer.getMail());
 	}
 	
 	public Customer getCustomer(String mail) {

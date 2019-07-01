@@ -23,9 +23,11 @@ import es.uji.TooPots.dao.ImageDao;
 import es.uji.TooPots.dao.MessageDao;
 import es.uji.TooPots.dao.ReceiveInformationDao;
 import es.uji.TooPots.dao.ReservationDao;
+import es.uji.TooPots.dao.UserDao;
 import es.uji.TooPots.model.Activity;
 import es.uji.TooPots.model.Customer;
 import es.uji.TooPots.model.Image;
+import es.uji.TooPots.model.Instructor;
 import es.uji.TooPots.model.Message;
 import es.uji.TooPots.model.ReceiveInformation;
 import es.uji.TooPots.model.Reservation;
@@ -35,6 +37,9 @@ import es.uji.TooPots.model.UserDetails;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
+	
+	@Autowired
+	private UserDao userDao;
 	
 	private ImageDao imageDao;
 	
@@ -93,10 +98,10 @@ public class CustomerController {
 	 */
 	@RequestMapping("/activities")
 	public String listActivities(Model model, HttpSession session) {
-		session.setAttribute("pagAnt", "/customer/activities");
 
 		UserDetails user = (UserDetails) session.getAttribute("user");
-		model.addAttribute("user", user);
+		
+		model.addAttribute("user", session.getAttribute("user"));
 		model.addAttribute("activities", activityDao.getActivities());
 		
 		session.setAttribute("nextPageCustomer", "/customer/activities");
@@ -106,9 +111,9 @@ public class CustomerController {
 	 
 	@RequestMapping("/activityTypes")
 	public String listActivityTypes(Model model, HttpSession session) {
-		session.setAttribute("pagAnt", "/customer/activityTypes");
 
 		UserDetails user = (UserDetails) session.getAttribute("user");
+		
 		model.addAttribute("user", user);
 		model.addAttribute("activityTypes", activityTypeDao.getActivityTypes());
 		return "customer/activityTypes";
@@ -117,6 +122,7 @@ public class CustomerController {
 	@RequestMapping("/activitiesOfType/{activityType}")
 	public String listActivitiesOfType(Model model, @PathVariable("activityType") String activityTypeName, HttpSession session) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
+
 		session.setAttribute("pagAnt", "/customer/activitiesOfType/"+activityTypeName);
 
 		model.addAttribute("user", user);
@@ -135,7 +141,7 @@ public class CustomerController {
 	
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String processAddSubmit(@ModelAttribute("Customer") Customer customer, BindingResult bindingResult) {
+	public String processAddSubmit(@ModelAttribute("Customer") Customer customer, BindingResult bindingResult, HttpSession session) {
 		CustomerSignupValidator cSV = new CustomerSignupValidator();
 		
 		cSV.validate(customer, bindingResult);
@@ -144,6 +150,8 @@ public class CustomerController {
 			return "customer/signup";
 		}
 		customerDao.addCustomer(customer);
+		UserDetails user = userDao.loadUserByMail(customer.getMail(), customer.getPwd());
+		session.setAttribute("user", user);
 		return "redirect:activities";
 	}
 	
@@ -213,9 +221,13 @@ public class CustomerController {
 	
 	@RequestMapping("/activityInfo/{id}")
 	public String activityInformation(Model model, @PathVariable("id") int activityId, HttpSession session) {
-		session.setAttribute("pagAnt", "/customer/activityInfo/"+activityId);
 
 		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user == null || user.getUserType()!=0) {
+			session.setAttribute("pagAnt", "/customer/activityInfo/"+activityId);
+			return "redirect:/login";
+		}
+		
 		model.addAttribute("user", user);
 		model.addAttribute("activity", activityDao.getActivity(activityId));
 		List<Image> l =  imageDao.getActivityImages(activityId, activityDao.getActivity(activityId).getMailInstructor());
@@ -257,9 +269,7 @@ public class CustomerController {
 			session.setAttribute("pagAnt", "/customer/mySubscriptions");
 			return "redirect:/login";
 		}
-		
-		System.out.println(activityTypeName);
-		
+				
 		receiveInformationDao.deleteReceiveInformation(user.getMail(), activityTypeName);
 		
 		String issue="Unsubscription Success";
@@ -278,6 +288,7 @@ public class CustomerController {
 			session.setAttribute("pagAnt", "/customer/mySubscriptions");
 			return "redirect:/login";
 		}
+		model.addAttribute("user", user);
 		model.addAttribute("subscriptions", receiveInformationDao.getCustomerSubscriptions(user.getMail()));
 		return "customer/mySubscriptions";
 	}
@@ -302,7 +313,34 @@ public class CustomerController {
 		return "redirect:/customer/myReservations#tab1";
 
 	}
-}
+	
+	@RequestMapping("/editAccount/{mail}")
+	public String editAccount(Model model, HttpSession session, @PathVariable("mail") String mail) {
+		UserDetails user = (UserDetails) session.getAttribute("user");
+		if (user == null || user.getUserType()!=0) {
+			session.setAttribute("pagAnt", "/customer/editAccount/"+mail);
+			return "redirect:/login";
+		}	
+		model.addAttribute("user", user);
+		session.setAttribute("nextPage", "/");
+		session.setAttribute("returnUsers", "/customer/editAccount/"+mail);
+		model.addAttribute("customer", customerDao.getCustomer(mail));
+		return "customer/editAccount";
+	}
+	
+	@RequestMapping(value="/editAccount/{mail}", method=RequestMethod.POST)
+	public String proccessEditAccount(@PathVariable("mail") String mail, @ModelAttribute("customer") Customer customer, BindingResult bindingResult) {
+		CustomerValidator cV = new CustomerValidator();
+		cV.validate(customer, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			return "redirect:/customer/editAccount/"+mail;
+		}
+		
+		customerDao.updateCustomer(customer);
+		return "redirect:/customer/activities";
+	}
+	}
 
 class CustomerSignupValidator implements Validator{
 
@@ -321,6 +359,9 @@ class CustomerSignupValidator implements Validator{
 		if (customer.getMail().equals("")) {
 			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
 		}
+		if (customer.getMail() == null) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
+		}
 		
 		if (customer.getMail().length() > 40) {
 			errors.rejectValue("mail", "ValueTooLong", "This field has a limit of 40 characters.");
@@ -329,18 +370,26 @@ class CustomerSignupValidator implements Validator{
 			errors.rejectValue("name", "EmptyField", "This field cannot be empty.");
 		}
 		
+		if (customer.getName() == null) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
+		}
 		if (customer.getName().length() > 20) {
 			errors.rejectValue("name", "ValueTooLong", "This field has a limit of 20 characters.");
 		}
 		if (customer.getUsername().equals("")) {
 			errors.rejectValue("username", "EmptyField", "This field cannot be empty.");
 		}
-		
+		if (customer.getUsername() == null) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
+		}
 		if (customer.getUsername().length() > 20) {
 			errors.rejectValue("username", "ValueTooLong", "This field has a limit of 20 characters.");
 		}
 		if (customer.getSurname().equals("")) {
 			errors.rejectValue("surname", "EmptyField", "This field cannot be empty.");
+		}
+		if (customer.getSurname() == null) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
 		}
 		
 		if (customer.getSurname().length() > 20) {
@@ -349,9 +398,55 @@ class CustomerSignupValidator implements Validator{
 		if (customer.getPwd().equals("")) {
 			errors.rejectValue("pwd", "EmptyField", "This field cannot be empty.");
 		}
-		
+		if (customer.getPwd() == null) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
+		}
 		if (customer.getPwd().length() > 20) {
 			errors.rejectValue("pwd", "ValueTooLong", "This field has a limit of 20 characters.");
+		}
+	}
+}
+
+class CustomerValidator implements Validator {
+	@Override
+	public boolean supports(Class<?> clazz) {
+		// TODO Auto-generated method stub
+		return Customer.class.equals(clazz);
+	}
+
+
+	@Override
+	public void validate(Object target, Errors errors) {
+		// TODO Auto-generated method stub
+		Customer customer = (Customer) target;
+		if (customer.getName().equals("")) {
+			errors.rejectValue("name", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (customer.getName() == null) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
+		}
+		if (customer.getName().length() > 20) {
+			errors.rejectValue("name", "ValueTooLong", "This field has a limit of 20 characters.");
+		}
+		if (customer.getUsername().equals("")) {
+			errors.rejectValue("username", "EmptyField", "This field cannot be empty.");
+		}
+		if (customer.getUsername() == null) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
+		}
+		if (customer.getUsername().length() > 20) {
+			errors.rejectValue("username", "ValueTooLong", "This field has a limit of 20 characters.");
+		}
+		if (customer.getSurname().equals("")) {
+			errors.rejectValue("surname", "EmptyField", "This field cannot be empty.");
+		}
+		if (customer.getSurname() == null) {
+			errors.rejectValue("mail", "EmptyField", "This field cannot be empty.");
+		}
+		
+		if (customer.getSurname().length() > 20) {
+			errors.rejectValue("surname", "ValueTooLong", "This field has a limit of 20 characters.");
 		}
 	}
 }

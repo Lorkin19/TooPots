@@ -24,8 +24,9 @@ public class IndexController {
 	private String uploadDirectory;
 	
 	@RequestMapping("/")
-    public String indexInit(Model model) {
-		model.addAttribute("user", new UserDetails());
+    public String indexInit(Model model, HttpSession session) {
+		
+		model.addAttribute("user", session.getAttribute("user"));
 		Path path = Paths.get(uploadDirectory+"/images/carousel");
 		File dir = new File(path.toString());
 		String images[] = dir.list();

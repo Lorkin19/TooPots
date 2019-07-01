@@ -1,10 +1,15 @@
 package es.uji.TooPots.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +38,9 @@ import es.uji.TooPots.model.UserDetails;
 @Controller
 @RequestMapping("/administrator")
 public class AdministratorController {
+	
+	@Value("${upload.file.directory}")
+	private String uploadDirectory;
 	
 	private CanOrganizeDao canOrganizeDao;
 	
@@ -118,11 +126,22 @@ public class AdministratorController {
 		requestDao.updateRequest(request);
 		
 		Instructor instructor = requestDao.convertToInstructor(request);
-		instructorDao.addInstructor(instructor);
+		instructorDao.addInstructor(instructor); 
 		
-		List<Certificate> certificates = certificateDao.getInstructorCertificates(request.getMail());
+		
+		
+		List<Certificate> certificates = certificateDao.getInstructorApprovedCertificates(request.getMail());
 		CanOrganize cO = new CanOrganize();
 		for (Certificate c:certificates) {
+			try {
+				if (!Files.isDirectory(Paths.get(uploadDirectory+"/pdfs/"+request.getMail()))){
+					Files.createDirectories(Paths.get(uploadDirectory+"/pdfs/"+request.getMail()));
+				}
+				Files.move(Paths.get(uploadDirectory+c.getRoute()), Paths.get(uploadDirectory+"/pdfs/"+request.getMail()+"/"+c.getFileName()), StandardCopyOption.ATOMIC_MOVE);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			String mail = request.getMail();
 			String activityType = c.getActivityType();
 			if (!canOrganizeDao.isCanOrganize(mail, activityType)) {
@@ -185,7 +204,6 @@ public class AdministratorController {
 	@RequestMapping(value="/acceptCertificate/{id}")
 	public String acceptCertificate(@PathVariable("id") String certificateId, HttpSession session, @ModelAttribute("activityType") ActivityType act, BindingResult bindingResult) {
 		Certificate certificate = certificateDao.getCertificate(Integer.parseInt(certificateId));
-		certificate.setActivityType(act.getName());
 		
 		if (act.getDescription()!=null) {
 			NewActivityTypeValidator aV = new NewActivityTypeValidator();
@@ -194,9 +212,14 @@ public class AdministratorController {
 				return (String) session.getAttribute("nextPageAdmin");
 			}
 			activityTypeDao.addActivityType(act);
+			certificate.setActivityType(act.getName());
+
 		}else {
 			ActivityTypeValidator aV = new ActivityTypeValidator();
-			aV.validate(act, bindingResult);
+			System.out.println(act.getName());
+			certificate.setActivityType(act.getName());
+
+			aV.validate(activityTypeDao.getActivityType(act.getName()), bindingResult);
 			if (bindingResult.hasErrors()) {
 				return (String) session.getAttribute("nextPageAdmin");
 			}
@@ -260,6 +283,7 @@ public class AdministratorController {
 		
 		model.addAttribute("instructors", instructorDao.getInstructors());
 		session.setAttribute("nextPage", "/administrator/instructorList");
+		session.setAttribute("returnUsers", "/administrator/instructorList");
 		return "/administrator/instructorList";
 	}
 }

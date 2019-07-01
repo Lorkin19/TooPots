@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>TooPots</title>
+<meta th:charset="UTF-8" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/navegation.css"
+	th:href="@{/css/navegation.css}">
+<link rel="stylesheet" type="text/css" href="/css/basicpage.css"
+	th:href="@{/css/basicpage.css}">
+<link rel="stylesheet" type="text/css" href="/css/tabs.css"
+	th:href="@{/css/tabs.css}">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="fragments/navegation" ></div>
+<div class="id-site">
+	<h2>Edit Account</h2>
+	<form action="#" th:action="@{/instructor/editAccount/{mail}(mail=${instructor.mail})}" th:object="${instructor}" method="post">
+		<div class="add-activity">
+			<table id="left" class="table table-stripped black-table">
+				<tr>
+					<td class="red-label"><label>Username:</label></td>
+					<td><input class="bordered-input" type="text" id="username" th:field="*{username}"/></td>
+				</tr>
+				<tr>		
+					<td class="red-label"><label>Name: </label></td>
+					<td><input class="bordered-input" th:type="text" id="name" th:field="*{name}"/></td>
+				</tr>
+				<tr>
+					<td class="red-label"><label>Surname:</label></td>
+					<td><input class="bordered-input" type="text" id="surname" th:field="*{surname}"></td>
+				</tr>
+				<tr>
+					<td class="red-label"><label>BankAccount:</label></td>
+					<td><input class="bordered-input" type="text" id="bankAccount" th:field="*{bankAccount}"></td>
+				</tr>
+			</table>
+		<input class="btn btn-success" type="submit" value="Edit Account" />
+		<p style="margin-bottom:30px;"></p>
+		</div>
+	</form>
+	<a type="button" class="btn btn-danger" th:href="@{/confirmationMessage/{mail}(mail=${instructor.mail})}">Delete Account</a>
+
+	<div class="modal" th:id="modal-warning-rej+${instructor.mail}" >
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">×</span></button>
+	                <h2 class="modal-title">Reject Request</h2>
+	            </div>
+	            <div class="modal-body">
+	                <h3>Are you sure you want to DELETE your account?</h3>
+	                <p class="p-red">
+						<i>This is an irreversible action. All your data will be automatically deleted of the database</i>
+					</p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+	                <a type="button" class="btn btn-success" th:href="@{/instructor/deleteInstructor/{mail}(mail=${instructor.mail})}">Delete</a>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+</body>
+</html>

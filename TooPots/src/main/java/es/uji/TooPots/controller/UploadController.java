@@ -86,6 +86,7 @@ public class UploadController {
 	
 	@RequestMapping("/uploadStatus")
 	public String uploadStatus(Model model, HttpSession session) {
+		model.addAttribute("user", session.getAttribute("user"));
 		model.addAttribute("nextPage", session.getAttribute("nextPage"));
 		return "/uploadStatus";
 	}

@@ -31,7 +31,7 @@ public class MessageController {
 			session.setAttribute("pagAnt", "/message/list");
 			return "redirect:/login";
 		}
-		System.out.println(user.getMail());
+		model.addAttribute("user", user);
 		model.addAttribute("messages", messageDao.getMessagesByMail(user.getMail()));
 		model.addAttribute("archivedMessages", messageDao.getArchivedMessagesByMail(user.getMail()));
 		return "myMessages";

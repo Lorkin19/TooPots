@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TooPots</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/navegation.css" th:href="@{/css/navegation.css}">
+    <link rel="stylesheet" type="text/css"
+    	  href="/css/basicpage.css" th:href="@{/css/basicpage.css}">
+</head>
+<body>
+<div th:replace="fragments/navegation" >...</div>
+<div style="margin-top:18%;padding:20px;background-color:rgba(0,0,0,0.8);display:inline-block;">
+	<div th:if="${message}">
+		<span th:text="${message}"></span>
+	</div>
+	<p style="margin-top:15px;"></p>
+	<p>This action cannot be undone.</p>
+	<p><a href="/instructor/deleteActivity/{id}(id=${activityId})" th:href="@{/instructor/deleteActivity/{id}(id=${activityId})}" class="btn btn-danger" role="button">Delete Activity</a></p>
+	
+	<p><a href="/instructor/menu" th:href="@{/instructor/menu}" role="button" class="btn btn-info">Return</a>
+	<a href="/" th:href="@{/}" role="button" class="btn btn-secondary">Home</a></p>
+</div>
+</body>
+</html>
